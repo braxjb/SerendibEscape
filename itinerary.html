@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Red Dot Tours | Tailor-Made Sri Lanka Journeys</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Swiper for Carousel -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.16/dist/lenis.min.js"></script>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/itinerary.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+</head>
+<body>
+
+<!-- ============================================ -->
+<!-- NAVIGATION BAR - SERENDIB ESCAPE -->
+<!-- ============================================ -->
+<header class="site-header" id="siteHeader">
+    <div class="header-inner">
+        <!-- Logo with Image and Text -->
+        <a href="index.html" class="logo-wrapper">
+            <div class="logo-container">
+                <img src="images/WhatsApp_Image_2026-02-11_at_09.02.53-removebg-preview.png" alt="Serendib Escape Logo" class="logo-img">
+                <div class="logo-text">
+                    <span class="logo-primary">SERENDIB</span>
+                    <span class="logo-accent">ESCAPE</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Desktop Navigation Menu -->
+        <nav class="nav-links" aria-label="Main Navigation">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="destinations.html" class="nav-link">Destinations</a>
+            <a href="itineraries.html" class="nav-link">Itineraries</a>
+            <a href="experiences.html" class="nav-link">Experiences</a>
+            <a href="articles.html" class="nav-link">Journal</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="contact.html" class="nav-link btn-inquire">Inquire</a>
+        </nav>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu" aria-expanded="false">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+    </div>
+</header>
+
+<!-- Mobile Menu Overlay - Moved outside header for proper z-index -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <div class="mobile-menu-container">
+        <div class="mobile-menu-header">
+            <div class="mobile-logo">
+                <img src="images/WhatsApp_Image_2026-02-11_at_09.02.53-removebg-preview.png" alt="Serendib Escape Logo" class="mobile-logo-img">
+                <div class="mobile-logo-text">
+                    <span class="mobile-logo-primary">SERENDIB</span>
+                    <span class="mobile-logo-accent">ESCAPE</span>
+                </div>
+            </div>
+            <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close Menu">✕</button>
+        </div>
+        <ul class="mobile-nav-menu">
+            <li><a href="index.html" class="mobile-nav-link">Home</a></li>
+            <li><a href="destinations.html" class="mobile-nav-link">Destinations</a></li>
+            <li><a href="itineraries.html" class="mobile-nav-link">Itineraries</a></li>
+            <li><a href="experiences.html" class="mobile-nav-link">Experiences</a></li>
+            <li><a href="journal.html" class="mobile-nav-link">Journal</a></li>
+            <li><a href="about.html" class="mobile-nav-link">About</a></li>
+            <li><a href="contact.html" class="mobile-nav-link mobile-inquire">Inquire Now</a></li>
+        </ul>
+        <div class="mobile-menu-footer">
+            <div class="mobile-social">
+                <a href="#" class="mobile-social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="mobile-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="mobile-social-link" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+            </div>
+            <p class="mobile-menu-tagline">Your Luxury Sri Lanka Experience</p>
+        </div>
+    </div>
+</div>
+
+
+<main>
+    <!-- Hero Section -->
+    <section class="hero-itinerary" id="heroSection">
+        <a href="itineraries.html" class="back-button" id="backToItineraries">← Back to Itineraries</a>
+        <div class="hero-content">
+            <div class="hero-text-overlay">
+                <div class="hero-price" id="heroPrice">Loading...</div>
+                <h1 class="hero-title" id="heroTitle">Loading itinerary...</h1>
+                <div class="hero-duration" id="heroDuration"></div>
+            </div>
+        </div>
+        <div class="scroll-indicator" id="scrollIndicator">
+            <p>SCROLL</p>
+            <span></span>
+        </div>
+    </section>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-section">
+        <div class="container">
+            <div class="breadcrumbs">
+                <a href="itineraries.html">Destinations</a> / <a href="#">Sri Lanka</a> / <span id="breadcrumbTitle">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Intro Section -->
+    <div class="intro-section">
+        <div class="container">
+            <div class="intro-grid">
+                <div class="intro-text" id="introDescription">
+                    <p>Loading itinerary details...</p>
+                </div>
+                <div class="at-a-glance">
+                    <h3>At a glance</h3>
+                    <div class="glance-item"><strong>Transport</strong> <span id="transport">Loading...</span></div>
+                    <div class="glance-item"><strong>Pace</strong> <span id="pace">Loading...</span></div>
+                    <div class="glance-item"><strong>Best time</strong> <span id="bestTime">Loading...</span></div>
+                    <div class="glance-item"><strong>Ideal for</strong> <span id="idealFor">Loading...</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timeline Section -->
+    <div class="timeline-section">
+        <div class="container">
+            <div class="timeline-header">
+                <h2>Your journey, day by day</h2>
+                <p>Each day is crafted to balance adventure with relaxation, ensuring magical moments for every traveller.</p>
+            </div>
+            <div class="days-list" id="daysList">
+                <div style="text-align: center; padding: 60px;">Loading your journey...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Stays Carousel -->
+    <div class="stays-section">
+        <div class="container">
+            <div class="stays-header">
+                <h2>Featured stays</h2>
+                <p>Hand-picked hotels and lodges for this journey</p>
+            </div>
+            <div class="swiper stays-swiper" id="staysSwiper">
+                <div class="swiper-wrapper" id="staysWrapper">
+                    <div class="swiper-slide">Loading featured stays...</div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Purchase Section -->
+    <div class="purchase-section">
+        <div class="container">
+            <div class="purchase-container">
+                <div class="purchase-left">
+                    <h2>Ready to embark on this extraordinary <i>adventure</i>?</h2>
+                    <p>Secure your spot on this curated itinerary today and leave the details to us.</p>
+                </div>
+                <div class="purchase-right">
+                    <a href="#" class="book-btn" id="bookNowBtn">
+                        <span>Book this itinerary</span>
+                        <div class="arrow-icon">
+                            <div class="dashed-circle"></div>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </div>
+                    </a>
+                    <div class="instant-deposit">Instant deposit options available.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customize Section -->
+    <div class="customize-section">
+        <div class="container">
+            <div class="customize-text">Looking for something a little different? We can customize every detail to fit your family's needs perfectly.</div>
+            <a href="#" class="ghost-btn" id="customizeBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                Customize a new itinerary
+            </a>
+        </div>
+    </div>
+
+    <!-- Testimonials Section -->
+    <div class="testimonials-section">
+        <div class="container">
+            <div class="testimonials-header">
+                <h2>What <i>our</i> travellers say</h2>
+            </div>
+            <div class="testimonial-carousel" id="testimonialCarousel">
+                <div class="testimonial-left" id="testimonialLeft">
+                    <div class="testimonial-text" id="testimonialText">"If Red Dot ever ceased to exist and I wanted to return to Sri Lanka I would probably go somewhere else instead. They were, in every way shape and form, impeccable. From Samanthie who created the itinerary to Wicky who drove us here, there and everywhere I cannot imagine anybody doing it better."</div>
+                    <div>
+                        <div class="testimonial-attribution">
+                            <div class="testimonial-name" id="testimonialName">Anupa (July 2025) United Kingdom</div>
+                            <a href="#" class="testimonial-link" id="testimonialLink">Read the whole review here TripAdvisor →</a>
+                        </div>
+                        <div class="carousel-nav">
+                            <button class="nav-circle" id="prevTestimonial">←</button>
+                            <button class="nav-circle" id="nextTestimonial">→</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-right">
+                    <img src="https://images.pexels.com/photos/2245436/pexels-photo-2245436.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Travel moment" class="testimonial-image" id="testimonialImage">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trust Bar -->
+    <div class="trust-bar">
+        <div class="container">
+            <div class="trust-container">
+                <div class="trust-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/TripAdvisor_logo.svg/2560px-TripAdvisor_logo.svg.png" alt="TripAdvisor" class="trust-logo">
+                    <div class="trust-rating">
+                        <div class="stars-container"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='16' viewBox='0 0 80 16'%3E%3Cpolygon points='8,0 10,5 15,5 11,8 13,13 8,10 3,13 5,8 1,5 6,5' fill='%2334A853'/%3E%3Cpolygon points='24,0 26,5 31,5 27,8 29,13 24,10 19,13 21,8 17,5 22,5' fill='%2334A853'/%3E%3Cpolygon points='40,0 42,5 47,5 43,8 45,13 40,10 35,13 37,8 33,5 38,5' fill='%2334A853'/%3E%3Cpolygon points='56,0 58,5 63,5 59,8 61,13 56,10 51,13 53,8 49,5 54,5' fill='%2334A853'/%3E%3Cpolygon points='72,0 74,5 79,5 75,8 77,13 72,10 67,13 69,8 65,5 70,5' fill='%23FFC107'/%3E%3C/svg%3E" alt="5 stars"></div>
+                        <div class="trust-text">Rated 5 on TripAdvisor</div>
+                    </div>
+                </div>
+                <div class="trust-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/ABTA_Logo.svg/2048px-ABTA_Logo.svg.png" alt="Feefo" class="trust-logo">
+                    <div class="trust-rating">
+                        <div class="stars-container"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='16' viewBox='0 0 80 16'%3E%3Cpolygon points='8,0 10,5 15,5 11,8 13,13 8,10 3,13 5,8 1,5 6,5' fill='%23FFC107'/%3E%3Cpolygon points='24,0 26,5 31,5 27,8 29,13 24,10 19,13 21,8 17,5 22,5' fill='%23FFC107'/%3E%3Cpolygon points='40,0 42,5 47,5 43,8 45,13 40,10 35,13 37,8 33,5 38,5' fill='%23FFC107'/%3E%3Cpolygon points='56,0 58,5 63,5 59,8 61,13 56,10 51,13 53,8 49,5 54,5' fill='%23FFC107'/%3E%3Cpolygon points='72,0 74,5 79,5 75,8 77,13 72,10 67,13 69,8 65,5 70,5' fill='%23FFC107'/%3E%3C/svg%3E" alt="5 stars"></div>
+                        <div class="trust-text">Rated 4.9 on feefo</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How It Works Section -->
+    <div class="how-it-works">
+        <div class="container">
+            <div class="works-header">
+                <div class="works-script">How it works</div>
+                <h2 class="works-title">Booking with us is simple</h2>
+            </div>
+            <div class="steps-grid">
+                <div class="step-box">
+                    <div class="step-title">Contact Us</div>
+                    <div class="step-footer">
+                        <span class="step-number">01.</span>
+                        <div class="step-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+                    </div>
+                </div>
+                <div class="step-box">
+                    <div class="step-title">Our Conversation</div>
+                    <div class="step-footer">
+                        <span class="step-number">02.</span>
+                        <div class="step-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></div>
+                    </div>
+                </div>
+                <div class="step-box">
+                    <div class="step-title">Itinerary Planning</div>
+                    <div class="step-footer">
+                        <span class="step-number">03.</span>
+                        <div class="step-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></div>
+                    </div>
+                </div>
+                <div class="step-box">
+                    <div class="step-title">Place a Deposit</div>
+                    <div class="step-footer">
+                        <span class="step-number">04.</span>
+                        <div class="step-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg></div>
+                    </div>
+                </div>
+                <div class="step-box">
+                    <div class="step-title">Final Documents and Tips</div>
+                    <div class="step-footer">
+                        <span class="step-number">05.</span>
+                        <div class="step-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></div>
+                    </div>
+                </div>
+                <div class="step-box">
+                    <div class="step-title">Return</div>
+                    <div class="step-footer">
+                        <span class="step-number">06.</span>
+                        <div class="step-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Why Red Dot Section -->
+    <div class="why-section">
+        <div class="container">
+            <div style="text-align: center;"><h2 style="font-family: var(--font-serif); font-size: 32px;">Why Red Dot?</h2><p style="color: var(--color-gray-mid); margin-top: 12px;">The Red Dot difference</p></div>
+            <div class="why-grid">
+                <div class="why-item"><div class="why-icon">✨</div><h3>Ultra Personalised</h3><p>Everything built from scratch around your family's needs</p></div>
+                <div class="why-item"><div class="why-icon">🌿</div><h3>Designed by Locals</h3><p>90% of our team based in Colombo, with deep local knowledge</p></div>
+                <div class="why-item"><div class="why-icon">🛡️</div><h3>Support at Every Turn</h3><p>24/7 assistance throughout your journey</p></div>
+                <div class="why-item"><div class="why-icon">🏨</div><h3>Curated Stays</h3><p>Expertly vetted family-friendly hotels</p></div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+    <footer class="vintage-footer">
+        <div class="footer-container">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="footer-logo-wrapper">
+                        <img src="images/logo.png" alt="Serendib Escape Logo" class="footer-logo-img">
+                        <div class="footer-logo-text">
+                            <span class="logo-primary">SERENDIB</span>
+                            <span class="logo-accent">ESCAPE</span>
+                        </div>
+                    </div>
+                    <p class="footer-tagline">
+                        Curating extraordinary journeys through Sri Lanka's most breathtaking destinations. 
+                        Experience luxury, authenticity, and unparalleled service.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <circle cx="12" cy="12" r="4.5"></circle>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Pinterest">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M8 21.1c-.4-2.1-.6-4.2 0-6.2.9-2.9 1.5-5.9 2.4-8.8"></path>
+                                <path d="M12 12c-2.8 0-4 1.8-4 4 0 2.6 1.5 4 4 4 3.5 0 5-2.8 5-5.5 0-3-1.9-5.5-4.5-5.5-2.5 0-4 1.8-4 3.5"></path>
+                                <circle cx="12" cy="12" r="10"></circle>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-links-group">
+                    <h4 class="footer-heading">Explore</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Destinations</a></li>
+                        <li><a href="#">Itineraries</a></li>
+                        <li><a href="#">Experiences</a></li>
+                        <li><a href="#">Journal</a></li>
+                        <li><a href="#">Travel Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-group">
+                    <h4 class="footer-heading">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-group">
+                    <h4 class="footer-heading">Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Booking Conditions</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">Accessibility</a></li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h4 class="footer-heading">Stay Inspired</h4>
+                    <p class="newsletter-text">Receive exclusive travel insights, special offers, and destination guides.</p>
+                    <form class="newsletter-form" action="#" method="POST">
+                        <input type="email" placeholder="Your email address" aria-label="Email address">
+                        <button type="submit" aria-label="Subscribe">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </button>
+                    </form>
+                    <div class="trust-badges">
+                        <div class="trust-badge">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 2L15 8L22 9L17 14L18 21L12 17L6 21L7 14L2 9L9 8L12 2Z"></path>
+                            </svg>
+                            <span>ABTA Protected</span>
+                        </div>
+                        <div class="trust-badge">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 2L15 8L22 9L17 14L18 21L12 17L6 21L7 14L2 9L9 8L12 2Z"></path>
+                            </svg>
+                            <span>ATOL Bonded</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    <p>&copy; <span id="currentYear"></span> Serendib Escape — Tailor-Made Sri Lanka Journeys. All rights reserved.</p>
+                </div>
+                <div class="footer-payment">
+                    <span>We Accept</span>
+                    <div class="payment-icons">
+                        <svg width="32" height="20" viewBox="0 0 38 24" fill="none">
+                            <rect x="0.5" y="0.5" width="37" height="23" rx="2.5" fill="white" stroke="#E0E0E0"/>
+                            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#1A1A1A" font-size="10" font-family="monospace">VISA</text>
+                        </svg>
+                        <svg width="32" height="20" viewBox="0 0 38 24" fill="none">
+                            <rect x="0.5" y="0.5" width="37" height="23" rx="2.5" fill="white" stroke="#E0E0E0"/>
+                            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#1A1A1A" font-size="8" font-family="monospace">MC</text>
+                        </svg>
+                        <svg width="32" height="20" viewBox="0 0 38 24" fill="none">
+                            <rect x="0.5" y="0.5" width="37" height="23" rx="2.5" fill="white" stroke="#E0E0E0"/>
+                            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#1A1A1A" font-size="8" font-family="monospace">AMEX</text>
+                        </svg>
+                        <svg width="32" height="20" viewBox="0 0 38 24" fill="none">
+                            <rect x="0.5" y="0.5" width="37" height="23" rx="2.5" fill="white" stroke="#E0E0E0"/>
+                            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#1A1A1A" font-size="8" font-family="monospace">PAYPAL</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+<a href="#" class="back-to-top" id="backToTop">↑</a>
+
+<!-- JavaScript Files -->
+<script src="js/itinerary.js"></script>
+<script src="js/header.js"></script>
+<script src="js/footer.js"></script>
+
+</body>
+</html>

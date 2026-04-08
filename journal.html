@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Journal | Stories from Sri Lanka | Red Dot Tours</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.16/dist/lenis.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-white: #FFFFFF;
+            --color-stone: #F9F9F7;
+            --color-cream: #F4F1EA;
+            --color-dark: #1a1a1a;
+            --color-red: #BC2026;
+            --color-red-dark: #9e1a1f;
+            --color-gray-light: #f5f5f5;
+            --color-gray-mid: #6b6b6b;
+            --color-gray-dark: #333;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'Montserrat', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--color-white);
+            color: var(--color-dark);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 24px;
+            }
+        }
+
+        /* Header */
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 24px 40px;
+            transition: all 0.4s ease;
+            background: transparent;
+            color: var(--color-dark);
+        }
+
+        .site-header.scrolled {
+            background: var(--color-white);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            padding: 16px 40px;
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--color-dark);
+        }
+
+        .logo span {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 400;
+            letter-spacing: 0.2em;
+            margin-left: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: inherit;
+            transition: color 0.3s;
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: var(--color-red);
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .btn-cta {
+            background: var(--color-red);
+            color: white !important;
+            padding: 12px 28px;
+            border-radius: 0;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 1024px) {
+            .nav-links {
+                display: none;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .site-header, .site-header.scrolled {
+                padding: 16px 24px;
+            }
+        }
+
+        /* Hero Section - Full Viewport */
+        .hero-journal {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            width: 100%;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), url('https://images.pexels.com/photos/161140/sri-lanka-asia-travel-beach-161140.jpeg?auto=compress&cs=tinysrgb&w=1600');
+            background-size: cover;
+            background-position: center 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero-content {
+            width: 100%;
+        }
+
+        .hero-text-overlay {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .hero-title-large {
+            font-family: var(--font-serif);
+            font-size: clamp(40px, 10vw, 84px);
+            font-weight: 600;
+            color: white;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.8s forwards 0.3s;
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-sans);
+            font-size: clamp(14px, 4vw, 18px);
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 90%;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.8s forwards 0.5s;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            z-index: 10;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+        }
+
+        .scroll-indicator span {
+            width: 1px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .scroll-indicator p {
+            color: white;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(8px); }
+        }
+
+        /* Breadcrumb */
+        .breadcrumb-section {
+            background: var(--color-white);
+            padding: 16px 0;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .breadcrumbs {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-gray-mid);
+        }
+
+        .breadcrumbs a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--color-red);
+        }
+
+        /* Intro Text Section */
+        .intro-text-section {
+            background: var(--color-white);
+            padding: 50px 0;
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .intro-left {
+            font-family: var(--font-serif);
+            font-size: clamp(20px, 4vw, 24px);
+            line-height: 1.3;
+            color: var(--color-dark);
+        }
+
+        .intro-right {
+            font-size: clamp(14px, 3vw, 16px);
+            line-height: 1.6;
+            color: var(--color-gray-mid);
+        }
+
+        /* Main Content Layout */
+        .main-content {
+            display: flex;
+            gap: 40px;
+            padding: 50px 0;
+            position: relative;
+        }
+
+        /* Sidebar Filters */
+        .filters-sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 100px;
+            align-self: flex-start;
+            height: fit-content;
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .filter-count {
+            background: var(--color-gray-light);
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .clear-all {
+            color: var(--color-red);
+            font-size: 12px;
+            text-decoration: none;
+            cursor: pointer;
+            display: none;
+        }
+
+        .clear-all.visible {
+            display: inline;
+        }
+
+        .filter-group {
+            margin-bottom: 24px;
+        }
+
+        .filter-group h4 {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            color: var(--color-gray-mid);
+        }
+
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .filter-tag {
+            padding: 6px 14px;
+            background: var(--color-stone);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-family: var(--font-sans);
+        }
+
+        .filter-tag.active {
+            background: var(--color-red);
+            color: white;
+        }
+
+        /* Results Area */
+        .results-area {
+            flex: 1;
+        }
+
+        /* Featured Article */
+        .featured-article {
+            margin-bottom: 50px;
+            text-decoration: none;
+            display: block;
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1069.86 / 534.92;
+            overflow: hidden;
+        }
+
+        .featured-image-full {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .featured-image-full img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .featured-article:hover .featured-image-full img {
+            transform: scale(1.03);
+        }
+
+        /* Description Box */
+        .featured-description-box {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: auto;
+            width: min(280px, calc(100% - 40px));
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(2px);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 10;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .featured-category {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-red);
+            display: inline-block;
+        }
+
+        .featured-title {
+            font-family: var(--font-serif);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-dark);
+            line-height: 1.3;
+        }
+
+        .featured-excerpt {
+            font-family: var(--font-sans);
+            font-size: 11px;
+            line-height: 1.4;
+            color: var(--color-gray-mid);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .read-article-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            border: 1px solid var(--color-red);
+            border-radius: 60px;
+            padding: 6px 14px;
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: var(--color-red);
+            transition: all 0.3s ease;
+            width: fit-content;
+            cursor: pointer;
+        }
+
+        .read-article-btn:hover {
+            background: var(--color-red);
+            color: white;
+            gap: 12px;
+        }
+
+        /* Articles Grid */
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .article-card {
+            text-decoration: none;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .article-image-square {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            background: #f0f0f0;
+        }
+
+        .article-image-square img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .article-card:hover .article-image-square img {
+            transform: scale(1.05);
+        }
+
+        .article-description-outer {
+            width: 100%;
+            background: white;
+            position: relative;
+        }
+
+        .article-description-inner {
+            position: relative;
+            width: calc(100% - 30px);
+            margin: 0 auto;
+            background: white;
+            padding: 16px;
+            text-align: center;
+            transform: translateY(-16px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .article-category {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-red);
+            margin-bottom: 6px;
+            display: inline-block;
+        }
+
+        .article-title {
+            font-family: var(--font-serif);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-dark);
+            line-height: 1.3;
+            margin-bottom: 8px;
+        }
+
+        .article-excerpt {
+            font-family: var(--font-sans);
+            font-size: 11px;
+            line-height: 1.4;
+            color: var(--color-gray-mid);
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            font-size: 9px;
+            color: var(--color-gray-mid);
+            margin-bottom: 10px;
+        }
+
+        .article-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: transparent;
+            border: 1px solid var(--color-red);
+            border-radius: 60px;
+            padding: 5px 12px;
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: var(--color-red);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .article-btn:hover {
+            background: var(--color-red);
+            color: white;
+            gap: 10px;
+        }
+
+        /* Pagination */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            margin: 40px 0 60px;
+            flex-wrap: wrap;
+        }
+
+        .pagination-btn {
+            background: var(--color-white);
+            border: 1px solid #e0e0e0;
+            padding: 10px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--color-dark);
+            min-width: 90px;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            background: var(--color-red);
+            border-color: var(--color-red);
+            color: white;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .page-numbers {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .page-number {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--color-gray-mid);
+            border-radius: 50%;
+        }
+
+        .page-number:hover {
+            background: rgba(188, 32, 38, 0.1);
+            color: var(--color-red);
+        }
+
+        .page-number.active {
+            background: var(--color-red);
+            color: white;
+        }
+
+        /* Footer */
+        .footer {
+            background: #111111;
+            color: rgba(255,255,255,0.6);
+            padding: 50px 0 30px;
+            position: relative;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--color-red);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 30px;
+        }
+
+        .footer-logo {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .social-icons a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .footer-links h4 {
+            color: white;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .footer-links a {
+            display: block;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+
+        .trust-logos {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .trust-logos img {
+            height: 28px;
+            filter: brightness(0) invert(0.6);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 40px;
+            padding-top: 24px;
+            text-align: center;
+            font-size: 10px;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--color-red);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            z-index: 99;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .articles-grid {
+                gap: 24px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .filters-sidebar {
+                width: 100%;
+                position: relative;
+                top: 0;
+            }
+            .filter-tags {
+                justify-content: center;
+            }
+            .filter-header {
+                justify-content: center;
+            }
+            .articles-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .intro-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-journal {
+                min-height: 500px;
+            }
+            .hero-title-large {
+                font-size: 42px;
+            }
+            .featured-description-box {
+                bottom: 15px;
+                left: 15px;
+                right: 15px;
+                width: auto;
+            }
+            .articles-grid {
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero-title-large {
+                font-size: 36px;
+            }
+            .articles-grid {
+                grid-template-columns: 1fr;
+                max-width: 380px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .social-icons {
+                justify-content: center;
+            }
+            .trust-logos {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+    <div class="header-inner">
+        <a href="#" class="logo">RED DOT<span>TOURS</span></a>
+        <div class="nav-links">
+            <a href="#">Destinations</a>
+            <a href="#">About Us</a>
+            <a href="#">Inspiration</a>
+            <a href="#">Trip Finder</a>
+            <a href="journal.html">Journal</a>
+            <a href="#" class="btn-cta">Plan Your Trip</a>
+        </div>
+        <button class="menu-toggle" id="menuToggle">☰</button>
+    </div>
+</header>
+
+<main>
+    <!-- Hero Section -->
+    <section class="hero-journal" id="heroSection">
+        <div class="hero-content">
+            <div class="hero-text-overlay">
+                <h1 class="hero-title-large">The Journal</h1>
+                <p class="hero-subtitle">Stories, insights, and inspiration from the heart of Sri Lanka</p>
+            </div>
+        </div>
+        <div class="scroll-indicator" id="scrollIndicator">
+            <p>SCROLL</p>
+            <span></span>
+        </div>
+    </section>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-section">
+        <div class="container">
+            <div class="breadcrumbs">
+                <a href="#">Home</a> / <span>Journal</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Intro Text Section -->
+    <div class="intro-text-section">
+        <div class="container">
+            <div class="intro-grid">
+                <div class="intro-left">Beyond the itineraries — stories that capture the soul of Sri Lanka.</div>
+                <div class="intro-right">From hidden gems to cultural deep-dives, our journal offers a window into the experiences, people, and places that make this island extraordinary. Written by locals, for the curious traveller.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="main-content">
+            <!-- Sidebar Filters -->
+            <aside class="filters-sidebar">
+                <div class="filter-header">
+                    <h3>Filter stories</h3>
+                    <span class="filter-count" id="filterCount">12</span>
+                    <a href="#" class="clear-all" id="clearAll">Clear all</a>
+                </div>
+                
+                <div class="filter-group">
+                    <h4>Categories</h4>
+                    <div class="filter-tags" id="filterTags">
+                        <button class="filter-tag" data-filter="culture">Culture & Heritage</button>
+                        <button class="filter-tag" data-filter="wildlife">Wildlife & Nature</button>
+                        <button class="filter-tag" data-filter="food">Food & Culinary</button>
+                        <button class="filter-tag" data-filter="travel-tips">Travel Tips</button>
+                        <button class="filter-tag" data-filter="interviews">Interviews</button>
+                        <button class="filter-tag" data-filter="sustainable">Sustainable Travel</button>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h4>Region</h4>
+                    <div class="filter-tags" id="regionTags">
+                        <button class="filter-tag" data-filter="coastal">Coastal</button>
+                        <button class="filter-tag" data-filter="hill-country">Hill Country</button>
+                        <button class="filter-tag" data-filter="cultural-triangle">Cultural Triangle</button>
+                        <button class="filter-tag" data-filter="east-coast">East Coast</button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Results Area -->
+            <div class="results-area">
+                <!-- Featured Article -->
+                <a href="article.html?slug=the-sacred-city-of-kandy" class="featured-article">
+                    <div class="featured-image-full">
+                        <img src="https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600&fit=crop" alt="Kandy Temple">
+                    </div>
+                    <div class="featured-description-box">
+                        <div>
+                            <span class="featured-category">Culture & Heritage</span>
+                            <h3 class="featured-title">The Sacred City of Kandy: Where Tradition Meets Tranquility</h3>
+                            <p class="featured-excerpt">Discover the spiritual heart of Sri Lanka, where ancient rituals and the Temple of the Tooth create an atmosphere unlike anywhere else.</p>
+                        </div>
+                        <span class="read-article-btn">Read Article →</span>
+                    </div>
+                </a>
+
+                <!-- Articles Grid -->
+                <div class="articles-grid" id="articlesGrid"></div>
+                
+                <!-- Pagination -->
+                <div class="pagination-container" id="paginationContainer">
+                    <button class="pagination-btn" id="prevPageBtn">← Previous</button>
+                    <div class="page-numbers" id="pageNumbers"></div>
+                    <button class="pagination-btn" id="nextPageBtn">Next →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <div class="footer-logo">RED DOT<span style="font-size: 10px;">TOURS</span></div>
+                <p style="font-size: 13px;">Tailor-made journeys to Sri Lanka, India & the Maldives.</p>
+                <div class="social-icons">
+                    <a href="#">📷</a>
+                    <a href="#">📘</a>
+                    <a href="#">🐦</a>
+                    <a href="#">📌</a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Destinations</h4>
+                <a href="#">Sri Lanka</a>
+                <a href="#">India</a>
+                <a href="#">Maldives</a>
+                <a href="#">Bhutan</a>
+            </div>
+            <div class="footer-links">
+                <h4>About</h4>
+                <a href="#">Our Story</a>
+                <a href="#">Sustainability</a>
+                <a href="#">Careers</a>
+            </div>
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <div class="trust-logos">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/TripAdvisor_logo.svg/2560px-TripAdvisor_logo.svg.png" alt="TripAdvisor">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/ABTA_Logo.svg/2048px-ABTA_Logo.svg.png" alt="ABTA">
+                </div>
+                <a href="#">ATOL Protected</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025 Red Dot Tours — Tailor-Made Travel. All rights reserved. Site by Form
+        </div>
+    </div>
+</footer>
+
+<a href="#" class="back-to-top" id="backToTop">↑</a>
+
+<script>
+    // Complete Article Database (matching the article page)
+    const articlesDB = {
+        'the-sacred-city-of-kandy': {
+            slug: 'the-sacred-city-of-kandy',
+            title: "The Sacred City of Kandy: Where Tradition Meets Tranquility",
+            category: "culture",
+            categoryDisplay: "Culture & Heritage",
+            region: "hill-country",
+            date: "March 15, 2025",
+            readTime: "8 min read",
+            author: "Samanthie Perera",
+            image: "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop",
+            featuredImage: "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600&fit=crop",
+            excerpt: "Discover the spiritual heart of Sri Lanka, where ancient rituals and the Temple of the Tooth create an atmosphere unlike anywhere else.",
+            featured: true
+        },
+        'guide-to-sri-lanka-wildlife-safaris': {
+            slug: 'guide-to-sri-lanka-wildlife-safaris',
+            title: "A Guide to Sri Lanka's Best Wildlife Safaris",
+            category: "wildlife",
+            categoryDisplay: "Wildlife & Nature",
+            region: "coastal",
+            date: "March 10, 2025",
+            readTime: "6 min read",
+            author: "Mark Wilson",
+            image: "https://images.pexels.com/photos/247502/pexels-photo-247502.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop",
+            featuredImage: "https://images.pexels.com/photos/247502/pexels-photo-247502.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600&fit=crop",
+            excerpt: "From leopards in Yala to elephants in Udawalawe, discover the best places to witness Sri Lanka's incredible biodiversity.",
+            featured: false
+        },
+        'flavours-of-jaffna-culinary-journey': {
+            slug: 'flavours-of-jaffna-culinary-journey',
+            title: "The Flavours of Jaffna: A Culinary Journey",
+            category: "food",
+            categoryDisplay: "Food & Culinary",
+            region: "coastal",
+            date: "March 5, 2025",
+            readTime: "7 min read",
+            author: "Priya Kumar",
+            image: "https://images.pexels.com/photos/4045581/pexels-photo-4045581.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop",
+            featuredImage: "https://images.pexels.com/photos/4045581/pexels-photo-4045581.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600&fit=crop",
+            excerpt: "Explore the unique Tamil cuisine of Northern Sri Lanka, from crab curry to traditional sweets.",
+            featured: false
+        },
+        'hidden-beaches-sri-lanka': {
+            slug: 'hidden-beaches-sri-lanka',
+            title: "5 Hidden Beaches You Won't Find in Guidebooks",
+            category: "travel-tips",
+            categoryDisplay: "Travel Tips",
+            region: "coastal",
+            date: "February 28, 2025",
+            readTime: "5 min read",
+            author: "Emma Thompson",
+            image: "https://images.pexels.com/photos/2867380/pexels-photo-2867380.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop",
+            featuredImage: "https://images.pexels.com/photos/2867380/pexels-photo-2867380.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600&fit=crop",
+            excerpt: "Escape the crowds and discover secluded coastal gems along Sri Lanka's southern and eastern shores.",
+            featured: false
+        },
+        'art-of-ceylon-tea': {
+            slug: 'art-of-ceylon-tea',
+            title: "The Art of Ceylon Tea: From Leaf to Cup",
+            category: "culture",
+            categoryDisplay: "Culture & Heritage",
+            region: "hill-country",
+            date: "February 22, 2025",
+            readTime: "6 min read",
+            author: "Samanthie Perera",
+            image: "https://images.pexels.com/photos/1461282/pexels-photo-1461282.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop",
+            featuredImage: "https://images.pexels.com/photos/1461282/pexels-photo-1461282.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600&fit=crop",
+            excerpt: "Visit the misty tea plantations of Nuwara Eliya and learn about the centuries-old tradition of Ceylon tea.",
+            featured: false
+        },
+        'interview-local-fisherman-mirissa': {
+            slug: 'interview-local-fisherman-mirissa',
+            title: "Interview: A Local Fisherman's Life in Mirissa",
+            category: "interviews",
+            categoryDisplay: "Interviews",
+            region: "coastal",
+            date: "February 18, 2025",
+            readTime: "9 min read",
+            author: "James Carter",
+            image: "https://images.pexels.com/photos/2245436/pexels-photo-2245436.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop",
+            featuredImage: "https://images.pexels.com/photos/2245436/pexels-photo-2245436.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600&fit=crop",
+            excerpt: "Meet Dayan, a third-generation fisherman who shares stories of life on the Indian Ocean.",
+            featured: false
+        }
+    };
+
+    const regularArticles = Object.values(articlesDB).filter(a => !a.featured);
+    let activeFilters = [];
+    let currentPage = 1;
+    const itemsPerPage = 6;
+    let filteredArticles = [...regularArticles];
+
+    function getCategoryName(category) {
+        const categories = {
+            'culture': 'Culture & Heritage',
+            'wildlife': 'Wildlife & Nature',
+            'food': 'Food & Culinary',
+            'travel-tips': 'Travel Tips',
+            'interviews': 'Interviews',
+            'sustainable': 'Sustainable Travel'
+        };
+        return categories[category] || category;
+    }
+
+    function renderArticles() {
+        if (activeFilters.length > 0) {
+            filteredArticles = regularArticles.filter(article => 
+                activeFilters.some(filter => 
+                    article.category === filter || article.region === filter
+                )
+            );
+        } else {
+            filteredArticles = [...regularArticles];
+        }
+        
+        const filterCount = document.getElementById('filterCount');
+        const clearAll = document.getElementById('clearAll');
+        if (filterCount) filterCount.textContent = filteredArticles.length;
+        if (clearAll) clearAll.classList.toggle('visible', activeFilters.length > 0);
+        
+        const totalPages = Math.ceil(filteredArticles.length / itemsPerPage);
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const paginatedItems = filteredArticles.slice(startIndex, endIndex);
+        
+        const grid = document.getElementById('articlesGrid');
+        if (grid) {
+            grid.innerHTML = paginatedItems.map(article => `
+                <a href="article.html?slug=${article.slug}" class="article-card">
+                    <div class="article-image-square">
+                        <img src="${article.image}" alt="${article.title}">
+                    </div>
+                    <div class="article-description-outer">
+                        <div class="article-description-inner">
+                            <span class="article-category">${article.categoryDisplay}</span>
+                            <h3 class="article-title">${article.title}</h3>
+                            <p class="article-excerpt">${article.excerpt.substring(0, 80)}...</p>
+                            <div class="article-meta">
+                                <span>📅 ${article.date}</span>
+                                <span>⏱ ${article.readTime}</span>
+                            </div>
+                            <span class="article-btn">Read Article →</span>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        }
+        
+        updatePaginationButtons(totalPages);
+    }
+    
+    function updatePaginationButtons(totalPages) {
+        const prevBtn = document.getElementById('prevPageBtn');
+        const nextBtn = document.getElementById('nextPageBtn');
+        const pageNumbersContainer = document.getElementById('pageNumbers');
+        
+        if (prevBtn) prevBtn.disabled = currentPage === 1;
+        if (nextBtn) nextBtn.disabled = currentPage === totalPages || totalPages === 0;
+        
+        if (!pageNumbersContainer) return;
+        
+        let pageNumbersHtml = '';
+        const maxVisiblePages = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+        
+        if (endPage - startPage + 1 < maxVisiblePages) {
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+        
+        if (startPage > 1) {
+            pageNumbersHtml += `<div class="page-number" data-page="1">1</div>`;
+            if (startPage > 2) pageNumbersHtml += `<span class="page-dots">...</span>`;
+        }
+        
+        for (let i = startPage; i <= endPage; i++) {
+            pageNumbersHtml += `<div class="page-number ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</div>`;
+        }
+        
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) pageNumbersHtml += `<span class="page-dots">...</span>`;
+            pageNumbersHtml += `<div class="page-number" data-page="${totalPages}">${totalPages}</div>`;
+        }
+        
+        pageNumbersContainer.innerHTML = pageNumbersHtml;
+        
+        document.querySelectorAll('.page-number').forEach(el => {
+            el.addEventListener('click', () => {
+                const page = parseInt(el.dataset.page);
+                if (!isNaN(page) && page !== currentPage) {
+                    currentPage = page;
+                    renderArticles();
+                }
+            });
+        });
+    }
+
+    function initFilters() {
+        const filterTags = document.querySelectorAll('.filter-tag');
+        filterTags.forEach(tag => {
+            tag.addEventListener('click', () => {
+                const filterValue = tag.dataset.filter;
+                if (activeFilters.includes(filterValue)) {
+                    activeFilters = activeFilters.filter(f => f !== filterValue);
+                    tag.classList.remove('active');
+                } else {
+                    activeFilters.push(filterValue);
+                    tag.classList.add('active');
+                }
+                currentPage = 1;
+                renderArticles();
+            });
+        });
+        
+        const clearAll = document.getElementById('clearAll');
+        if (clearAll) {
+            clearAll.addEventListener('click', (e) => {
+                e.preventDefault();
+                activeFilters = [];
+                document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+                currentPage = 1;
+                renderArticles();
+            });
+        }
+    }
+
+    renderArticles();
+    initFilters();
+
+    const prevBtn = document.getElementById('prevPageBtn');
+    const nextBtn = document.getElementById('nextPageBtn');
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderArticles();
+            }
+        });
+    }
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            const totalPages = Math.ceil(filteredArticles.length / itemsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderArticles();
+            }
+        });
+    }
+
+    // Lenis Smooth Scroll
+    const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
+    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+
+    const header = document.getElementById('siteHeader');
+    window.addEventListener('scroll', () => {
+        if (header) header.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    const scrollIndicator = document.getElementById('scrollIndicator');
+    if (scrollIndicator) {
+        scrollIndicator.addEventListener('click', () => {
+            const overviewSection = document.querySelector('.intro-text-section');
+            if (overviewSection) lenis.scrollTo(overviewSection, { offset: -70 });
+        });
+    }
+
+    const backToTop = document.getElementById('backToTop');
+    if (backToTop) {
+        backToTop.addEventListener('click', (e) => {
+            e.preventDefault();
+            lenis.scrollTo(0, { immediate: true });
+        });
+    }
+
+    const menuToggle = document.getElementById('menuToggle');
+    if (menuToggle) {
+        menuToggle.addEventListener('click', () => alert('Mobile menu navigation would expand here'));
+    }
+</script>
+</body>
+</html>

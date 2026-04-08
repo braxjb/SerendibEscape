@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Journal | Stories from Sri Lanka | Red Dot Tours</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.16/dist/lenis.min.js"></script>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/articles.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+</head>
+<body>
+
+<!-- ============================================ -->
+<!-- NAVIGATION BAR - SERENDIB ESCAPE -->
+<!-- ============================================ -->
+<header class="site-header" id="siteHeader">
+    <div class="header-inner">
+        <!-- Logo with Image and Text -->
+        <a href="index.html" class="logo-wrapper">
+            <div class="logo-container">
+                <img src="images/WhatsApp_Image_2026-02-11_at_09.02.53-removebg-preview.png" alt="Serendib Escape Logo" class="logo-img">
+                <div class="logo-text">
+                    <span class="logo-primary">SERENDIB</span>
+                    <span class="logo-accent">ESCAPE</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Desktop Navigation Menu -->
+        <nav class="nav-links" aria-label="Main Navigation">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="destinations.html" class="nav-link">Destinations</a>
+            <a href="itineraries.html" class="nav-link">Itineraries</a>
+            <a href="experiences.html" class="nav-link">Experiences</a>
+            <a href="journal.html" class="nav-link">Journal</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="contact.html" class="nav-link btn-inquire">Inquire</a>
+        </nav>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu" aria-expanded="false">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+    </div>
+</header>
+
+<main>
+    <!-- Hero Section -->
+    <section class="hero-journal" id="heroSection">
+        <div class="hero-content">
+            <div class="hero-text-overlay">
+                <h1 class="hero-title-large">The Journal</h1>
+                <p class="hero-subtitle">Stories, insights, and inspiration from the heart of Sri Lanka</p>
+            </div>
+        </div>
+        <div class="scroll-indicator" id="scrollIndicator">
+            <p>SCROLL</p>
+            <span></span>
+        </div>
+    </section>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-section">
+        <div class="container">
+            <div class="breadcrumbs">
+                <a href="#">Home</a> / <span>Journal</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Intro Text Section -->
+    <div class="intro-text-section">
+        <div class="container">
+            <div class="intro-grid">
+                <div class="intro-left">Beyond the itineraries — stories that capture the soul of Sri Lanka.</div>
+                <div class="intro-right">From hidden gems to cultural deep-dives, our journal offers a window into the experiences, people, and places that make this island extraordinary. Written by locals, for the curious traveller.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="main-content">
+            <!-- Sidebar Filters -->
+            <aside class="filters-sidebar">
+                <div class="filter-header">
+                    <h3>Filter stories</h3>
+                    <span class="filter-count" id="filterCount">12</span>
+                    <a href="#" class="clear-all" id="clearAll">Clear all</a>
+                </div>
+                
+                <div class="filter-group">
+                    <h4>Categories</h4>
+                    <div class="filter-tags" id="filterTags">
+                        <button class="filter-tag" data-filter="culture">Culture & Heritage</button>
+                        <button class="filter-tag" data-filter="wildlife">Wildlife & Nature</button>
+                        <button class="filter-tag" data-filter="food">Food & Culinary</button>
+                        <button class="filter-tag" data-filter="travel-tips">Travel Tips</button>
+                        <button class="filter-tag" data-filter="interviews">Interviews</button>
+                        <button class="filter-tag" data-filter="sustainable">Sustainable Travel</button>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h4>Region</h4>
+                    <div class="filter-tags" id="regionTags">
+                        <button class="filter-tag" data-filter="coastal">Coastal</button>
+                        <button class="filter-tag" data-filter="hill-country">Hill Country</button>
+                        <button class="filter-tag" data-filter="cultural-triangle">Cultural Triangle</button>
+                        <button class="filter-tag" data-filter="east-coast">East Coast</button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Results Area -->
+            <div class="results-area">
+                <!-- Featured Article -->
+                <a href="article.html?slug=the-sacred-city-of-kandy" class="featured-article">
+                    <div class="featured-image-full">
+                        <img src="https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600&fit=crop" alt="Kandy Temple">
+                    </div>
+                    <div class="featured-description-box">
+                        <div>
+                            <span class="featured-category">Culture & Heritage</span>
+                            <h3 class="featured-title">The Sacred City of Kandy: Where Tradition Meets Tranquility</h3>
+                            <p class="featured-excerpt">Discover the spiritual heart of Sri Lanka, where ancient rituals and the Temple of the Tooth create an atmosphere unlike anywhere else.</p>
+                        </div>
+                        <span class="read-article-btn">Read Article →</span>
+                    </div>
+                </a>
+
+                <!-- Articles Grid -->
+                <div class="articles-grid" id="articlesGrid"></div>
+                
+                <!-- Pagination -->
+                <div class="pagination-container" id="paginationContainer">
+                    <button class="pagination-btn" id="prevPageBtn">← Previous</button>
+                    <div class="page-numbers" id="pageNumbers"></div>
+                    <button class="pagination-btn" id="nextPageBtn">Next →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+    <footer class="vintage-footer">
+        <div class="footer-container">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="footer-logo-wrapper">
+                        <img src="images/logo.png" alt="Serendib Escape Logo" class="footer-logo-img">
+                        <div class="footer-logo-text">
+                            <span class="logo-primary">SERENDIB</span>
+                            <span class="logo-accent">ESCAPE</span>
+                        </div>
+                    </div>
+                    <p class="footer-tagline">
+                        Curating extraordinary journeys through Sri Lanka's most breathtaking destinations. 
+                        Experience luxury, authenticity, and unparalleled service.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <circle cx="12" cy="12" r="4.5"></circle>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Pinterest">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M8 21.1c-.4-2.1-.6-4.2 0-6.2.9-2.9 1.5-5.9 2.4-8.8"></path>
+                                <path d="M12 12c-2.8 0-4 1.8-4 4 0 2.6 1.5 4 4 4 3.5 0 5-2.8 5-5.5 0-3-1.9-5.5-4.5-5.5-2.5 0-4 1.8-4 3.5"></path>
+                                <circle cx="12" cy="12" r="10"></circle>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-links-group">
+                    <h4 class="footer-heading">Explore</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Destinations</a></li>
+                        <li><a href="#">Itineraries</a></li>
+                        <li><a href="#">Experiences</a></li>
+                        <li><a href="#">Journal</a></li>
+                        <li><a href="#">Travel Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-group">
+                    <h4 class="footer-heading">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-group">
+                    <h4 class="footer-heading">Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Booking Conditions</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">Accessibility</a></li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h4 class="footer-heading">Stay Inspired</h4>
+                    <p class="newsletter-text">Receive exclusive travel insights, special offers, and destination guides.</p>
+                    <form class="newsletter-form" action="#" method="POST">
+                        <input type="email" placeholder="Your email address" aria-label="Email address">
+                        <button type="submit" aria-label="Subscribe">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </button>
+                    </form>
+                    <div class="trust-badges">
+                        <div class="trust-badge">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 2L15 8L22 9L17 14L18 21L12 17L6 21L7 14L2 9L9 8L12 2Z"></path>
+                            </svg>
+                            <span>ABTA Protected</span>
+                        </div>
+                        <div class="trust-badge">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 2L15 8L22 9L17 14L18 21L12 17L6 21L7 14L2 9L9 8L12 2Z"></path>
+                            </svg>
+                            <span>ATOL Bonded</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    <p>&copy; <span id="currentYear"></span> Serendib Escape — Tailor-Made Sri Lanka Journeys. All rights reserved.</p>
+                </div>
+                <div class="footer-payment">
+                    <span>We Accept</span>
+                    <div class="payment-icons">
+                        <svg width="32" height="20" viewBox="0 0 38 24" fill="none">
+                            <rect x="0.5" y="0.5" width="37" height="23" rx="2.5" fill="white" stroke="#E0E0E0"/>
+                            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#1A1A1A" font-size="10" font-family="monospace">VISA</text>
+                        </svg>
+                        <svg width="32" height="20" viewBox="0 0 38 24" fill="none">
+                            <rect x="0.5" y="0.5" width="37" height="23" rx="2.5" fill="white" stroke="#E0E0E0"/>
+                            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#1A1A1A" font-size="8" font-family="monospace">MC</text>
+                        </svg>
+                        <svg width="32" height="20" viewBox="0 0 38 24" fill="none">
+                            <rect x="0.5" y="0.5" width="37" height="23" rx="2.5" fill="white" stroke="#E0E0E0"/>
+                            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#1A1A1A" font-size="8" font-family="monospace">AMEX</text>
+                        </svg>
+                        <svg width="32" height="20" viewBox="0 0 38 24" fill="none">
+                            <rect x="0.5" y="0.5" width="37" height="23" rx="2.5" fill="white" stroke="#E0E0E0"/>
+                            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#1A1A1A" font-size="8" font-family="monospace">PAYPAL</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+<a href="#" class="back-to-top" id="backToTop">↑</a>
+
+<!-- JavaScript Files -->
+<script src="js/articles.js"></script>
+<script src="js/header.js"></script>
+<script src="js/footer.js"></script>
+
+</body>
+</html>

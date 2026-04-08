@@ -1,0 +1,1731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>About Us | Serendib Escape – Tailor-Made Journeys</title>
+    
+    <!-- Fonts: Playfair Display (serif) + Inter (sans) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- GSAP + ScrollTrigger + Lenis Smooth Scroll -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.16/dist/lenis.min.js"></script>
+    
+    <style>
+        /* ---------- RESET & BASE ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FFFFFF;
+            color: #111111;
+            overflow-x: hidden;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+        /* Typography – Playfair for elegance */
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+        }
+        .font-hand {
+            font-family: 'Mrs Saint Delafield', cursive;
+            font-weight: 400;
+            font-style: normal;
+        }
+        /* Containers */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        @media (max-width: 768px) {
+            .container { padding: 0 24px; }
+        }
+        /* Buttons – Red Dot signature red */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: none;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            color: #111;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .btn--primary {
+            background: #C33C2C;
+            color: white;
+            padding: 14px 32px;
+            border-radius: 40px;
+        }
+        .btn--primary:hover {
+            background: #A52A1A;
+            transform: translateY(-2px);
+        }
+        
+        /* ---------- LAYERING DRAWER EFFECT (core) ---------- */
+        .hero-wrapper {
+            position: relative;
+            height: 100vh;
+            background: #0a0a0a;
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1600');
+            background-size: cover;
+            background-position: center 30%;
+            will-change: transform;
+            transform: scale(1);
+        }
+        .hero-content {
+            position: absolute;
+            bottom: 15%;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            z-index: 2;
+        }
+        .hero-sub {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .hero-title {
+            font-size: 5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        /* The stacked drawers container - pattern background that doesn't interfere */
+        .drawers-stack {
+            position: relative;
+            background: #fff;
+            z-index: 10;
+            margin-top: -2px;
+        }
+        
+        /* Pattern Background for Drawer Section - positioned behind content */
+        .drawers-stack .pattern-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath fill='none' stroke='rgba(188,32,38,0.03)' stroke-width='0.6' d='M40,40 L160,40 M40,80 L160,80 M40,120 L160,120 M40,160 L160,160 M80,40 L80,160 M120,40 L120,160'/%3E%3Ccircle cx='40' cy='40' r='2' fill='rgba(188,32,38,0.02)'/%3E%3Ccircle cx='160' cy='160' r='2' fill='rgba(188,32,38,0.02)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .drawers-stack .pattern-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 40%, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+            background-size: 30px 30px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .drawer {
+            position: sticky;
+            top: 80px;
+            background: white;
+            border-radius: 32px 32px 0 0;
+            margin-bottom: 20px;
+            z-index: 5;
+            transition: box-shadow 0.3s;
+            position: relative;
+            z-index: 2;
+        }
+        .drawer-inner {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            padding: 80px 40px;
+            background: #fff;
+            border-radius: 32px;
+            box-shadow: 0 20px 35px -15px rgba(0,0,0,0.05);
+            position: relative;
+            z-index: 2;
+        }
+        .drawer-text {
+            flex: 1;
+        }
+        .drawer-image {
+            flex: 1;
+            border-radius: 24px;
+            overflow: hidden;
+        }
+        .drawer-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+        .drawer:hover .drawer-image img {
+            transform: scale(1.02);
+        }
+        .drawer-tag {
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #C33C2C;
+            margin-bottom: 20px;
+        }
+        .drawer-title {
+            font-size: 3rem;
+            margin-bottom: 24px;
+        }
+        .drawer-desc {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: #2c2c2c;
+            max-width: 90%;
+        }
+        
+        /* Alternate layout: reverse on even */
+        .drawer:nth-child(even) .drawer-inner {
+            flex-direction: row-reverse;
+        }
+        
+        @media (max-width: 900px) {
+            .drawer-inner {
+                flex-direction: column !important;
+                padding: 48px 24px;
+                gap: 32px;
+            }
+            .drawer-title { font-size: 2rem; }
+            .drawer-desc { max-width: 100%; }
+            .drawer { top: 60px; }
+        }
+        
+        /* ============================================ */
+        /* TAILOR MADE SECTION - WHY CHOOSE US STYLE CARDS */
+        /* ============================================ */
+        .tailor-made-section {
+            background: #1E2A2A;
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+            margin: 80px 0;
+        }
+        
+        .tailor-made-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1600');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0.25;
+            filter: grayscale(0.3) sepia(0.15);
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .tailor-made-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(30, 42, 42, 0.92) 0%, rgba(44, 52, 40, 0.88) 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+        
+        .tailor-made-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 0.8fr 1.2fr;
+            gap: 80px;
+            align-items: start;
+        }
+        
+        .tailor-made-left {
+            position: sticky;
+            top: 120px;
+            opacity: 0;
+            transform: translateX(-30px);
+            animation: slideInLeft 0.8s ease forwards;
+        }
+        
+        @keyframes slideInLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .tailor-made-script {
+            font-family: 'Mrs Saint Delafield', cursive;
+            font-size: 28px;
+            color: #D4AF37;
+            display: inline-block;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+        
+        .tailor-made-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(36px, 4vw, 48px);
+            font-weight: 500;
+            color: #FFFFFF;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        
+        .tailor-made-title .italic {
+            font-style: italic;
+            font-weight: 400;
+            position: relative;
+            display: inline-block;
+            color: #D4AF37;
+        }
+        
+        .tailor-made-title .italic::after {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: rgba(212, 175, 55, 0.25);
+            z-index: -1;
+        }
+        
+        .tailor-made-divider {
+            width: 60px;
+            height: 2px;
+            background: #D4AF37;
+            margin: 20px 0 24px;
+        }
+        
+        .tailor-made-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+        
+        .tailor-made-description {
+            font-family: 'Georgia', serif;
+            font-size: 15px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 20px;
+        }
+        
+        .tailor-made-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+        
+        .tailor-card {
+            position: relative;
+            background: transparent;
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            aspect-ratio: 1 / 0.9;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1);
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .tailor-card:nth-child(1) { animation-delay: 0s; }
+        .tailor-card:nth-child(2) { animation-delay: 0.1s; }
+        .tailor-card:nth-child(3) { animation-delay: 0.2s; }
+        .tailor-card:nth-child(4) { animation-delay: 0.3s; }
+        
+        .tailor-card .card-front {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: opacity 0.4s ease, transform 0.3s ease;
+            background: transparent;
+            z-index: 2;
+        }
+        
+        .tailor-card .card-hover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 28px 24px;
+            background: rgba(212, 175, 55, 0.92);
+            backdrop-filter: blur(2px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.3s ease;
+            z-index: 3;
+            transform: scale(0.95);
+        }
+        
+        .tailor-card:hover .card-front {
+            opacity: 0;
+            transform: scale(0.98);
+        }
+        
+        .tailor-card:hover .card-hover {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .tailor-card:hover {
+            border-color: #D4AF37;
+            transform: translateY(-6px);
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .tailor-card .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 500;
+            color: #FFFFFF;
+            line-height: 1.3;
+            text-align: left;
+            margin: 0;
+            letter-spacing: -0.01em;
+        }
+        
+        .tailor-card .card-number {
+            font-family: 'Mrs Saint Delafield', cursive;
+            font-size: 48px;
+            color: rgba(212, 175, 55, 0.45);
+            text-align: left;
+            line-height: 1;
+        }
+        
+        .tailor-card .card-icon {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 42px;
+            height: 42px;
+            color: rgba(212, 175, 55, 0.5);
+            transition: transform 0.3s ease;
+        }
+        
+        .tailor-card:hover .card-icon {
+            transform: scale(1.1);
+        }
+        
+        .tailor-card .card-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke: currentColor;
+        }
+        
+        .tailor-card .card-hover-text {
+            font-family: 'Georgia', serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #1E2A2A;
+            text-align: center;
+            font-weight: 400;
+        }
+        
+        /* ============================================ */
+        /* FOUNDER'S STATEMENT SECTION - WITH BACKGROUND IMAGE */
+        /* ============================================ */
+        .founder-statement {
+            position: relative;
+            background: #F5F2EB;
+            padding: 100px 0;
+            overflow: hidden;
+        }
+        
+        .founder-statement::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1600');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0.2;
+            filter: grayscale(0.3) sepia(0.1);
+            z-index: 1;
+        }
+        
+        .founder-statement::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(245, 242, 239, 0.85) 0%, rgba(245, 242, 239, 0.92) 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+        
+        .statement-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 40px;
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+        
+        .statement-quote {
+            font-family: 'Playfair Display', serif;
+            font-size: 80px;
+            color: #C33C2C;
+            opacity: 0.2;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+        
+        .statement-text {
+            font-family: 'Georgia', serif;
+            font-size: 24px;
+            line-height: 1.5;
+            color: #2C2C2C;
+            font-style: italic;
+            margin-bottom: 40px;
+        }
+        
+        .statement-author {
+            font-family: 'Mrs Saint Delafield', cursive;
+            font-size: 32px;
+            color: #C33C2C;
+            margin-bottom: 8px;
+        }
+        
+        .statement-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #9b8e84;
+        }
+        
+        .statement-signature {
+            margin-top: 30px;
+            font-family: 'Mrs Saint Delafield', cursive;
+            font-size: 48px;
+            color: #C33C2C;
+            opacity: 0.6;
+        }
+        
+        /* ============================================ */
+        /* TESTIMONIALS SECTION - FROM INDEX PAGE */
+        /* ============================================ */
+        .testimonials-section {
+            position: relative;
+            background: #FDF9F4;
+            padding: 100px 0;
+            overflow: hidden;
+        }
+
+        .testimonials-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle at 20% 40%, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+            background-size: 30px 30px;
+            pointer-events: none;
+        }
+
+        .testimonials-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .testimonials-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .testimonials-script {
+            font-family: 'Mrs Saint Delafield', cursive;
+            font-size: 28px;
+            color: #BC2026;
+            display: inline-block;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+
+        .testimonials-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(36px, 5vw, 52px);
+            font-weight: 500;
+            color: #2C2C2C;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .testimonials-title .italic {
+            font-style: italic;
+            font-weight: 400;
+            position: relative;
+            display: inline-block;
+            color: #BC2026;
+        }
+
+        .testimonials-title .italic::after {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: rgba(188, 32, 38, 0.2);
+            z-index: -1;
+        }
+
+        .testimonials-divider {
+            width: 60px;
+            height: 2px;
+            background: #BC2026;
+            margin: 20px auto 24px;
+        }
+
+        .testimonials-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 17px;
+            line-height: 1.6;
+            color: #6b635c;
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 400;
+        }
+
+        .testimonials-carousel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            background: #ffffff;
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.05);
+        }
+
+        .testimonial-left {
+            padding: 50px 40px 50px 50px;
+            position: relative;
+        }
+
+        .testimonial-quote-mark {
+            font-family: 'Playfair Display', serif;
+            font-size: 80px;
+            color: #BC2026;
+            opacity: 0.2;
+            line-height: 0.8;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-text {
+            font-family: 'Georgia', serif;
+            font-size: 20px;
+            line-height: 1.5;
+            color: #2C2C2C;
+            margin-bottom: 32px;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .testimonial-attribution {
+            margin-bottom: 32px;
+        }
+
+        .testimonial-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #2C2C2C;
+            margin-bottom: 4px;
+        }
+
+        .testimonial-location {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: #9b8e84;
+            margin-bottom: 10px;
+        }
+
+        .platform-badge {
+            display: inline-block;
+            background: #F5F2EB;
+            padding: 4px 12px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #BC2026;
+            border-radius: 20px;
+        }
+
+        .carousel-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .carousel-prev,
+        .carousel-next {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: transparent;
+            border: 1px solid #e0dcd5;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-prev:hover,
+        .carousel-next:hover {
+            border-color: #BC2026;
+            background: rgba(188, 32, 38, 0.05);
+        }
+
+        .carousel-prev svg,
+        .carousel-next svg {
+            stroke: #6b635c;
+            transition: stroke 0.3s ease;
+        }
+
+        .carousel-prev:hover svg,
+        .carousel-next:hover svg {
+            stroke: #BC2026;
+        }
+
+        .carousel-dots {
+            display: flex;
+            gap: 12px;
+        }
+
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #e0dcd5;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            width: 24px;
+            border-radius: 4px;
+            background: #BC2026;
+        }
+
+        .testimonial-right {
+            position: relative;
+            height: 100%;
+            min-height: 450px;
+            overflow: hidden;
+        }
+
+        .testimonial-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .testimonial-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.4, 1);
+        }
+
+        .testimonial-right:hover .testimonial-image {
+            transform: scale(1.03);
+        }
+
+        .image-accent {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            width: 120px;
+            height: 120px;
+            border: 2px solid rgba(188, 32, 38, 0.15);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .testimonial-left {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .testimonial-right {
+            opacity: 0;
+            transform: translateX(20px);
+            transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
+        }
+
+        .testimonials-section.animate-in .testimonial-left {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .testimonials-section.animate-in .testimonial-right {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        @media (max-width: 1024px) {
+            .testimonials-carousel {
+                gap: 40px;
+            }
+            .testimonial-left {
+                padding: 40px 30px 40px 40px;
+            }
+            .testimonial-text {
+                font-size: 18px;
+            }
+            .statement-text {
+                font-size: 20px;
+            }
+            .statement-author {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .testimonials-section {
+                padding: 80px 0;
+            }
+            .testimonials-carousel {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            .testimonial-left {
+                padding: 40px 30px;
+                order: 2;
+            }
+            .testimonial-right {
+                min-height: 350px;
+                order: 1;
+            }
+            .image-accent {
+                width: 80px;
+                height: 80px;
+                bottom: -10px;
+                right: -10px;
+            }
+            .statement-text {
+                font-size: 18px;
+            }
+            .statement-author {
+                font-size: 26px;
+            }
+            .statement-quote {
+                font-size: 60px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .testimonials-section {
+                padding: 60px 0;
+            }
+            .testimonials-container {
+                padding: 0 24px;
+            }
+            .testimonial-left {
+                padding: 30px 24px;
+            }
+            .testimonial-text {
+                font-size: 16px;
+            }
+            .testimonial-quote-mark {
+                font-size: 60px;
+            }
+            .testimonials-script {
+                font-size: 24px;
+            }
+            .testimonials-title {
+                font-size: 32px;
+            }
+            .testimonials-subtitle {
+                font-size: 15px;
+            }
+            .carousel-controls {
+                justify-content: center;
+            }
+            .statement-container {
+                padding: 0 24px;
+            }
+            .statement-text {
+                font-size: 16px;
+            }
+            .statement-author {
+                font-size: 24px;
+            }
+            .statement-signature {
+                font-size: 36px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .testimonial-right {
+                min-height: 280px;
+            }
+            .carousel-prev,
+            .carousel-next {
+                width: 38px;
+                height: 38px;
+            }
+            .testimonial-name {
+                font-size: 14px;
+            }
+            .statement-text {
+                font-size: 15px;
+            }
+            .statement-author {
+                font-size: 22px;
+            }
+        }
+
+        @media (min-width: 1920px) {
+            .testimonials-container {
+                max-width: 1600px;
+            }
+            .testimonial-text {
+                font-size: 24px;
+            }
+            .testimonial-left {
+                padding: 60px 50px 60px 60px;
+            }
+            .statement-text {
+                font-size: 28px;
+            }
+        }
+
+        /* ============================================ */
+        /* ADDITIONAL SECTIONS */
+        /* ============================================ */
+        .intro-section {
+            padding: 100px 0 60px;
+            background: #fff;
+            position: relative;
+            z-index: 2;
+        }
+        .split-block {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin: 100px 0;
+            position: relative;
+            z-index: 2;
+        }
+        .split-image img {
+            width: 100%;
+            border-radius: 28px;
+        }
+        
+        /* footer */
+        .footer {
+            background: #0F0F0F;
+            color: #ccc;
+            padding: 60px 0 40px;
+        }
+        
+        /* text reveal animations */
+        .reveal-text {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.9s cubic-bezier(0.2,0.9,0.4,1), transform 0.9s cubic-bezier(0.2,0.9,0.4,1);
+        }
+        .reveal-text.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* blur-to-focus for hero */
+        .blur-in {
+            animation: blurFocus 1s ease-out forwards;
+        }
+        @keyframes blurFocus {
+            0% { filter: blur(12px); opacity: 0; transform: scale(1.05);}
+            100% { filter: blur(0); opacity: 1; transform: scale(1);}
+        }
+        
+        /* custom cursor */
+        .custom-cursor {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(195,60,44,0.2);
+            backdrop-filter: blur(4px);
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%,-50%);
+            transition: transform 0.08s;
+        }
+        @media (max-width: 768px) { .custom-cursor { display: none; } }
+        
+        /* Responsive Fixes for Tailor Made Section - Mobile */
+        @media (max-width: 1024px) {
+            .tailor-made-container {
+                grid-template-columns: 1fr;
+                gap: 60px;
+                padding: 0 30px;
+            }
+            .tailor-made-left {
+                position: relative;
+                top: 0;
+                text-align: center;
+            }
+            .tailor-made-divider {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .tailor-made-subtitle {
+                max-width: 600px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .tailor-made-description {
+                max-width: 550px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .tailor-made-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .tailor-made-section {
+                padding: 70px 0;
+                margin: 60px 0;
+            }
+            .tailor-made-container {
+                padding: 0 24px;
+                gap: 50px;
+            }
+            .tailor-made-script {
+                font-size: 24px;
+            }
+            .tailor-made-title {
+                font-size: 32px;
+            }
+            .tailor-made-subtitle {
+                font-size: 16px;
+            }
+            .tailor-made-description {
+                font-size: 14px;
+            }
+            .tailor-made-grid {
+                gap: 18px;
+            }
+            .tailor-card .card-title {
+                font-size: 16px;
+            }
+            .tailor-card .card-number {
+                font-size: 36px;
+            }
+            .tailor-card .card-icon {
+                width: 32px;
+                height: 32px;
+                bottom: 16px;
+                right: 16px;
+            }
+            .tailor-card .card-hover-text {
+                font-size: 12px;
+                line-height: 1.5;
+            }
+            .split-block {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .tailor-made-section {
+                padding: 60px 0;
+            }
+            .tailor-made-container {
+                padding: 0 20px;
+                gap: 40px;
+            }
+            .tailor-made-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                max-width: 100%;
+                margin: 0;
+            }
+            .tailor-card {
+                aspect-ratio: auto;
+                min-height: 200px;
+                height: auto;
+            }
+            .tailor-card .card-front {
+                position: relative;
+                min-height: 200px;
+                padding: 24px 20px;
+            }
+            .tailor-card .card-hover {
+                padding: 24px 20px;
+            }
+            .tailor-card .card-title {
+                font-size: 18px;
+                margin-bottom: 12px;
+            }
+            .tailor-card .card-number {
+                font-size: 42px;
+                margin-top: auto;
+            }
+            .tailor-card .card-icon {
+                width: 36px;
+                height: 36px;
+                bottom: 20px;
+                right: 20px;
+            }
+            .tailor-card .card-hover-text {
+                font-size: 13px;
+                line-height: 1.5;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .tailor-made-section {
+                padding: 50px 0;
+            }
+            .tailor-made-title {
+                font-size: 28px;
+            }
+            .tailor-made-script {
+                font-size: 22px;
+            }
+            .tailor-card .card-front {
+                padding: 20px 16px;
+                min-height: 180px;
+            }
+            .tailor-card .card-title {
+                font-size: 16px;
+            }
+            .tailor-card .card-number {
+                font-size: 36px;
+            }
+            .tailor-card .card-icon {
+                width: 30px;
+                height: 30px;
+                bottom: 16px;
+                right: 16px;
+            }
+            .tailor-card .card-hover-text {
+                font-size: 12px;
+            }
+            .tailor-card .card-hover {
+                padding: 20px 16px;
+            }
+        }
+        
+        /* Touch Device Optimization for cards */
+        @media (hover: hover) {
+            .tailor-card:hover {
+                transform: translateY(-6px);
+            }
+        }
+        
+        @media (hover: none) {
+            .tailor-card:active .card-front {
+                opacity: 0;
+            }
+            .tailor-card:active .card-hover {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="custom-cursor" id="cursor"></div>
+
+<!-- HERO (full height with parallax scaling) -->
+<div class="hero-wrapper" id="heroWrapper">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-content">
+        <div class="hero-sub font-hand blur-in">Our vision</div>
+        <h1 class="hero-title font-serif blur-in" style="animation-delay:0.2s">Time well spent.</h1>
+        <a href="#" class="btn btn--primary" style="animation: fadeUp 0.6s forwards 0.5s; opacity:0;">Discover our story →</a>
+    </div>
+</div>
+
+<!-- STACKED DRAWERS (the layering effect) with pattern background -->
+<div class="drawers-stack" id="drawersStack">
+    <!-- Pattern backgrounds - separate elements to not interfere with sticky positioning -->
+    <div class="pattern-bg"></div>
+    <div class="pattern-overlay"></div>
+    
+    <div class="drawer">
+        <div class="container">
+            <div class="drawer-inner">
+                <div class="drawer-text">
+                    <div class="drawer-tag">Local immersion</div>
+                    <h2 class="drawer-title font-serif">Get to know the many kinds of people who make the place.</h2>
+                    <p class="drawer-desc">From village artisans to urban storytellers, we connect you with authentic encounters that go beyond tourism. Every journey supports local communities directly.</p>
+                </div>
+                <div class="drawer-image">
+                    <img src="https://images.pexels.com/photos/4101555/pexels-photo-4101555.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Local immersion">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="drawer">
+        <div class="container">
+            <div class="drawer-inner">
+                <div class="drawer-text">
+                    <div class="drawer-tag">Laidback luxury</div>
+                    <h2 class="drawer-title font-serif">Authentic experiences in unique places nobody else knows about.</h2>
+                    <p class="drawer-desc">Hand-picked villas, hidden boutique hotels, and exclusive access – we redefine luxury as time well spent, not extravagance.</p>
+                </div>
+                <div class="drawer-image">
+                    <img src="https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Luxury stay">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="drawer">
+        <div class="container">
+            <div class="drawer-inner">
+                <div class="drawer-text">
+                    <div class="drawer-tag">Wildlife protection</div>
+                    <h2 class="drawer-title font-serif">Ethical partners who share our belief: wildlife is not entertainment.</h2>
+                    <p class="drawer-desc">We work with conservation-focused reserves and guides who respect natural habitats. Every safari contributes to protection efforts.</p>
+                </div>
+                <div class="drawer-image">
+                    <img src="https://images.pexels.com/photos/247502/pexels-photo-247502.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Elephant safari">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="drawer">
+        <div class="container">
+            <div class="drawer-inner">
+                <div class="drawer-text">
+                    <div class="drawer-tag">An eye for style</div>
+                    <h2 class="drawer-title font-serif">Cultural heritage or contemporary cool? We've got stays for every taste.</h2>
+                    <p class="drawer-desc">Colonial mansions, eco-lodges, or design-forward hotels — each property is chosen for its soul, story, and impeccable service.</p>
+                </div>
+                <div class="drawer-image">
+                    <img src="https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Boutique hotel">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Intro text block after drawers -->
+<div class="container">
+    <div class="intro-section reveal-text">
+        <div style="max-width: 900px; margin: 0 auto; text-align: center;">
+            <div class="font-hand" style="font-size:1.4rem; color:#C33C2C;">Our ethos</div>
+            <h2 class="font-serif" style="font-size:3rem; margin: 24px 0;">Welcome to Serendib Escape.</h2>
+            <p style="font-size:1.2rem; line-height:1.6; color:#2c2c2c;">We blend local expertise, big hearts, and open arms to create unforgettable experiences in undiscovered places for travellers of all types. With one foot in Asia and a global outlook, we craft journeys that go straight to the beating heart of Sri Lanka, India and the Maldives.</p>
+        </div>
+    </div>
+    
+    <!-- FOUNDER'S STATEMENT SECTION -->
+    <div class="founder-statement reveal-text">
+        <div class="statement-container">
+            <div class="statement-quote">"</div>
+            <p class="statement-text">To me, the 'Sri Lankan smile' isn't just a greeting; it's a standard of warmth that no algorithm can replicate. My journey with Serendib Escape began with a simple realization: the most profound luxury isn't found in a price tag, but in the personal perspective of someone who knows where the island's heart beats.</p>
+            <div class="statement-author">— Jonathan De Kauwe</div>
+            <div class="statement-title">Founder & Storyteller</div>
+            <div class="statement-signature">Serendib Escape</div>
+        </div>
+    </div>
+    
+    <!-- TAILOR MADE SECTION - WHY CHOOSE US STYLE CARDS -->
+    <div class="tailor-made-section">
+        <div class="tailor-made-container">
+            <div class="tailor-made-left">
+                <span class="tailor-made-script">Travel, your way</span>
+                <h2 class="tailor-made-title">Tailor <span class="italic">Made</span></h2>
+                <div class="tailor-made-divider"></div>
+                <p class="tailor-made-subtitle">Every journey starts with a blank page. First we get to know you, then design a trip to fit your needs.</p>
+                <p class="tailor-made-description">Private driver-guides and hand-picked stays come as standard, with plenty of personal touches along the way. Nothing is too much trouble.</p>
+            </div>
+            
+            <div class="tailor-made-grid">
+                <!-- Card 1: Personalised Planning -->
+                <div class="tailor-card">
+                    <div class="card-front">
+                        <h3 class="card-title">Personalised Planning</h3>
+                        <div class="card-number">01</div>
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                                <path d="M12 2L15 8L22 9L17 14L18 21L12 17L6 21L7 14L2 9L9 8L12 2Z" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="card-hover">
+                        <p class="card-hover-text">We take time to understand your travel style, interests, and dreams — then craft a journey that's uniquely yours.</p>
+                    </div>
+                </div>
+                
+                <!-- Card 2: Private Driver-Guides -->
+                <div class="tailor-card">
+                    <div class="card-front">
+                        <h3 class="card-title">Private Driver-Guides</h3>
+                        <div class="card-number">02</div>
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+                                <path d="M12 6v6l4 2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="card-hover">
+                        <p class="card-hover-text">Experienced local guides who become friends — they know the hidden paths, the best spots, and the stories that bring Sri Lanka to life.</p>
+                    </div>
+                </div>
+                
+                <!-- Card 3: Hand-Picked Stays -->
+                <div class="tailor-card">
+                    <div class="card-front">
+                        <h3 class="card-title">Hand-Picked Stays</h3>
+                        <div class="card-number">03</div>
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                <path d="M9 22V12h6v10" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="card-hover">
+                        <p class="card-hover-text">From heritage bungalows to boutique villas — each property is chosen for its character, comfort, and authentic charm.</p>
+                    </div>
+                </div>
+                
+                <!-- Card 4: Personal Touches -->
+                <div class="tailor-card">
+                    <div class="card-front">
+                        <h3 class="card-title">Personal Touches</h3>
+                        <div class="card-number">04</div>
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                                <circle cx="12" cy="8" r="4" stroke-linecap="round"/>
+                                <path d="M5.5 20c.9-3 4.1-4 6.5-4s5.6 1 6.5 4" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="card-hover">
+                        <p class="card-hover-text">Surprise elements, local treats, and thoughtful details that make your journey truly unforgettable.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Positive impact split -->
+    <div class="split-block reveal-text">
+        <div>
+            <div class="font-hand" style="color:#C33C2C;">Responsible travel</div>
+            <h2 class="font-serif" style="font-size:2.8rem; margin: 20px 0;">Positive impact</h2>
+            <p>With 90% of our team based in Colombo, supporting our community is personal. We prioritise local hosts, guides, and businesses to ensure the benefits of tourism extend beyond the well-trodden path. A portion of every booking supports local education initiatives.</p>
+            <a href="#" class="btn btn--primary" style="margin-top: 32px;">Discover more →</a>
+        </div>
+        <div class="split-image">
+            <img src="https://images.pexels.com/photos/341521/pexels-photo-341521.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Community">
+        </div>
+    </div>
+</div>
+
+<!-- TESTIMONIALS SECTION -->
+<section class="testimonials-section" id="testimonialsSection">
+    <div class="testimonials-container">
+        <div class="testimonials-header">
+            <span class="testimonials-script">What our travellers say</span>
+            <h2 class="testimonials-title">Stories that <span class="italic">inspire</span></h2>
+            <div class="testimonials-divider"></div>
+            <p class="testimonials-subtitle">
+                Real experiences from those who've journeyed with us. Each story is a testament 
+                to the moments that linger long after the journey ends.
+            </p>
+        </div>
+        
+        <div class="testimonials-carousel" id="testimonialsCarousel">
+            <div class="testimonial-left">
+                <div class="testimonial-quote-mark">"</div>
+                <div class="testimonial-text" id="testimonialText">
+                    If Red Dot ever ceased to exist and I wanted to return to Sri Lanka I would probably go somewhere else instead. 
+                    They were, in every way shape and form, impeccable. From Samanthie who created the itinerary to Wicky who drove us here, 
+                    there and everywhere I cannot imagine anybody doing it better.
+                </div>
+                <div class="testimonial-attribution">
+                    <div class="testimonial-name" id="testimonialName">Anupa</div>
+                    <div class="testimonial-location" id="testimonialLocation">United Kingdom, July 2025</div>
+                    <div class="testimonial-platform">
+                        <span class="platform-badge" id="testimonialPlatform">TripAdvisor</span>
+                    </div>
+                </div>
+                <div class="carousel-controls">
+                    <button class="carousel-prev" id="prevTestimonial">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <div class="carousel-dots" id="carouselDots"></div>
+                    <button class="carousel-next" id="nextTestimonial">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="testimonial-right">
+                <div class="testimonial-image-wrapper">
+                    <img src="https://images.pexels.com/photos/2245436/pexels-photo-2245436.jpeg?auto=compress&cs=tinysrgb&w=800" 
+                         alt="Traveler enjoying Sri Lanka" 
+                         class="testimonial-image" 
+                         id="testimonialImage">
+                    <div class="image-accent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <!-- Team CTA -->
+    <div class="team-cta" style="background:#F7F5F2; text-align:center; padding:80px 40px; border-radius:48px; margin:80px 0;">
+        <div class="font-hand" style="color:#C33C2C;">Local legends</div>
+        <h2 class="font-serif" style="font-size:3rem; margin:20px 0;">Meet our team</h2>
+        <p style="max-width:600px; margin:0 auto 32px;">Introducing our wonderful team of guides and consultants, storytellers, problem-solvers, and magic-makers.</p>
+        <a href="#" class="btn btn--primary">Meet the team →</a>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <div style="display:grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap:40px;">
+            <div><div style="font-size:1.5rem; font-weight:500;">Serendib Escape</div><p style="margin-top:12px;">Tailor-made journeys with heart.</p></div>
+            <div><strong>Destinations</strong><br>Sri Lanka<br>India<br>Maldives</div>
+            <div><strong>Contact</strong><br>hello@serendibescape.com<br>(+94) 123 456 789</div>
+            <div><strong>Legal</strong><br>Privacy Policy<br>Booking Conditions</div>
+        </div>
+        <div style="border-top:1px solid #333; margin-top:48px; padding-top:32px; text-align:center;">© 2025 Serendib Escape — Tailor-Made Travel.</div>
+    </div>
+</footer>
+
+<script>
+    // Lenis smooth scroll initialization
+    const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        wheelMultiplier: 0.8,
+    });
+    function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+    
+    // GSAP ScrollTrigger registration
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // --- Hero parallax scaling effect ---
+    const heroBg = document.getElementById('heroBg');
+    const heroWrapper = document.getElementById('heroWrapper');
+    if (heroBg && heroWrapper) {
+        gsap.to(heroBg, {
+            scale: 1.08,
+            y: '5%',
+            ease: 'none',
+            scrollTrigger: {
+                trigger: heroWrapper,
+                start: 'top top',
+                end: 'bottom top',
+                scrub: 1.2,
+            }
+        });
+        // fade out hero content as first drawer appears
+        gsap.to('.hero-content', {
+            opacity: 0,
+            y: -50,
+            ease: 'power2.out',
+            scrollTrigger: {
+                trigger: '.drawers-stack',
+                start: 'top 80%',
+                end: 'top 30%',
+                scrub: 1,
+            }
+        });
+    }
+    
+    // --- Sticky drawer layering ---
+    const drawers = gsap.utils.toArray('.drawer');
+    drawers.forEach((drawer, i) => {
+        gsap.fromTo(drawer, {
+            opacity: 0.7,
+            y: 40,
+        }, {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            scrollTrigger: {
+                trigger: drawer,
+                start: 'top 85%',
+                end: 'top 30%',
+                scrub: 0.5,
+            }
+        });
+        const img = drawer.querySelector('.drawer-image img');
+        if (img) {
+            gsap.fromTo(img, { scale: 1 }, {
+                scale: 1.02,
+                scrollTrigger: {
+                    trigger: drawer,
+                    start: 'top bottom',
+                    end: 'top 30%',
+                    scrub: 0.8,
+                }
+            });
+        }
+    });
+    
+    // --- Text reveal using Intersection Observer ---
+    const revealElements = document.querySelectorAll('.reveal-text');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2, rootMargin: '0px 0px -30px 0px' });
+    revealElements.forEach(el => observer.observe(el));
+    
+    // manually add active to hero items already visible
+    document.querySelectorAll('.hero-sub, .hero-title, .btn--primary').forEach(el => el.style.opacity = '1');
+    
+    // --- custom cursor ---
+    const cursor = document.getElementById('cursor');
+    if (cursor && window.innerWidth > 768) {
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+        });
+        const hoverables = document.querySelectorAll('a, button, .drawer, .tailor-card');
+        hoverables.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.style.transform += ' scale(1.6)');
+            el.addEventListener('mouseleave', () => cursor.style.transform = cursor.style.transform.replace(' scale(1.6)', ''));
+        });
+    }
+    
+    // --- Testimonials Carousel Data & Functionality ---
+    const testimonialsData = [
+        {
+            text: "If Red Dot ever ceased to exist and I wanted to return to Sri Lanka I would probably go somewhere else instead. They were, in every way shape and form, impeccable. From Samanthie who created the itinerary to Wicky who drove us here, there and everywhere I cannot imagine anybody doing it better.",
+            name: "Anupa",
+            location: "United Kingdom, July 2025",
+            platform: "TripAdvisor",
+            image: "https://images.pexels.com/photos/2245436/pexels-photo-2245436.jpeg?auto=compress&cs=tinysrgb&w=800"
+        },
+        {
+            text: "We chose this company as we wanted our money to benefit the people of Sri Lanka rather than international companies. Their work supports smaller businesses, projects and communities as well as the environment.",
+            name: "Jessica E",
+            location: "London, UK, August 2025",
+            platform: "Feefo",
+            image: "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=800"
+        },
+        {
+            text: "Our 11th visit to this magical Island with always something new to discover and see. Total confidence that Red Dot would organise everything to perfection, having used them many times before.",
+            name: "Roy L",
+            location: "United Kingdom, March 2025",
+            platform: "Feefo",
+            image: "https://images.pexels.com/photos/2867380/pexels-photo-2867380.jpeg?auto=compress&cs=tinysrgb&w=800"
+        }
+    ];
+
+    let currentTestimonialIndex = 0;
+    let testimonialInterval;
+
+    function updateTestimonial() {
+        const t = testimonialsData[currentTestimonialIndex];
+        document.getElementById('testimonialText').innerHTML = t.text;
+        document.getElementById('testimonialName').innerHTML = t.name;
+        document.getElementById('testimonialLocation').innerHTML = t.location;
+        document.getElementById('testimonialPlatform').innerHTML = t.platform;
+        document.getElementById('testimonialImage').src = t.image;
+        
+        const dots = document.querySelectorAll('.carousel-dot');
+        dots.forEach((dot, idx) => {
+            if (idx === currentTestimonialIndex) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+    }
+
+    function nextTestimonial() {
+        currentTestimonialIndex = (currentTestimonialIndex + 1) % testimonialsData.length;
+        updateTestimonial();
+        resetAutoPlay();
+    }
+
+    function prevTestimonial() {
+        currentTestimonialIndex = (currentTestimonialIndex - 1 + testimonialsData.length) % testimonialsData.length;
+        updateTestimonial();
+        resetAutoPlay();
+    }
+
+    function goToTestimonial(index) {
+        currentTestimonialIndex = index;
+        updateTestimonial();
+        resetAutoPlay();
+    }
+
+    function startAutoPlay() {
+        if (testimonialInterval) clearInterval(testimonialInterval);
+        testimonialInterval = setInterval(() => {
+            nextTestimonial();
+        }, 6000);
+    }
+
+    function resetAutoPlay() {
+        if (testimonialInterval) {
+            clearInterval(testimonialInterval);
+            startAutoPlay();
+        }
+    }
+
+    function createTestimonialDots() {
+        const dotsContainer = document.getElementById('carouselDots');
+        if (!dotsContainer) return;
+        
+        dotsContainer.innerHTML = '';
+        testimonialsData.forEach((_, idx) => {
+            const dot = document.createElement('div');
+            dot.classList.add('carousel-dot');
+            if (idx === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToTestimonial(idx));
+            dotsContainer.appendChild(dot);
+        });
+    }
+
+    createTestimonialDots();
+    updateTestimonial();
+    startAutoPlay();
+    
+    const prevBtn = document.getElementById('prevTestimonial');
+    const nextBtn = document.getElementById('nextTestimonial');
+    
+    if (prevBtn) prevBtn.addEventListener('click', prevTestimonial);
+    if (nextBtn) nextBtn.addEventListener('click', nextTestimonial);
+    
+    const testimonialsSection = document.getElementById('testimonialsSection');
+    if (testimonialsSection) {
+        const testimonialsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    testimonialsSection.classList.add('animate-in');
+                    testimonialsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+        testimonialsObserver.observe(testimonialsSection);
+    }
+    
+    window.addEventListener('beforeunload', () => {
+        if (testimonialInterval) clearInterval(testimonialInterval);
+    });
+    
+    // Ensure Lenis updates ScrollTrigger each frame
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
+    
+    // smooth anchor links with lenis
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href');
+            if (targetId === '#' || targetId === '#!') return;
+            const target = document.querySelector(targetId);
+            if (target) {
+                e.preventDefault();
+                lenis.scrollTo(target, { offset: 80 });
+            }
+        });
+    });
+</script>
+</body>
+</html>

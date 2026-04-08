@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Vintage Ceylon · Tailor your journey with founder</title>
+  <!-- google fonts: vintage serif + clean sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+  <!-- Calendly embed script (lightweight) -->
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #fefaf5;
+      font-family: 'Inter', sans-serif;
+      color: #2c2b28;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* vintage two-column */
+    .two-column-layout {
+      display: flex;
+      width: 100%;
+      height: 100vh;
+    }
+
+    .image-column {
+      width: 36%;
+      height: 100vh;
+      position: relative;
+    }
+
+    .sticky-image-container {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      background: #2f2a24;
+    }
+
+    .step-image {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center 30%;
+      transition: all 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      filter: sepia(0.2) contrast(1.05) brightness(0.96);
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .step-image[data-step="1"] { background-image: url('https://images.unsplash.com/photo-1625819987652-0156cdc0e8fc?w=900&h=1200&fit=crop&auto=format'); }
+    .step-image[data-step="2"] { background-image: url('https://images.unsplash.com/photo-1582962754634-7c2b3e8b9c4b?w=900&h=1200&fit=crop&auto=format'); }
+    .step-image[data-step="3"] { background-image: url('https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=900&h=1200&fit=crop&auto=format'); }
+    .step-image[data-step="4"] { background-image: url('https://images.unsplash.com/photo-1598887153296-13f411c7c6b2?w=900&h=1200&fit=crop&auto=format'); }
+    .step-image[data-step="5"] { background-image: url('https://images.unsplash.com/photo-1462899006636-339e08d1844e?w=900&h=1200&fit=crop&auto=format'); }
+    .step-image[data-step="6"] { background-image: url('https://images.unsplash.com/photo-1524255684952-d7185b509571?w=900&h=1200&fit=crop&auto=format'); }
+
+    .image-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(20, 15, 10, 0.85), transparent);
+      color: #f5e7d9;
+      padding: 2rem 1.8rem 1.5rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: 1.35rem;
+      letter-spacing: 0.5px;
+      font-style: italic;
+      backdrop-filter: blur(2px);
+      border-top: 1px solid rgba(235, 205, 160, 0.3);
+    }
+
+    .content-column {
+      width: 64%;
+      padding: 2.5rem 3rem 3rem 3rem;
+      background: #fefaf5;
+      overflow-y: auto;
+      height: 100vh;
+      scroll-behavior: smooth;
+    }
+
+    .content-column::-webkit-scrollbar {
+      width: 5px;
+    }
+    .content-column::-webkit-scrollbar-track {
+      background: #e8dfd3;
+      border-radius: 6px;
+    }
+    .content-column::-webkit-scrollbar-thumb {
+      background: #b87c4f;
+      border-radius: 6px;
+    }
+
+    .page-heading {
+      margin-bottom: 1.8rem;
+      border-bottom: 2px solid #e6d5bc;
+      display: inline-block;
+      width: 100%;
+    }
+    .page-heading h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      font-weight: 600;
+      color: #5c3e2b;
+      letter-spacing: -0.3px;
+      background: linear-gradient(135deg, #6b4c35, #3e2a1f);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .heading-text {
+      font-size: 1rem;
+      color: #7e6957;
+      font-style: italic;
+      margin-bottom: 0.75rem;
+    }
+
+    /* vintage progress */
+    .progress-tracker {
+      display: flex;
+      align-items: center;
+      margin: 1rem 0 2rem;
+      flex-wrap: wrap;
+      background: #f9f2e8;
+      padding: 0.8rem 1rem;
+      border-radius: 60px;
+      border: 1px solid #ecdcc8;
+    }
+    .step-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+      color: #bbaa92;
+      font-size: 0.7rem;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+    .step-marker {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #fff5ea;
+      border: 1.5px solid #decbae;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: #8b6b4c;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .step-item.active .step-marker {
+      background: #c97e4a;
+      border-color: #b5642f;
+      color: white;
+      box-shadow: 0 4px 12px rgba(185, 102, 46, 0.3);
+    }
+    .step-item.completed .step-marker {
+      background: #b87c4f;
+      border-color: #9b623a;
+      color: white;
+    }
+    .step-item.completed .step-marker::after { content: "✓"; font-size: 0.9rem; font-weight: bold; }
+    .step-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+    .step-item.completed .step-label,
+    .step-item.active .step-label { color: #9b6a45; font-weight: 600; }
+    .step-line {
+      width: 38px;
+      height: 1.5px;
+      background: #decbae;
+      margin: 0 0.2rem;
+      align-self: center;
+    }
+
+    .question-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.9rem;
+      font-weight: 600;
+      color: #5b3e2a;
+    }
+    .question-helper {
+      color: #9c846c;
+      font-size: 0.9rem;
+      border-left: 3px solid #e7cfb0;
+      padding-left: 0.9rem;
+      margin-top: 0.2rem;
+    }
+
+    /* image cards */
+    .image-check-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.2rem;
+      margin: 1.8rem 0;
+    }
+    .image-card {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      aspect-ratio: 5 / 4;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+      border: 1px solid #e2d3bf;
+    }
+    .image-card input { position: absolute; opacity: 0; pointer-events: none; }
+    .card-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.5s ease;
+      filter: sepia(0.1);
+    }
+    .image-card:hover .card-image { transform: scale(1.04); filter: sepia(0); }
+    .overlay-title {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.2), transparent);
+      color: #faf0e0;
+      font-weight: 600;
+    }
+    .image-card.selected {
+      box-shadow: 0 0 0 3px #c97e4a, 0 8px 20px rgba(150, 80, 30, 0.2);
+      transform: scale(1.01);
+    }
+    .image-card.selected::before {
+      content: "✓";
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 26px;
+      height: 26px;
+      background: #c97e4a;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 14px;
+      z-index: 10;
+    }
+
+    /* counters, date */
+    .counter-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff7ef;
+      padding: 0.8rem 1.5rem;
+      border-radius: 60px;
+      border: 1px solid #eedbc8;
+      margin-bottom: 0.8rem;
+    }
+    .counter-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid #dbbc98;
+      background: white;
+      font-size: 1.5rem;
+      color: #b5651e;
+      cursor: pointer;
+    }
+    .counter-input { width: 50px; text-align: center; font-weight: 600; border: none; background: transparent; }
+    .date-input, .personal-input, .country-code-select {
+      padding: 0.8rem 1rem;
+      border: 1px solid #e2cfb7;
+      border-radius: 50px;
+      background: white;
+    }
+    .optional-textarea {
+      width: 100%;
+      padding: 0.9rem;
+      border: 1px solid #e2cfb7;
+      border-radius: 20px;
+      background: #fffcf8;
+    }
+
+    /* VIDEO CALL + CALENDLY SECTION (vintage charm) */
+    .video-call-calendly-container {
+      background: #fff5ea;
+      border-radius: 28px;
+      border: 1px solid #e5cfb2;
+      margin: 1.5rem 0 1rem;
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+    .video-call-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 1rem 1.3rem;
+      cursor: pointer;
+      background: #fff5ea;
+      gap: 1rem;
+    }
+    .video-call-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+      color: #5b3e2a;
+      cursor: pointer;
+    }
+    .video-call-label input {
+      width: 20px;
+      height: 20px;
+      accent-color: #c97e4a;
+      cursor: pointer;
+    }
+    .founder-badge {
+      background: #e7d3bd;
+      border-radius: 40px;
+      padding: 5px 14px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #6a462e;
+    }
+    .calendly-embed-area {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      background: #fef8f0;
+      border-top: 1px solid #e9d8c2;
+    }
+    .calendly-embed-area.open {
+      max-height: 680px;   /* enough for calendar widget */
+      padding: 1rem 1rem 1.5rem;
+    }
+    .calendly-inline-widget {
+      min-width: 100%;
+      height: 620px;
+      border-radius: 20px;
+    }
+    .calendly-note {
+      font-size: 0.7rem;
+      color: #b28b62;
+      margin-top: 0.6rem;
+      text-align: center;
+      font-style: italic;
+    }
+
+    .btn {
+      padding: 0.75rem 2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      background: #fff2e6;
+      border: 1px solid #dac29e;
+    }
+    .btn-primary {
+      background: #c97e4a;
+      color: white;
+      border: none;
+    }
+    .btn-primary:hover { background: #b06434; }
+    .validation-message { color: #bc6f37; font-size: 0.8rem; display: none; margin-top: 0.3rem; }
+    .validation-message.show { display: block; }
+    .field-hint { font-size: 0.7rem; color: #9e7c5e; }
+    .field-hint.error { color: #c4632c; }
+    .form-step { display: none; }
+    .form-step.active-step { display: block; }
+    @media (max-width: 850px) {
+      .two-column-layout { flex-direction: column; height: auto; overflow: visible; }
+      .image-column { width: 100%; height: 260px; }
+      .content-column { width: 100%; padding: 1.5rem; height: auto; }
+      body { overflow: auto; height: auto; }
+      .image-check-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="two-column-layout">
+  <div class="image-column">
+    <div class="sticky-image-container">
+      <div class="step-image" id="stepImage" data-step="1"></div>
+      <div class="image-caption" id="imageCaption">Curate your Ceylon story</div>
+    </div>
+  </div>
+  <div class="content-column">
+    <div class="page-heading">
+      <h1>Tailor your Ceylon journey</h1>
+      <p class="heading-text">Plan your private, vintage-inspired Sri Lanka escape with local experts.</p>
+    </div>
+    <div class="progress-tracker">
+      <div class="step-item completed"><div class="step-marker">1</div><span class="step-label">Explore</span></div><div class="step-line"></div>
+      <div class="step-item active"><div class="step-marker">2</div><span class="step-label">Interests</span></div><div class="step-line"></div>
+      <div class="step-item"><div class="step-marker">3</div><span class="step-label">Travelers</span></div><div class="step-line"></div>
+      <div class="step-item"><div class="step-marker">4</div><span class="step-label">Dates</span></div><div class="step-line"></div>
+      <div class="step-item"><div class="step-marker">5</div><span class="step-label">Budget</span></div><div class="step-line"></div>
+      <div class="step-item"><div class="step-marker">6</div><span class="step-label">Details</span></div>
+    </div>
+    <div class="form-wrapper">
+      <form name="sri-lanka-trip-plan" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="multiStepForm">
+        <input type="hidden" name="form-name" value="sri-lanka-trip-plan" />
+        <p style="display:none"><label>bot: <input name="bot-field"/></label></p>
+
+        <!-- step 1 explore -->
+        <div class="form-step active-step" id="step1" data-step="1">
+          <div class="question-block"><h2 class="question-title">Where to explore? <span class="required-star">*</span></h2><p class="question-helper">Select one or more regions</p></div>
+          <div class="card-grid image-check-grid">
+            <label class="image-card"><input type="checkbox" name="explore[]" value="cultural-triangle"><span class="card-image" style="background-image: url('https://images.unsplash.com/photo-1625819987652-0156cdc0e8fc?w=500&h=350&fit=crop&auto=format')"></span><span class="overlay-title">Cultural Triangle</span></label>
+            <label class="image-card"><input type="checkbox" name="explore[]" value="hill-country"><span class="card-image" style="background-image: url('https://images.unsplash.com/photo-1592409065094-1c00d8645c89?w=500&h=350&fit=crop&auto=format')"></span><span class="overlay-title">Hill Country</span></label>
+            <label class="image-card"><input type="checkbox" name="explore[]" value="south-national-parks"><span class="card-image" style="background-image: url('https://images.unsplash.com/photo-1547471080-7cc2caa01b7b?w=500&h=350&fit=crop&auto=format')"></span><span class="overlay-title">Southern Parks</span></label>
+            <label class="image-card"><input type="checkbox" name="explore[]" value="southwest-coast"><span class="card-image" style="background-image: url('https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?w=500&h=350&fit=crop&auto=format')"></span><span class="overlay-title">Southwest Coast</span></label>
+            <label class="image-card"><input type="checkbox" name="explore[]" value="east-coast"><span class="card-image" style="background-image: url('https://images.unsplash.com/photo-1598182198871-d3f4ab4fd181?w=500&h=350&fit=crop&auto=format')"></span><span class="overlay-title">Eastern Coast</span></label>
+            <label class="image-card"><input type="checkbox" name="explore[]" value="north-coast"><span class="card-image" style="background-image: url('https://images.unsplash.com/photo-1626693112991-4274fdae48f0?w=500&h=350&fit=crop&auto=format')"></span><span class="overlay-title">Northern Coast</span></label>
+          </div>
+          <div class="validation-message" id="step1Error"></div>
+          <div class="optional-textbox"><label class="optional-label">Specific places? (optional)</label><textarea name="specific_places" rows="2" class="optional-textarea" placeholder="Sigiriya, Galle Fort..."></textarea></div>
+        </div>
+
+        <!-- step 2 interests -->
+        <div class="form-step" id="step2" data-step="2">
+          <div class="question-block"><h2 class="question-title">What inspires you? <span class="required-star">*</span></h2><p class="question-helper">Select all that appeal</p></div>
+          <div class="card-grid image-check-grid">
+            <label class="image-card"><input type="checkbox" name="interests[]" value="wildlife"><span class="card-image" style="background-image: url('https://images.unsplash.com/photo-1582962754634-7c2b3e8b9c4b?w=500&h=350&fit=crop&auto=format')"></span><span class="overlay-title">Wildlife</span></label>
+            <label class="image-card"><input type="checkbox" name="interests[]" value="beaches"><span class="card-image" style="background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&h=350&fit=crop&auto=format')"></span><span class="overlay-title">Beaches</span></label>
+            <label class="image-card"><input type="checkbox" name="interests[]" value="culture"><span class="card-image" style="background-image: url('https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=500&h=350&fit=crop&auto=format')"></span><span class="overlay-title">Culture</span></label>
+            <label class="image-card"><input type="checkbox" name="interests[]" value="food"><span class="card-image" style="background-image: url('https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=500&h=350&fit=crop&auto=format')"></span><span class="overlay-title">Food</span></label>
+            <label class="image-card"><input type="checkbox" name="interests[]" value="adventure"><span class="card-image" style="background-image: url('https://images.unsplash.com/photo-1533692328991-08159ff19fca?w=500&h=350&fit=crop&auto=format')"></span><span class="overlay-title">Adventure</span></label>
+            <label class="image-card"><input type="checkbox" name="interests[]" value="tea"><span class="card-image" style="background-image: url('https://images.unsplash.com/photo-1565793979204-314d0b6f3b0e?w=500&h=350&fit=crop&auto=format')"></span><span class="overlay-title">Tea estates</span></label>
+          </div>
+          <div class="validation-message" id="step2Error"></div>
+          <div class="optional-textbox"><label class="optional-label">Dream experiences</label><textarea name="specific_experiences" rows="2" class="optional-textarea" placeholder="Whale watching, train to Ella..."></textarea></div>
+        </div>
+
+        <!-- step 3 travelers -->
+        <div class="form-step" id="step3" data-step="3">
+          <div class="question-block"><h2 class="question-title">Your travel party <span class="required-star">*</span></h2></div>
+          <div class="counter-vertical"><div class="counter-row"><span class="counter-label">Adults (18+)</span><div class="counter-control"><button type="button" class="counter-btn">−</button><input type="number" name="adults" value="2" min="0" class="counter-input" readonly><button type="button" class="counter-btn">+</button></div></div>
+          <div class="counter-row"><span class="counter-label">Children (2–17)</span><div class="counter-control"><button type="button" class="counter-btn">−</button><input type="number" name="children" value="0" class="counter-input" readonly><button type="button" class="counter-btn">+</button></div></div>
+          <div class="counter-row"><span class="counter-label">Infants (&lt;2)</span><div class="counter-control"><button type="button" class="counter-btn">−</button><input type="number" name="infants" value="0" class="counter-input" readonly><button type="button" class="counter-btn">+</button></div></div></div>
+          <div class="validation-message" id="step3Error"></div>
+          <div class="optional-textbox"><label class="optional-label">About your group</label><textarea name="travel_group_notes" rows="2" class="optional-textarea"></textarea></div>
+        </div>
+
+        <!-- step 4 dates -->
+        <div class="form-step" id="step4" data-step="4">
+          <div class="question-block"><h2 class="question-title">Arrival & duration <span class="required-star">*</span></h2></div>
+          <div class="date-duration" style="display:flex; gap:1rem;"><div class="date-field"><label>Arrival date</label><input type="date" name="arrival_date" class="date-input" value="2026-04-10"></div><div class="date-field"><label>Days</label><input type="number" name="duration_days" min="1" max="60" value="10" class="date-input"></div></div>
+          <div class="validation-message" id="step4Error"></div>
+          <div class="optional-textbox"><label class="optional-label">Travel notes</label><textarea name="travel_plans" rows="2" class="optional-textarea"></textarea></div>
+        </div>
+
+        <!-- step 5 budget -->
+        <div class="form-step" id="step5" data-step="5">
+          <div class="question-block"><h2 class="question-title">Budget per person <span class="required-star">*</span></h2><p class="question-helper">Slide: <span id="budgetValue">$4,500</span></p></div>
+          <div class="range-wrapper"><input type="range" name="budget_per_person" id="budgetSlider" min="1500" max="11500" step="500" value="4500"><div class="range-labels"><span>$1.5k</span><span>$11.5k</span></div></div>
+          <input type="hidden" name="budget_formatted" id="budgetFormatted" value="$4,500">
+          <div class="validation-message" id="step5Error"></div>
+        </div>
+
+        <!-- step 6: details + CALENDLY VIDEO CALL -->
+        <div class="form-step" id="step6" data-step="6">
+          <div class="question-block"><h2 class="question-title">Your details & founder call <span class="required-star">*</span></h2><p class="question-helper">Schedule a personal chat to craft your vintage journey</p></div>
+          <div class="personal-grid">
+            <div><label>First name *</label><input type="text" name="first_name" class="personal-input" required></div>
+            <div><label>Last name *</label><input type="text" name="last_name" class="personal-input" required></div>
+            <div><label>Email *</label><input type="email" name="email" id="emailInput" class="personal-input"><div class="field-hint" id="emailHint"></div></div>
+            <div><label>Mobile *</label><div class="phone-input-wrapper" style="display:flex; gap:0.5rem;"><select name="country_code" id="countryCode" class="country-code-select"><option value="+94">🇱🇰 +94</option><option value="+1">🇺🇸 +1</option><option value="+44">🇬🇧 +44</option></select><input type="tel" name="mobile" id="phoneInput" class="personal-input" placeholder="712345678"></div><div class="field-hint" id="phoneHint"></div></div>
+          </div>
+
+          <!-- Calendly integrated video call option -->
+          <div class="video-call-calendly-container" id="calendlyContainer">
+            <div class="video-call-header" id="videoCallToggle">
+              <label class="video-call-label">
+                <input type="checkbox" name="request_video_call" id="requestVideoCallCheckbox" value="yes"> 
+                <span>🎥 I'd love a 1:1 video call with the founder to plan my dream trip</span>
+              </label>
+              <div class="founder-badge">✨ founder-led • tailored advice</div>
+            </div>
+            <div class="calendly-embed-area" id="calendlyEmbedArea">
+              <!-- Calendly inline widget (replace YOUR_CALENDLY_LINK with actual link, using demo vintage style link) -->
+              <div class="calendly-inline-widget" data-url="https://calendly.com/your-founder-name/30min?hide_event_type_details=1&background_color=fefaf5&text_color=5b3e2a&primary_color=c97e4a" style="min-width:100%;height:620px;"></div>
+              <div class="calendly-note">Select a time that suits you — we’ll confirm and send a calendar invite.</div>
+            </div>
+          </div>
+
+          <div class="optional-textbox" style="margin-top:1rem;"><label class="optional-label">Any special requests?</label><textarea name="preferences_must_haves" rows="2" class="optional-textarea" placeholder="Boutique hotels, dietary needs..."></textarea></div>
+          <div class="validation-message" id="step6Error"></div>
+        </div>
+
+        <div class="form-navigation">
+          <button type="button" class="btn btn-outline" id="backBtn">← Back</button>
+          <button type="button" class="btn btn-primary" id="nextBtn">Continue →</button>
+          <button type="submit" class="btn btn-primary" id="submitBtn" style="display: none;">✉️ Submit request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const steps = document.querySelectorAll('.form-step');
+    const nextBtn = document.getElementById('nextBtn');
+    const backBtn = document.getElementById('backBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const progressItems = document.querySelectorAll('.step-item');
+    const stepImage = document.getElementById('stepImage');
+    const imageCaption = document.getElementById('imageCaption');
+    let currentStep = 0;
+    const totalSteps = steps.length;
+    const captions = ["Choose your regions", "Your passions", "Travel companions", "Dates & duration", "Budget", "Your details & founder call"];
+
+    // Calendly UI toggle
+    const videoCheckbox = document.getElementById('requestVideoCallCheckbox');
+    const calendlyArea = document.getElementById('calendlyEmbedArea');
+    if (videoCheckbox && calendlyArea) {
+      videoCheckbox.addEventListener('change', function(e) {
+        if (this.checked) {
+          calendlyArea.classList.add('open');
+          // reload Calendly widget if needed (already loaded via script, but ensures embed)
+          if (window.Calendly && window.Calendly.initInlineWidgets) {
+            window.Calendly.initInlineWidgets();
+          }
+        } else {
+          calendlyArea.classList.remove('open');
+        }
+      });
+      // initially closed
+      calendlyArea.classList.remove('open');
+    }
+
+    function validateEmail(email) { return /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/.test(email); }
+    function validatePhone(phone) { return /^[0-9]{5,15}$/.test(phone); }
+    const emailInput = document.getElementById('emailInput');
+    const phoneInput = document.getElementById('phoneInput');
+    if(emailInput) emailInput.addEventListener('input',()=>{ const hint=document.getElementById('emailHint'); if(emailInput.value.trim() && !validateEmail(emailInput.value.trim())){ hint.textContent='✗ valid email needed'; hint.className='field-hint error'; } else if(validateEmail(emailInput.value.trim())){ hint.textContent='✓ ok'; hint.className='field-hint success'; } else hint.textContent=''; });
+    if(phoneInput) phoneInput.addEventListener('input',()=>{ const hint=document.getElementById('phoneHint'); const val=phoneInput.value.trim(); if(val && !validatePhone(val)){ hint.textContent='✗ 5-15 digits only'; hint.className='field-hint error'; } else if(validatePhone(val)){ hint.textContent='✓ valid'; hint.className='field-hint success'; } else hint.textContent=''; });
+
+    function validateStep1() { const checked = [...document.querySelectorAll('#step1 input[name="explore[]"]')].some(cb=>cb.checked); const err=document.getElementById('step1Error'); if(!checked){err.textContent='Select at least one region';err.classList.add('show');return false;} err.classList.remove('show'); return true; }
+    function validateStep2() { const checked = [...document.querySelectorAll('#step2 input[name="interests[]"]')].some(cb=>cb.checked); const err=document.getElementById('step2Error'); if(!checked){err.textContent='Select at least one interest';err.classList.add('show');return false;} err.classList.remove('show'); return true; }
+    function validateStep3() { const adults = parseInt(document.querySelector('input[name="adults"]').value)||0; const children=parseInt(document.querySelector('input[name="children"]').value)||0; const infants=parseInt(document.querySelector('input[name="infants"]').value)||0; const total=adults+children+infants; const err=document.getElementById('step3Error'); if(total===0){err.textContent='At least one traveler';err.classList.add('show');return false;} if(adults===0 && (children>0||infants>0)){err.textContent='Adults required with children';err.classList.add('show');return false;} err.classList.remove('show'); return true; }
+    function validateStep4() { const date=document.querySelector('input[name="arrival_date"]').value; const dur=parseInt(document.querySelector('input[name="duration_days"]').value)||0; const err=document.getElementById('step4Error'); if(!date){err.textContent='Arrival date required';err.classList.add('show');return false;} if(new Date(date) < new Date().setHours(0,0,0,0)){err.textContent='Date cannot be past';err.classList.add('show');return false;} if(dur<1){err.textContent='Minimum 1 day';err.classList.add('show');return false;} err.classList.remove('show'); return true; }
+    function validateStep5() { return true; }
+    function validateStep6() { const fname=document.querySelector('input[name="first_name"]').value.trim(); const lname=document.querySelector('input[name="last_name"]').value.trim(); const email=document.querySelector('input[name="email"]').value.trim(); const mobile=document.getElementById('phoneInput').value.trim(); const errDiv=document.getElementById('step6Error'); let errors=[]; if(!fname) errors.push('First name'); if(!lname) errors.push('Last name'); if(!email) errors.push('Email'); else if(!validateEmail(email)) errors.push('Valid email'); if(!mobile) errors.push('Mobile'); else if(!validatePhone(mobile)) errors.push('Valid phone'); if(errors.length){errDiv.textContent='Required: '+errors.join(', ');errDiv.classList.add('show');return false;} errDiv.classList.remove('show'); return true; }
+    function validateCurrent(){ if(currentStep===0) return validateStep1(); if(currentStep===1) return validateStep2(); if(currentStep===2) return validateStep3(); if(currentStep===3) return validateStep4(); if(currentStep===4) return validateStep5(); if(currentStep===5) return validateStep6(); return true; }
+
+    function updateDisplay() {
+      steps.forEach((step,i)=> i===currentStep ? step.classList.add('active-step') : step.classList.remove('active-step'));
+      progressItems.forEach((item,i)=> { item.classList.remove('active','completed'); if(i===currentStep) item.classList.add('active'); else if(i<currentStep) item.classList.add('completed'); });
+      if(stepImage) stepImage.setAttribute('data-step', currentStep+1);
+      if(imageCaption) imageCaption.textContent = captions[currentStep];
+      if(currentStep===totalSteps-1) { nextBtn.style.display='none'; submitBtn.style.display='inline-block'; } else { nextBtn.style.display='inline-block'; submitBtn.style.display='none'; }
+    }
+
+    function setupImageCards() {
+      document.querySelectorAll('.image-check-grid').forEach(grid=>{ grid.addEventListener('click',(e)=>{ const card=e.target.closest('.image-card'); if(card){ const cb=card.querySelector('input'); if(cb){ cb.checked=!cb.checked; if(cb.checked) card.classList.add('selected'); else card.classList.remove('selected'); } const errDiv=document.getElementById(`${card.closest('.form-step')?.id}Error`); if(errDiv) errDiv.classList.remove('show'); } }); });
+      document.querySelectorAll('.image-card').forEach(c=>{ if(c.querySelector('input:checked')) c.classList.add('selected'); });
+    }
+    function setupCounters() {
+      document.querySelectorAll('.counter-control').forEach(ctrl=>{ const inp=ctrl.querySelector('.counter-input'); const btns=ctrl.querySelectorAll('.counter-btn'); if(btns[0]) btns[0].addEventListener('click',()=>{ let val=parseInt(inp.value)||0; if(val>0) inp.value=val-1; const err=document.getElementById('step3Error'); if(err) err.classList.remove('show'); }); if(btns[1]) btns[1].addEventListener('click',()=>{ let val=parseInt(inp.value)||0; inp.value=val+1; const err=document.getElementById('step3Error'); if(err) err.classList.remove('show'); }); });
+    }
+    function setupSlider() { const slider=document.getElementById('budgetSlider'); if(slider){ const span=document.getElementById('budgetValue'); const hidden=document.getElementById('budgetFormatted'); slider.addEventListener('input',()=>{ let val=parseInt(slider.value); let f='$'+val.toLocaleString(); if(span) span.textContent=f; if(hidden) hidden.value=f; }); } }
+
+    nextBtn.addEventListener('click',(e)=>{ e.preventDefault(); if(!validateCurrent()){ const errDiv=document.getElementById(`step${currentStep+1}Error`); if(errDiv) errDiv.classList.add('shake'); setTimeout(()=>errDiv?.classList.remove('shake'),300); return; } if(currentStep<totalSteps-1){ currentStep++; updateDisplay(); if(currentStep===2) setupCounters(); if(currentStep===4) setupSlider(); if(currentStep===5 && videoCheckbox && calendlyArea && videoCheckbox.checked) calendlyArea.classList.add('open'); document.querySelector('.content-column')?.scrollTo({top:0,behavior:'smooth'}); } });
+    backBtn.addEventListener('click',(e)=>{ e.preventDefault(); if(currentStep>0){ currentStep--; updateDisplay(); if(currentStep===2) setupCounters(); if(currentStep===4) setupSlider(); document.querySelector('.content-column')?.scrollTo({top:0,behavior:'smooth'}); } });
+    document.getElementById('multiStepForm').addEventListener('submit',(e)=>{ if(currentStep!==totalSteps-1){ e.preventDefault(); currentStep=totalSteps-1; updateDisplay(); alert('Please complete final step details.'); return false; } if(!validateStep6()){ e.preventDefault(); const errDiv=document.getElementById('step6Error'); if(errDiv) errDiv.classList.add('shake'); return false; } alert(`Thank you! Your vintage journey request has been sent. ${videoCheckbox?.checked ? 'We received your Calendly preference — founder will connect shortly.' : 'Our team will reach out soon.'}`); return true; });
+    updateDisplay(); setupImageCards(); setupCounters(); setupSlider();
+  })();
+</script>
+</body>
+</html>

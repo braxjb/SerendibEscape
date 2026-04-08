@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Serendib Escape | Editorial Stories from Sri Lanka</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Mrs+Saint+Delafield&family=Montserrat:wght@300;400;500;600&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+</head>
+<body>
+
+<!-- ============================================ -->
+<!-- NAVIGATION BAR - SERENDIB ESCAPE -->
+<!-- ============================================ -->
+<header class="site-header" id="siteHeader">
+    <div class="header-inner">
+        <!-- Logo with Image and Text -->
+        <a href="index.html" class="logo-wrapper">
+            <div class="logo-container">
+                <img src="images/WhatsApp_Image_2026-02-11_at_09.02.53-removebg-preview.png" alt="Serendib Escape Logo" class="logo-img">
+                <div class="logo-text">
+                    <span class="logo-primary">SERENDIB</span>
+                    <span class="logo-accent">ESCAPE</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Desktop Navigation Menu -->
+        <nav class="nav-links" aria-label="Main Navigation">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="destinations.html" class="nav-link">Destinations</a>
+            <a href="itineraries.html" class="nav-link">Itineraries</a>
+            <a href="experiences.html" class="nav-link">Experiences</a>
+            <a href="articles.html" class="nav-link">Journal</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="contact.html" class="nav-link btn-inquire">Inquire</a>
+        </nav>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu" aria-expanded="false">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+    </div>
+</header>
+
+<!-- Mobile Menu Overlay - Moved outside header for proper z-index -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <div class="mobile-menu-container">
+        <div class="mobile-menu-header">
+            <div class="mobile-logo">
+                <img src="images/WhatsApp_Image_2026-02-11_at_09.02.53-removebg-preview.png" alt="Serendib Escape Logo" class="mobile-logo-img">
+                <div class="mobile-logo-text">
+                    <span class="mobile-logo-primary">SERENDIB</span>
+                    <span class="mobile-logo-accent">ESCAPE</span>
+                </div>
+            </div>
+            <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close Menu">✕</button>
+        </div>
+        <ul class="mobile-nav-menu">
+            <li><a href="index.html" class="mobile-nav-link">Home</a></li>
+            <li><a href="destinations.html" class="mobile-nav-link">Destinations</a></li>
+            <li><a href="itineraries.html" class="mobile-nav-link">Itineraries</a></li>
+            <li><a href="experiences.html" class="mobile-nav-link">Experiences</a></li>
+            <li><a href="journal.html" class="mobile-nav-link">Journal</a></li>
+            <li><a href="about.html" class="mobile-nav-link">About</a></li>
+            <li><a href="contact.html" class="mobile-nav-link mobile-inquire">Inquire Now</a></li>
+        </ul>
+        <div class="mobile-menu-footer">
+            <div class="mobile-social">
+                <a href="#" class="mobile-social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="mobile-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="mobile-social-link" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+            </div>
+            <p class="mobile-menu-tagline">Your Luxury Sri Lanka Experience</p>
+        </div>
+    </div>
+</div>
+<main>
+    <!-- Editorial Hero Section -->
+    <section class="editorial-hero">
+        <div class="hero-background">
+            <img src="images/red-mosque.jpg" alt="Red Mosque Colombo, Sri Lanka">
+        </div>
+        <div class="hero-container">
+            <div class="hero-kicker" id="heroKicker">The Art of Discovery</div>
+            <h1 class="hero-headline" id="heroHeadline">
+                Where stories<br>
+                become <span class="italic">journeys</span>
+            </h1>
+            <p class="hero-description" id="heroDescription">
+                Beyond the guidebooks lies a Sri Lanka waiting to be felt, not just seen. 
+                We craft experiences that linger long after you've returned home.
+            </p>
+            <div class="hero-buttons" id="heroButtons">
+                <a href="booking.html" class="btn-primary">
+                    Begin your story
+                    <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+                <a href="itineraries.html" class="btn-secondary">
+                    Explore itineraries
+                    <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Editorial Masonry Section -->
+    <section class="section">
+        <div class="container">
+            <div class="left" id="leftContent">
+                <div class="script">Tailor-made private tours</div>
+                <div class="headline">
+                    We create deeply personalised itineraries for curious minds... true luxury is about time well spent.
+                </div>
+                <div class="divider"></div>
+                <a href="about.html" class="luxury-btn">
+                    <span>Our vision</span>
+                    <div class="arrow-icon">
+                        <svg class="dashed-circle" viewBox="0 0 40 40">
+                            <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 3"/>
+                        </svg>
+                        <svg class="arrow-svg" viewBox="0 0 24 24" fill="none">
+                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </a>
+            </div>
+
+            <div class="masonry-wrapper">
+                <div class="grid" id="grid">
+                    <div class="card"><img src="https://images.pexels.com/photos/2802294/pexels-photo-2802294.jpeg?auto=compress&cs=tinysrgb&w=800&h=1067&fit=crop" alt="Private heritage stays"><div class="overlay">Private heritage stays</div></div>
+                    <div class="card"><img src="https://images.pexels.com/photos/2732521/pexels-photo-2732521.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Artisan craftsmanship"><div class="overlay">Artisan craftsmanship</div></div>
+                    <div class="card"><img src="https://images.pexels.com/photos/2903860/pexels-photo-2903860.jpeg?auto=compress&cs=tinysrgb&w=900&h=675&fit=crop" alt="Tea country escapes"><div class="overlay">Tea country escapes</div></div>
+                    <div class="card"><img src="https://images.pexels.com/photos/3810794/pexels-photo-3810794.jpeg?auto=compress&cs=tinysrgb&w=800&h=1067&fit=crop" alt="Guided cultural journeys"><div class="overlay">Guided cultural journeys</div></div>
+                    <div class="card"><img src="https://images.pexels.com/photos/1154638/pexels-photo-1154638.jpeg?auto=compress&cs=tinysrgb&w=900&h=620&fit=crop" alt="Private villas"><div class="overlay">Private villas</div></div>
+                    <div class="card"><img src="https://images.pexels.com/photos/4045581/pexels-photo-4045581.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Local flavours"><div class="overlay">Local flavours</div></div>
+                    <div class="card"><img src="https://images.pexels.com/photos/3764649/pexels-photo-3764649.jpeg?auto=compress&cs=tinysrgb&w=800&h=1000&fit=crop" alt="Luxury safaris"><div class="overlay">Luxury safaris</div></div>
+                    <div class="card"><img src="https://images.pexels.com/photos/417344/pexels-photo-417344.jpeg?auto=compress&cs=tinysrgb&w=900&h=640&fit=crop" alt="Ancient wonders"><div class="overlay">Ancient wonders</div></div>
+                    <div class="card"><img src="https://images.pexels.com/photos/2214578/pexels-photo-2214578.jpeg?auto=compress&cs=tinysrgb&w=900&h=600&fit=crop" alt="Mountain retreat"><div class="overlay">Mountain retreats</div></div>
+                    <div class="card"><img src="https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Beachfront luxury"><div class="overlay">Beachfront luxury</div></div>
+                    <div class="card"><img src="https://images.pexels.com/photos/2802294/pexels-photo-2802294.jpeg?auto=compress&cs=tinysrgb&w=800&h=1067&fit=crop" alt="Private heritage stays"><div class="overlay">Private heritage stays</div></div>
+                    <div class="card"><img src="https://images.pexels.com/photos/2732521/pexels-photo-2732521.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Artisan craftsmanship"><div class="overlay">Artisan craftsmanship</div></div>
+                </div>
+            </div>
+
+            <div class="mobile-carousel" id="mobileCarousel">
+                <div class="carousel-container">
+                    <div class="carousel-track" id="carouselTrack">
+                        <div class="carousel-slide"><img src="https://images.pexels.com/photos/2802294/pexels-photo-2802294.jpeg?auto=compress&cs=tinysrgb&w=800&h=1000&fit=crop" alt="Private heritage stays"><div class="carousel-caption">Private heritage stays</div></div>
+                        <div class="carousel-slide"><img src="https://images.pexels.com/photos/2732521/pexels-photo-2732521.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Artisan craftsmanship"><div class="carousel-caption">Artisan craftsmanship</div></div>
+                        <div class="carousel-slide"><img src="https://images.pexels.com/photos/2903860/pexels-photo-2903860.jpeg?auto=compress&cs=tinysrgb&w=900&h=675&fit=crop" alt="Tea country escapes"><div class="carousel-caption">Tea country escapes</div></div>
+                        <div class="carousel-slide"><img src="https://images.pexels.com/photos/3810794/pexels-photo-3810794.jpeg?auto=compress&cs=tinysrgb&w=800&h=1067&fit=crop" alt="Guided cultural journeys"><div class="carousel-caption">Guided cultural journeys</div></div>
+                    </div>
+                </div>
+                <div class="carousel-arrow carousel-arrow-left" id="carouselPrev">‹</div>
+                <div class="carousel-arrow carousel-arrow-right" id="carouselNext">›</div>
+                <div class="carousel-nav" id="carouselDots"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Destinations Section -->
+    <section class="featured-destinations-section" aria-label="Featured Destinations">
+        <div class="featured-container">
+            <div class="featured-micro-text" id="featuredMicro">
+                <span class="micro-script">Get inspired</span>
+            </div>
+            <h2 class="featured-headline" id="featuredHeadline">
+                Swap the guidebook<br>
+                for <span class="highlight-italic">a good story</span>
+            </h2>
+            <p class="featured-description" id="featuredDescription">
+                Beyond the pages of any guide lies a world waiting to be felt, not just read. 
+                Let the rhythm of local life, the taste of authentic flavours, and the warmth 
+                of genuine connections become the chapters of your own Sri Lankan story. 
+                Here, every moment is written by you.
+            </p>
+            <div class="featured-grid">
+                <a href="itinerary.html?slug=coastal-cultural" class="featured-card">
+                    <div class="featured-image-wrapper">
+                        <img src="https://images.pexels.com/photos/2802294/pexels-photo-2802294.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Galle Fort architecture" class="featured-image">
+                        <div class="image-overlay"></div>
+                    </div>
+                    <div class="featured-card-content">
+                        <span class="card-location">Galle Fort</span>
+                        <h3 class="featured-card-title">Colonial Elegance</h3>
+                        <p class="featured-card-description">Dutch-colonial architecture, cobblestone streets, and stories carved into every wall.</p>
+                        <span class="card-link">Discover Galle →</span>
+                    </div>
+                </a>
+                <a href="itinerary.html?slug=cultural-immersion" class="featured-card">
+                    <div class="featured-image-wrapper">
+                        <img src="https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Kandy temple" class="featured-image">
+                        <div class="image-overlay"></div>
+                    </div>
+                    <div class="featured-card-content">
+                        <span class="card-location">Kandy</span>
+                        <h3 class="featured-card-title">Sacred City</h3>
+                        <p class="featured-card-description">Home to the Temple of the Tooth, ancient rituals, and living Buddhist traditions.</p>
+                        <span class="card-link">Explore Kandy →</span>
+                    </div>
+                </a>
+                <a href="itinerary.html?slug=hill-country-escape" class="featured-card">
+                    <div class="featured-image-wrapper">
+                        <img src="https://images.pexels.com/photos/1461282/pexels-photo-1461282.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Ella tea plantations" class="featured-image">
+                        <div class="image-overlay"></div>
+                    </div>
+                    <div class="featured-card-content">
+                        <span class="card-location">Ella & Hill Country</span>
+                        <h3 class="featured-card-title">Where Mist Meets Tea</h3>
+                        <p class="featured-card-description">Rolling hills, emerald plantations, and views that stretch to the horizon.</p>
+                        <span class="card-link">Journey to Ella →</span>
+                    </div>
+                </a>
+                <a href="itinerary.html?slug=wildlife-safari" class="featured-card">
+                    <div class="featured-image-wrapper">
+                        <img src="https://images.pexels.com/photos/247502/pexels-photo-247502.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Yala elephant" class="featured-image">
+                        <div class="image-overlay"></div>
+                    </div>
+                    <div class="featured-card-content">
+                        <span class="card-location">Yala National Park</span>
+                        <h3 class="featured-card-title">Wild Encounters</h3>
+                        <p class="featured-card-description">Leopards, elephants, and untamed beauty in Sri Lanka's premier wildlife sanctuary.</p>
+                        <span class="card-link">Plan Safari →</span>
+                    </div>
+                </a>
+                <a href="itinerary.html?slug=beach-retreat" class="featured-card">
+                    <div class="featured-image-wrapper">
+                        <img src="https://images.pexels.com/photos/2867380/pexels-photo-2867380.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Mirissa beach" class="featured-image">
+                        <div class="image-overlay"></div>
+                    </div>
+                    <div class="featured-card-content">
+                        <span class="card-location">Mirissa</span>
+                        <h3 class="featured-card-title">Coastal Serenity</h3>
+                        <p class="featured-card-description">Golden sands, turquoise waters, and the rhythm of the Indian Ocean.</p>
+                        <span class="card-link">Discover Beaches →</span>
+                    </div>
+                </a>
+                <a href="itinerary.html?slug=heritage-trail" class="featured-card">
+                    <div class="featured-image-wrapper">
+                        <img src="https://images.pexels.com/photos/2245436/pexels-photo-2245436.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Sigiriya rock fortress" class="featured-image">
+                        <div class="image-overlay"></div>
+                    </div>
+                    <div class="featured-card-content">
+                        <span class="card-location">Sigiriya</span>
+                        <h3 class="featured-card-title">The Lion's Rock</h3>
+                        <p class="featured-card-description">Ancient fortress, frescoes, and panoramic views from a UNESCO wonder.</p>
+                        <span class="card-link">Climb Sigiriya →</span>
+                    </div>
+                </a>
+            </div>
+            <div class="button-container" id="buttonContainer">
+                <a href="itineraries.html" class="more-itineraries-btn">
+                    <span>More Itineraries</span>
+                    <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section class="events-split-section" aria-label="Upcoming Events">
+        <div class="events-split-container">
+            <div class="events-grid-left" id="alternatingGrid">
+                <div class="grid-square square-1" id="square1">
+                    <div class="pattern-content pattern-1-content">
+                        <span class="pattern-icon">✦</span>
+                        <span class="pattern-text">Moments that linger</span>
+                    </div>
+                    <div class="event-mini-card overlay-card" style="display: none;">
+                        <div class="event-mini-image">
+                            <img src="https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=500&h=600&fit=crop" alt="Esala Perahera">
+                            <div class="event-mini-date">
+                                <span class="mini-month">AUG</span>
+                                <span class="mini-day">15-25</span>
+                            </div>
+                        </div>
+                        <div class="overlay-content">
+                            <span class="mini-location">Kandy</span>
+                            <h4 class="mini-title">Esala Perahera</h4>
+                            <p class="mini-description">Sacred elephant procession, traditional dancers, ancient rituals</p>
+                            <a href="#" class="mini-link">Discover →</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid-square square-2" id="square2">
+                    <div class="pattern-content pattern-2-content">
+                        <span class="pattern-icon">✨</span>
+                        <span class="pattern-text">Sacred traditions</span>
+                    </div>
+                    <div class="event-mini-card overlay-card" style="display: none;">
+                        <div class="event-mini-image">
+                            <img src="https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=500&h=600&fit=crop" alt="Esala Perahera">
+                            <div class="event-mini-date">
+                                <span class="mini-month">AUG</span>
+                                <span class="mini-day">15-25</span>
+                            </div>
+                        </div>
+                        <div class="overlay-content">
+                            <span class="mini-location">Kandy</span>
+                            <h4 class="mini-title">Esala Perahera</h4>
+                            <p class="mini-description">Sacred elephant procession, traditional dancers, ancient rituals</p>
+                            <a href="#" class="mini-link">Discover →</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid-square square-3" id="square3">
+                    <div class="pattern-content pattern-3-content">
+                        <span class="pattern-icon">🍃</span>
+                        <span class="pattern-text">Harvest rituals</span>
+                    </div>
+                    <div class="event-mini-card overlay-card" style="display: none;">
+                        <div class="event-mini-image">
+                            <img src="https://images.pexels.com/photos/1461282/pexels-photo-1461282.jpeg?auto=compress&cs=tinysrgb&w=500&h=600&fit=crop" alt="Tea Harvest">
+                            <div class="event-mini-date">
+                                <span class="mini-month">SEP</span>
+                                <span class="mini-day">12-18</span>
+                            </div>
+                        </div>
+                        <div class="overlay-content">
+                            <span class="mini-location">Nuwara Eliya</span>
+                            <h4 class="mini-title">Tea Harvest & Wellness</h4>
+                            <p class="mini-description">Misty hills, colonial bungalows, daily wellness practices</p>
+                            <a href="#" class="mini-link">Reserve →</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid-square square-4" id="square4">
+                    <div class="pattern-content pattern-4-content">
+                        <span class="pattern-icon">∞</span>
+                        <span class="pattern-text">Endless discovery</span>
+                    </div>
+                    <div class="event-mini-card overlay-card" style="display: none;">
+                        <div class="event-mini-image">
+                            <img src="https://images.pexels.com/photos/2867380/pexels-photo-2867380.jpeg?auto=compress&cs=tinysrgb&w=500&h=600&fit=crop" alt="Whale Watching">
+                            <div class="event-mini-date">
+                                <span class="mini-month">OCT</span>
+                                <span class="mini-day">05-10</span>
+                            </div>
+                        </div>
+                        <div class="overlay-content">
+                            <span class="mini-location">Mirissa</span>
+                            <h4 class="mini-title">Blue Whale Expedition</h4>
+                            <p class="mini-description">Private charter, marine biologists, ocean encounters</p>
+                            <a href="#" class="mini-link">Book →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="events-content-right">
+                <div class="events-content-inner">
+                    <span class="events-script">Mark your calendar</span>
+                    <h2 class="events-headline">
+                        Where culture <span class="italic">comes alive</span>
+                    </h2>
+                    <div class="events-divider"></div>
+                    <p class="events-text">
+                        From sacred processions to intimate retreats, our curated events offer 
+                        rare access to Sri Lanka's most extraordinary moments.
+                    </p>
+                    <p class="events-text">
+                        Limited to small groups, these journeys unfold at the intersection of 
+                        tradition, nature, and authentic connection.
+                    </p>
+                    <div class="events-features">
+                        <div class="events-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Private access & guides</span>
+                        </div>
+                        <div class="events-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Small group intimacy</span>
+                        </div>
+                        <div class="events-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Curated cultural moments</span>
+                        </div>
+                        <div class="events-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Expert local hosts</span>
+                        </div>
+                    </div>
+                    <a href="#" class="events-btn">
+                        <span>View all events</span>
+                        <div class="arrow-icon">
+                            <div class="dashed-circle"></div>
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <div class="testimonials-container">
+            <div class="testimonials-header">
+                <span class="testimonials-script">What our travellers say</span>
+                <h2 class="testimonials-title">Stories that <span class="italic">inspire</span></h2>
+                <div class="testimonials-divider"></div>
+                <p class="testimonials-subtitle">
+                    Real experiences from those who've journeyed with us. Each story is a testament 
+                    to the moments that linger long after the journey ends.
+                </p>
+            </div>
+            <div class="testimonials-carousel" id="testimonialsCarousel">
+                <div class="testimonial-left">
+                    <div class="testimonial-quote-mark">"</div>
+                    <div class="testimonial-text" id="testimonialText">Loading...</div>
+                    <div class="testimonial-attribution">
+                        <div class="testimonial-name" id="testimonialName"></div>
+                        <div class="testimonial-location" id="testimonialLocation"></div>
+                        <div class="testimonial-platform">
+                            <span class="platform-badge" id="testimonialPlatform"></span>
+                        </div>
+                    </div>
+                    <div class="carousel-controls">
+                        <button class="carousel-prev" id="prevTestimonial">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="15 18 9 12 15 6"></polyline>
+                            </svg>
+                        </button>
+                        <div class="carousel-dots" id="carouselDots"></div>
+                        <button class="carousel-next" id="nextTestimonial">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="testimonial-right">
+                    <div class="testimonial-image-wrapper">
+                        <img src="https://images.pexels.com/photos/2245436/pexels-photo-2245436.jpeg?auto=compress&cs=tinysrgb&w=800" 
+                             alt="Traveler enjoying Sri Lanka" 
+                             class="testimonial-image" 
+                             id="testimonialImage">
+                        <div class="image-accent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Articles Section -->
+    <section class="featured-articles-section" aria-label="Latest Stories">
+        <div class="featured-articles-container">
+            <div class="articles-header">
+                <span class="articles-script">From the journal</span>
+                <h2 class="articles-title">Stories that <span class="italic">inspire</span></h2>
+                <div class="articles-divider"></div>
+                <p class="articles-subtitle">
+                    Insights, interviews, and inspiration from the heart of Sri Lanka. 
+                    Written by locals, for the curious traveller.
+                </p>
+            </div>
+            <div class="articles-layout desktop-layout">
+                <a href="article.html?slug=the-sacred-city-of-kandy" class="featured-article-card">
+                    <div class="featured-article-image">
+                        <img src="https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=800&h=1000&fit=crop" alt="Kandy Temple">
+                    </div>
+                    <div class="featured-article-content">
+                        <span class="featured-article-category">Culture & Heritage</span>
+                        <h3 class="featured-article-title">The Sacred City of Kandy: Where Tradition Meets Tranquility</h3>
+                        <p class="featured-article-excerpt">Discover the spiritual heart of Sri Lanka, where ancient rituals and the Temple of the Tooth create an atmosphere unlike anywhere else.</p>
+                        <div class="featured-article-meta">
+                            <span>📅 March 15, 2025</span>
+                            <span>⏱ 8 min read</span>
+                        </div>
+                        <span class="featured-article-btn">Read Article →</span>
+                    </div>
+                </a>
+                <div class="articles-grid-right">
+                    <a href="article.html?slug=guide-to-sri-lanka-wildlife-safaris" class="article-card-small">
+                        <div class="article-small-image">
+                            <img src="https://images.pexels.com/photos/247502/pexels-photo-247502.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop" alt="Wildlife Safari">
+                        </div>
+                        <div class="article-small-content">
+                            <span class="article-small-category">Wildlife & Nature</span>
+                            <h4 class="article-small-title">A Guide to Sri Lanka's Best Wildlife Safaris</h4>
+                            <p class="article-small-excerpt">From leopards in Yala to elephants in Udawalawe, discover the best places to witness Sri Lanka's incredible biodiversity.</p>
+                            <div class="article-small-meta">
+                                <span>📅 March 10, 2025</span>
+                                <span>⏱ 6 min read</span>
+                            </div>
+                            <span class="article-small-link">Read Article →</span>
+                        </div>
+                    </a>
+                    <a href="article.html?slug=flavours-of-jaffna-culinary-journey" class="article-card-small">
+                        <div class="article-small-image">
+                            <img src="https://images.pexels.com/photos/4045581/pexels-photo-4045581.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop" alt="Jaffna Cuisine">
+                        </div>
+                        <div class="article-small-content">
+                            <span class="article-small-category">Food & Culinary</span>
+                            <h4 class="article-small-title">The Flavours of Jaffna: A Culinary Journey</h4>
+                            <p class="article-small-excerpt">Explore the unique Tamil cuisine of Northern Sri Lanka, from crab curry to traditional sweets.</p>
+                            <div class="article-small-meta">
+                                <span>📅 March 5, 2025</span>
+                                <span>⏱ 7 min read</span>
+                            </div>
+                            <span class="article-small-link">Read Article →</span>
+                        </div>
+                    </a>
+                    <a href="article.html?slug=hidden-beaches-sri-lanka" class="article-card-small">
+                        <div class="article-small-image">
+                            <img src="https://images.pexels.com/photos/2867380/pexels-photo-2867380.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop" alt="Hidden Beach">
+                        </div>
+                        <div class="article-small-content">
+                            <span class="article-small-category">Travel Tips</span>
+                            <h4 class="article-small-title">5 Hidden Beaches You Won't Find in Guidebooks</h4>
+                            <p class="article-small-excerpt">Escape the crowds and discover secluded coastal gems along Sri Lanka's southern and eastern shores.</p>
+                            <div class="article-small-meta">
+                                <span>📅 February 28, 2025</span>
+                                <span>⏱ 5 min read</span>
+                            </div>
+                            <span class="article-small-link">Read Article →</span>
+                        </div>
+                    </a>
+                    <a href="article.html?slug=art-of-ceylon-tea" class="article-card-small">
+                        <div class="article-small-image">
+                            <img src="https://images.pexels.com/photos/1461282/pexels-photo-1461282.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop" alt="Ceylon Tea">
+                        </div>
+                        <div class="article-small-content">
+                            <span class="article-small-category">Culture & Heritage</span>
+                            <h4 class="article-small-title">The Art of Ceylon Tea: From Leaf to Cup</h4>
+                            <p class="article-small-excerpt">Visit the misty tea plantations of Nuwara Eliya and learn about the centuries-old tradition of Ceylon tea.</p>
+                            <div class="article-small-meta">
+                                <span>📅 February 22, 2025</span>
+                                <span>⏱ 6 min read</span>
+                            </div>
+                            <span class="article-small-link">Read Article →</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="mobile-carousel-wrapper">
+                <div class="mobile-carousel-track" id="mobileCarouselTrack">
+                    <!-- Mobile carousel content (same as desktop articles) -->
+                </div>
+                <div class="carousel-scroll-hint">
+                    <span>← Swipe to explore →</span>
+                </div>
+            </div>
+            <div class="articles-button-container">
+                <a href="journal.html" class="view-all-articles-btn">
+                    <span>View all articles</span>
+                    <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+<!-- ============================================ -->
+<!-- FOUNDER'S STATEMENT SECTION - SERENDIB ESCAPE -->
+<!-- ============================================ -->
+<section class="founder-statement" aria-label="Founder's Statement">
+    <div class="statement-container">
+        <div class="statement-quote">"</div>
+        <p class="statement-text">To me, the 'Sri Lankan smile' isn't just a greeting; it's a standard of warmth that no algorithm can replicate. My journey with Serendib Escape began with a simple realization: the most profound luxury isn't found in a price tag, but in the personal perspective of someone who knows where the island's heart beats.</p>
+        <div class="statement-author">—Jonathan De Kauwe </div>
+        <div class="statement-title">Founder & Storyteller</div>
+        <div class="statement-signature">Serendib Escape</div>
+    </div>
+</section>
+
+    <!-- ============================================ -->
+<!-- WHY CHOOSE US - USP SECTION (UPDATED) -->
+<!-- ============================================ -->
+<section class="why-choose-us-section" aria-label="Why Choose Serendib Escape">
+    <div class="why-choose-us-container">
+        <!-- Left Column: Text Content -->
+        <div class="why-left">
+            <span class="why-script">The Serendib difference</span>
+            <h2 class="why-title">Why travel <span class="italic">with us</span></h2>
+            <div class="why-divider"></div>
+            <p class="why-subtitle">We don't just plan trips — we craft journeys that stay with you long after you've returned home.</p>
+            <p class="why-description">With over a decade of experience, deep local roots, and a passion for authentic discovery, we create experiences that go beyond the guidebook. Every journey is a reflection of you.</p>
+        </div>
+
+        <!-- Right Column: Grid 3 Columns x 2 Rows -->
+        <div class="why-grid">
+            
+            <!-- Card 1 -->
+            <div class="why-card">
+                <div class="card-front">
+                    <h3 class="card-title">Designed by Locals</h3>
+                    <div class="card-number">01</div>
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                            <path d="M12 2L15 8L22 9L17 14L18 21L12 17L6 21L7 14L2 9L9 8L12 2Z" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="card-hover">
+                    <p class="card-hover-text">Our team is 100% Sri Lankan-based, with generations of knowledge and deep-rooted connections across the island. We don't just visit — we belong here.</p>
+                </div>
+            </div>
+            
+            <!-- Card 2 -->
+            <div class="why-card">
+                <div class="card-front">
+                    <h3 class="card-title">Ultra Personalised</h3>
+                    <div class="card-number">02</div>
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                            <circle cx="12" cy="8" r="4" stroke-linecap="round"/>
+                            <path d="M5.5 20c.9-3 4.1-4 6.5-4s5.6 1 6.5 4" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="card-hover">
+                    <p class="card-hover-text">Every itinerary is built from scratch around your interests, pace, and travel style. No two journeys are the same — because no two travellers are the same.</p>
+                </div>
+            </div>
+            
+            <!-- Card 3 -->
+            <div class="why-card">
+                <div class="card-front">
+                    <h3 class="card-title">24/7 On-Ground Support</h3>
+                    <div class="card-number">03</div>
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+                            <path d="M12 6v6l4 2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="card-hover">
+                    <p class="card-hover-text">From the moment you land until your departure, our team is available around the clock to assist you — because peace of mind is the foundation of a great journey.</p>
+                </div>
+            </div>
+            
+            <!-- Card 4 -->
+            <div class="why-card">
+                <div class="card-front">
+                    <h3 class="card-title">Curated Stays</h3>
+                    <div class="card-number">04</div>
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <path d="M9 22V12h6v10" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="card-hover">
+                    <p class="card-hover-text">Hand-picked accommodations — from heritage bungalows to boutique villas — chosen for character, comfort, and authenticity. Each stay tells a story.</p>
+                </div>
+            </div>
+            
+            <!-- Card 5 -->
+            <div class="why-card">
+                <div class="card-front">
+                    <h3 class="card-title">Sustainable Tourism</h3>
+                    <div class="card-number">05</div>
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                            <path d="M12 3v1M18.66 5.34l-.83.83M21 12h-1M18.66 18.66l-.83-.83M12 21v-1M5.34 18.66l.83-.83M3 12h1M5.34 5.34l.83.83"/>
+                            <circle cx="12" cy="12" r="4"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="card-hover">
+                    <p class="card-hover-text">We partner with eco-conscious hotels, support local communities, and ensure your journey leaves a positive impact on the places and people you visit.</p>
+                </div>
+            </div>
+            
+            <!-- Card 6 -->
+            <div class="why-card">
+                <div class="card-front">
+                    <h3 class="card-title">Expert Storytellers</h3>
+                    <div class="card-number">06</div>
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke-linecap="round"/>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="card-hover">
+                    <p class="card-hover-text">Our guides aren't just drivers — they're storytellers, historians, and passionate locals who bring Sri Lanka to life through their eyes and experiences.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- HOW IT WORKS SECTION - TEXT RIGHT, CARDS LEFT -->
+<!-- ============================================ -->
+<section class="how-it-works-section" aria-label="How It Works">
+    <div class="how-it-works-container">
+        <!-- Left Column: Grid 3 Columns x 2 Rows (Cards) -->
+        <div class="how-grid">
+            
+            <!-- Card 1: Our Conversation -->
+            <div class="how-card">
+                <div class="card-front">
+                    <h3 class="card-title">Our Conversation</h3>
+                    <div class="card-number">01</div>
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="card-hover">
+                    <p class="card-hover-text">A deep dive into your travel style, interests, and dreams. We listen, learn, and understand what makes your perfect journey.</p>
+                </div>
+            </div>
+            
+            <!-- Card 2: Itinerary Planning -->
+            <div class="how-card">
+                <div class="card-front">
+                    <h3 class="card-title">Itinerary Planning</h3>
+                    <div class="card-number">02</div>
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                    </div>
+                </div>
+                <div class="card-hover">
+                    <p class="card-hover-text">Our experts craft a bespoke itinerary tailored just for you, with hand-picked accommodations, experiences, and insider tips.</p>
+                </div>
+            </div>
+            
+            <!-- Card 3: Place a Deposit -->
+            <div class="how-card">
+                <div class="card-front">
+                    <h3 class="card-title">Place a Deposit</h3>
+                    <div class="card-number">03</div>
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                            <line x1="1" y1="10" x2="23" y2="10"></line>
+                        </svg>
+                    </div>
+                </div>
+                <div class="card-hover">
+                    <p class="card-hover-text">Secure your dates with a flexible deposit. Balance due before travel — with flexible payment options available.</p>
+                </div>
+            </div>
+            
+            <!-- Card 4: Final Documents & Tips -->
+            <div class="how-card">
+                <div class="card-front">
+                    <h3 class="card-title">Final Documents & Tips</h3>
+                    <div class="card-number">04</div>
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </div>
+                </div>
+                <div class="card-hover">
+                    <p class="card-hover-text">Receive your detailed itinerary, travel app access, and insider tips from our local specialists.</p>
+                </div>
+            </div>
+            
+            <!-- Card 5: Travel with Confidence -->
+            <div class="how-card">
+                <div class="card-front">
+                    <h3 class="card-title">Travel with Confidence</h3>
+                    <div class="card-number">05</div>
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+                            <path d="M12 6v6l4 2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="card-hover">
+                    <p class="card-hover-text">Enjoy 24/7 on-ground support throughout your journey. We're just a call away, whenever you need us.</p>
+                </div>
+            </div>
+            
+            <!-- Card 6: Return Inspired -->
+            <div class="how-card">
+                <div class="card-front">
+                    <h3 class="card-title">Return Inspired</h3>
+                    <div class="card-number">06</div>
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </div>
+                </div>
+                <div class="card-hover">
+                    <p class="card-hover-text">Come home with stories to share — and we'll already be dreaming up your next adventure with you.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Text Content -->
+        <div class="how-right">
+            <span class="how-script">Simple & transparent</span>
+            <h2 class="how-title">How it <span class="italic">works</span></h2>
+            <div class="how-divider"></div>
+            <p class="how-subtitle">From first enquiry to unforgettable journey — we make the process effortless.</p>
+            <p class="how-description">No templates, no pressure. Just a genuine conversation about what you love, followed by a meticulously crafted itinerary. We handle every detail, so you can focus on the experience.</p>
+            <a href="booking.html" class="how-cta-btn" id="howCtaBtn">
+                <span>Start planning</span>
+                <div class="arrow-icon">
+                    <div class="dashed-circle"></div>
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+    <!-- Footer -->
+    <footer class="vintage-footer">
+        <div class="footer-container">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="footer-logo-wrapper">
+                        <img src="images/WhatsApp_Image_2026-02-11_at_09.02.53-removebg-preview.png" alt="Serendib Escape Logo" class="logo-img" alt="Serendib Escape Logo" class="footer-logo-img">
+                        <div class="footer-logo-text">
+                            <span class="logo-primary">SERENDIB</span>
+                            <span class="logo-accent">ESCAPE</span>
+                        </div>
+                    </div>
+                    <p class="footer-tagline">
+                        Curating extraordinary journeys through Sri Lanka's most breathtaking destinations. 
+                        Experience luxury, authenticity, and unparalleled service.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <circle cx="12" cy="12" r="4.5"></circle>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Pinterest">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M8 21.1c-.4-2.1-.6-4.2 0-6.2.9-2.9 1.5-5.9 2.4-8.8"></path>
+                                <path d="M12 12c-2.8 0-4 1.8-4 4 0 2.6 1.5 4 4 4 3.5 0 5-2.8 5-5.5 0-3-1.9-5.5-4.5-5.5-2.5 0-4 1.8-4 3.5"></path>
+                                <circle cx="12" cy="12" r="10"></circle>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-links-group">
+                    <h4 class="footer-heading">Explore</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Destinations</a></li>
+                        <li><a href="#">Itineraries</a></li>
+                        <li><a href="#">Experiences</a></li>
+                        <li><a href="#">Journal</a></li>
+                        <li><a href="#">Travel Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-group">
+                    <h4 class="footer-heading">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href=about.html">About Us</a></li>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-group">
+                    <h4 class="footer-heading">Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Booking Conditions</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">Accessibility</a></li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h4 class="footer-heading">Stay Inspired</h4>
+                    <p class="newsletter-text">Receive exclusive travel insights, special offers, and destination guides.</p>
+                    <form class="newsletter-form" action="#" method="POST">
+                        <input type="email" placeholder="Your email address" aria-label="Email address">
+                        <button type="submit" aria-label="Subscribe">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </button>
+                    </form>
+                    <div class="trust-badges">
+                        <div class="trust-badge">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 2L15 8L22 9L17 14L18 21L12 17L6 21L7 14L2 9L9 8L12 2Z"></path>
+                            </svg>
+                            <span>ABTA Protected</span>
+                        </div>
+                        <div class="trust-badge">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 2L15 8L22 9L17 14L18 21L12 17L6 21L7 14L2 9L9 8L12 2Z"></path>
+                            </svg>
+                            <span>ATOL Bonded</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    <p>&copy; <span id="currentYear"></span> Serendib Escape — Tailor-Made Sri Lanka Journeys. All rights reserved.</p>
+                </div>
+                <div class="footer-payment">
+                    <span>We Accept</span>
+                    <div class="payment-icons">
+                        <svg width="32" height="20" viewBox="0 0 38 24" fill="none">
+                            <rect x="0.5" y="0.5" width="37" height="23" rx="2.5" fill="white" stroke="#E0E0E0"/>
+                            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#1A1A1A" font-size="10" font-family="monospace">VISA</text>
+                        </svg>
+                        <svg width="32" height="20" viewBox="0 0 38 24" fill="none">
+                            <rect x="0.5" y="0.5" width="37" height="23" rx="2.5" fill="white" stroke="#E0E0E0"/>
+                            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#1A1A1A" font-size="8" font-family="monospace">MC</text>
+                        </svg>
+                        <svg width="32" height="20" viewBox="0 0 38 24" fill="none">
+                            <rect x="0.5" y="0.5" width="37" height="23" rx="2.5" fill="white" stroke="#E0E0E0"/>
+                            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#1A1A1A" font-size="8" font-family="monospace">AMEX</text>
+                        </svg>
+                        <svg width="32" height="20" viewBox="0 0 38 24" fill="none">
+                            <rect x="0.5" y="0.5" width="37" height="23" rx="2.5" fill="white" stroke="#E0E0E0"/>
+                            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#1A1A1A" font-size="8" font-family="monospace">PAYPAL</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</main>
+
+<!-- JavaScript Files -->
+<script src="js/script.js"></script>
+<script src="js/header.js"></script>
+<script src="js/footer.js"></script>
+
+</body>
+</html>

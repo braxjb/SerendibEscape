@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Serendib Escape | Editorial Stories from Sri Lanka</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Mrs+Saint+Delafield&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-white: #FFFFFF;
+            --color-stone: #F9F9F7;
+            --color-cream: #F4F1EA;
+            --color-dark: #1a1a1a;
+            --color-red: #BC2026;
+            --color-red-dark: #9e1a1f;
+            --color-gray-light: #f5f5f5;
+            --color-gray-mid: #6b6b6b;
+            --color-gray-dark: #333;
+            --color-warm-ivory: #F5F2EB;
+            --color-charcoal: #2C2C2C;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'Montserrat', sans-serif;
+            --font-script: 'Mrs Saint Delafield', cursive;
+            --transition-smooth: 0.6s cubic-bezier(0.2, 0.9, 0.4, 1);
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--color-warm-ivory);
+            color: var(--color-dark);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* Pattern Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle at 20% 40%, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+            background-size: 30px 30px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ============================================ */
+        /* HEADER / NAVIGATION */
+        /* ============================================ */
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 28px 48px;
+            transition: all 0.4s ease;
+            background: transparent;
+            mix-blend-mode: difference;
+        }
+
+        .site-header.scrolled {
+            background: rgba(245, 242, 239, 0.95);
+            backdrop-filter: blur(12px);
+            padding: 16px 48px;
+            mix-blend-mode: normal;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--color-white);
+            transition: color 0.3s;
+        }
+
+        .site-header.scrolled .logo {
+            color: var(--color-charcoal);
+        }
+
+        .logo span {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            font-weight: 400;
+            letter-spacing: 0.2em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--color-white);
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .site-header.scrolled .nav-links a {
+            color: var(--color-charcoal);
+        }
+
+        .nav-links a:hover {
+            color: var(--color-red);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--color-white);
+        }
+
+        .site-header.scrolled .menu-toggle {
+            color: var(--color-charcoal);
+        }
+
+        @media (max-width: 1024px) {
+            .nav-links {
+                display: none;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .site-header, .site-header.scrolled {
+                padding: 20px 24px;
+            }
+        }
+
+        /* ============================================ */
+        /* EDITORIAL HERO SECTION */
+        /* ============================================ */
+        .editorial-hero {
+            position: relative;
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: var(--color-warm-ivory);
+        }
+
+        /* Background Image with Overlay */
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.35;
+            filter: grayscale(0.2) contrast(1.05);
+        }
+
+        .hero-background::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(245, 242, 239, 0.85) 0%, rgba(245, 242, 239, 0.92) 100%);
+            pointer-events: none;
+        }
+
+        /* Content Container */
+        .hero-container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 48px 80px;
+            text-align: center;
+        }
+
+        /* Script Kicker */
+        .hero-kicker {
+            font-family: var(--font-script);
+            font-size: clamp(28px, 5vw, 42px);
+            color: var(--color-red);
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.8s ease forwards 0.2s;
+        }
+
+        /* Main Headline */
+        .hero-headline {
+            font-family: var(--font-serif);
+            font-size: clamp(48px, 8vw, 92px);
+            font-weight: 500;
+            line-height: 1.1;
+            color: var(--color-charcoal);
+            margin-bottom: 32px;
+            letter-spacing: -0.02em;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.9s ease forwards 0.4s;
+        }
+
+        .hero-headline .italic {
+            font-style: italic;
+            font-weight: 400;
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-headline .italic::after {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            left: 0;
+            width: 100%;
+            height: 12px;
+            background: rgba(188, 32, 38, 0.2);
+            z-index: -1;
+        }
+
+        /* Description */
+        .hero-description {
+            font-family: var(--font-sans);
+            font-size: 18px;
+            line-height: 1.7;
+            color: var(--color-gray-mid);
+            max-width: 680px;
+            margin: 0 auto 48px;
+            font-weight: 400;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.8s ease forwards 0.6s;
+        }
+
+        /* Button Group */
+        .hero-buttons {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.8s ease forwards 0.8s;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--color-charcoal);
+            color: white;
+            padding: 14px 32px;
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+            border: 1px solid var(--color-charcoal);
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--color-charcoal);
+            gap: 16px;
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: transparent;
+            border: 1px solid var(--color-charcoal);
+            color: var(--color-charcoal);
+            padding: 14px 32px;
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-charcoal);
+            color: white;
+            gap: 16px;
+        }
+
+        .btn-arrow {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-primary:hover .btn-arrow,
+        .btn-secondary:hover .btn-arrow {
+            transform: translateX(4px);
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            z-index: 20;
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 1s;
+        }
+
+        .scroll-indicator p {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--color-gray-mid);
+        }
+
+        .scroll-indicator span {
+            width: 1px;
+            height: 50px;
+            background: var(--color-gray-mid);
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* ============================================ */
+        /* FEATURE GRID SECTION */
+        /* ============================================ */
+        .feature-grid-section {
+            padding: 100px 0;
+            background: var(--color-white);
+            position: relative;
+        }
+
+        .feature-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 48px;
+        }
+
+        .feature-header {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        .feature-script {
+            font-family: var(--font-script);
+            font-size: 24px;
+            color: var(--color-red);
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+
+        .feature-title {
+            font-family: var(--font-serif);
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 500;
+            color: var(--color-charcoal);
+            line-height: 1.2;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 40px 24px;
+            background: var(--color-warm-ivory);
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(188, 32, 38, 0.08);
+            border-radius: 50%;
+        }
+
+        .feature-icon svg {
+            width: 32px;
+            height: 32px;
+            stroke: var(--color-red);
+            stroke-width: 1.2;
+        }
+
+        .feature-card h3 {
+            font-family: var(--font-serif);
+            font-size: 22px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: var(--color-charcoal);
+        }
+
+        .feature-card p {
+            font-family: var(--font-sans);
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--color-gray-mid);
+        }
+
+        /* ============================================ */
+        /* EDITORIAL QUOTE SECTION */
+        /* ============================================ */
+        .editorial-quote {
+            padding: 100px 0;
+            background: var(--color-warm-ivory);
+            text-align: center;
+        }
+
+        .quote-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 48px;
+        }
+
+        .quote-mark {
+            font-family: var(--font-serif);
+            font-size: 80px;
+            color: var(--color-red);
+            opacity: 0.3;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+
+        .quote-text {
+            font-family: var(--font-serif);
+            font-size: clamp(24px, 4vw, 36px);
+            line-height: 1.4;
+            color: var(--color-charcoal);
+            font-weight: 400;
+            margin-bottom: 32px;
+        }
+
+        .quote-author {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-gray-mid);
+        }
+
+        /* ============================================ */
+        /* CTA SECTION */
+        /* ============================================ */
+        .cta-section {
+            padding: 100px 0;
+            background: var(--color-charcoal);
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 48px;
+        }
+
+        .cta-title {
+            font-family: var(--font-serif);
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 500;
+            color: white;
+            margin-bottom: 24px;
+        }
+
+        .cta-text {
+            font-family: var(--font-sans);
+            font-size: 18px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--color-red);
+            color: white;
+            padding: 14px 36px;
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+            border: 1px solid var(--color-red);
+        }
+
+        .cta-button:hover {
+            background: transparent;
+            color: var(--color-red);
+            gap: 16px;
+        }
+
+        /* ============================================ */
+        /* FOOTER */
+        /* ============================================ */
+        .footer {
+            background: #111111;
+            color: rgba(255,255,255,0.6);
+            padding: 60px 0 30px;
+            position: relative;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--color-red);
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 48px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 40px;
+        }
+
+        .footer-logo {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .footer-logo span {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+        }
+
+        .footer-links h4 {
+            color: white;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            display: block;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            margin-bottom: 12px;
+            font-size: 13px;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--color-red);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 50px;
+            padding-top: 30px;
+            text-align: center;
+            font-size: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+            }
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+            .hero-container {
+                padding: 100px 24px 60px;
+            }
+            .feature-container,
+            .quote-container,
+            .cta-container,
+            .footer-container {
+                padding: 0 24px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+    <div class="header-inner">
+        <a href="#" class="logo">SERENDIB<span>ESCAPE</span></a>
+        <div class="nav-links">
+            <a href="#">Journal</a>
+            <a href="#">Stories</a>
+            <a href="#">Experiences</a>
+            <a href="#">About</a>
+        </div>
+        <button class="menu-toggle" id="menuToggle">☰</button>
+    </div>
+</header>
+
+<main>
+    <!-- Editorial Hero Section -->
+    <section class="editorial-hero">
+        <div class="hero-background">
+            <img src="red-mosque.jpg" alt="Sri Lanka tropical landscape">
+        </div>
+        <div class="hero-container">
+            <div class="hero-kicker">The Art of Discovery</div>
+            <h1 class="hero-headline">
+                Where stories<br>
+                become <span class="italic">journeys</span>
+            </h1>
+            <p class="hero-description">
+                Beyond the guidebooks lies a Sri Lanka waiting to be felt, not just seen. 
+                We craft experiences that linger long after you've returned home.
+            </p>
+            <div class="hero-buttons">
+                <a href="#" class="btn-primary">
+                    Begin your story
+                    <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+                <a href="#" class="btn-secondary">
+                    Explore itineraries
+                    <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <div class="scroll-indicator" id="scrollIndicator">
+            <p>SCROLL</p>
+            <span></span>
+        </div>
+    </section>
+
+    <!-- Feature Grid Section -->
+    <section class="feature-grid-section">
+        <div class="feature-container">
+            <div class="feature-header">
+                <span class="feature-script">Why Serendib Escape</span>
+                <h2 class="feature-title">Curated for the curious</h2>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2L15 8L22 9L17 14L18 21L12 17L6 21L7 14L2 9L9 8L12 2Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3>Local Expertise</h3>
+                    <p>Born and raised in Sri Lanka, our team knows the hidden paths and authentic encounters that make journeys unforgettable.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor"/>
+                            <polyline points="3.27 6.96 12 12.01 20.73 6.96" stroke="currentColor"/>
+                            <line x1="12" y1="22.08" x2="12" y2="12" stroke="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3>Tailor-Made Journeys</h3>
+                    <p>Every itinerary is built from scratch around your interests, pace, and travel style. No two journeys are the same.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" stroke="currentColor"/>
+                            <line x1="7" y1="7" x2="7.01" y2="7" stroke="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3>Thoughtful Luxury</h3>
+                    <p>Hand-picked accommodations, private experiences, and seamless logistics designed for discerning travellers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Editorial Quote Section -->
+    <section class="editorial-quote">
+        <div class="quote-container">
+            <div class="quote-mark">"</div>
+            <p class="quote-text">We don't just show you Sri Lanka — we invite you to become part of its story. The landscapes, the flavours, the quiet moments — they stay with you long after you've left.</p>
+            <div class="quote-author">— Samanthie, Founder & Storyteller</div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-container">
+            <h2 class="cta-title">Your Sri Lankan story awaits</h2>
+            <p class="cta-text">Let us craft an experience that reflects your curiosity, your pace, and your sense of wonder.</p>
+            <a href="#" class="cta-button">
+                Start planning
+                <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-grid">
+            <div>
+                <div class="footer-logo">SERENDIB<span>ESCAPE</span></div>
+                <p style="font-size: 13px; margin-top: 12px;">Curating extraordinary journeys through Sri Lanka's most breathtaking destinations.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Explore</h4>
+                <a href="#">Itineraries</a>
+                <a href="#">Destinations</a>
+                <a href="#">Experiences</a>
+                <a href="#">Journal</a>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <a href="#">About Us</a>
+                <a href="#">Sustainability</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="footer-links">
+                <h4>Connect</h4>
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+                <a href="#">Newsletter</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Serendib Escape — Tailor-Made Sri Lanka Journeys. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Header scroll effect
+    const header = document.getElementById('siteHeader');
+    window.addEventListener('scroll', () => {
+        header.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Scroll indicator click
+    const scrollIndicator = document.getElementById('scrollIndicator');
+    if (scrollIndicator) {
+        scrollIndicator.addEventListener('click', () => {
+            window.scrollTo({
+                top: window.innerHeight,
+                behavior: 'smooth'
+            });
+        });
+    }
+
+    // GSAP animations for feature cards
+    gsap.registerPlugin(ScrollTrigger);
+    
+    gsap.from(".feature-card", {
+        scrollTrigger: {
+            trigger: ".feature-grid-section",
+            start: "top 80%",
+            toggleActions: "play none none reverse"
+        },
+        y: 40,
+        opacity: 0,
+        stagger: 0.15,
+        duration: 0.8,
+        ease: "power3.out"
+    });
+
+    gsap.from(".editorial-quote", {
+        scrollTrigger: {
+            trigger: ".editorial-quote",
+            start: "top 85%",
+            toggleActions: "play none none reverse"
+        },
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out"
+    });
+
+    gsap.from(".cta-section", {
+        scrollTrigger: {
+            trigger: ".cta-section",
+            start: "top 85%",
+            toggleActions: "play none none reverse"
+        },
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out"
+    });
+
+    // Mobile menu placeholder
+    document.getElementById('menuToggle')?.addEventListener('click', () => {
+        alert('Menu navigation would open here');
+    });
+</script>
+
+</body>
+</html>
