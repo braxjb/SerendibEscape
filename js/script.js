@@ -613,9 +613,5 @@ document.addEventListener('DOMContentLoaded', function() {
 // UTILITY FUNCTIONS
 // ============================================
 
-// Mobile menu placeholder
-document.getElementById('menuToggle')?.addEventListener('click', () => {
-    alert('Menu navigation would open here');
-});
 
 // Header scroll effect is handled in header.js
