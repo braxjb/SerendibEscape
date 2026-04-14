@@ -26,14 +26,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Form submission handler
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Thank you for your enquiry! Our travel specialists will get back to you within 24 hours.');
-            contactForm.reset();
-        });
-    }
+    // const contactForm = document.getElementById('contactForm');
+    // if (contactForm) {
+    //     contactForm.addEventListener('submit', (e) => {
+    //         e.preventDefault();
+    //         alert('Thank you for your enquiry! Our travel specialists will get back to you within 24 hours.');
+    //         contactForm.reset();
+    //     });
+    // }
 
     // Plan trip button handler - scrolls to form
     const planTripBtn = document.getElementById('planTripBtn');
