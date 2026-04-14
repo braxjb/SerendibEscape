@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Itineraries | Serendib Escape</title>
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body class="admin-body">
+  <header class="admin-header">
+    <div>
+      <h1>Itineraries Admin</h1>
+      <p>Manage all itinerary records from one place.</p>
+    </div>
+
+    <div class="admin-header-actions">
+      <button id="newItineraryBtn" class="btn-primary">+ New Itinerary</button>
+	  <div class="action-bar"></div>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <section class="toolbar-card">
+      <div class="toolbar-left">
+        <h2>All itineraries</h2>
+        <p id="tableCount">0 itineraries</p>
+      </div>
+
+      <div class="toolbar-right">
+        <input type="text" id="searchInput" placeholder="Search by title or slug" />
+      </div>
+    </section>
+
+    <section class="table-card">
+      <div class="table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Slug</th>
+              <th>Price</th>
+              <th>Duration</th>
+              <th>Region</th>
+              <th>Status</th>
+              <th>Sort</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="itinerariesTableBody">
+            <tr>
+              <td colspan="8" class="loading-cell">Loading itineraries...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <p id="pageMessage" class="page-message"></p>
+  </main>
+
+  <!-- VIEW DIALOG -->
+  <dialog id="viewDialog" class="admin-dialog">
+    <div class="dialog-head">
+      <h2>View itinerary</h2>
+      <button type="button" class="icon-btn" id="closeViewDialog">✕</button>
+    </div>
+
+    <div class="dialog-body view-layout" id="viewDialogBody">
+      <!-- Filled by JS -->
+    </div>
+  </dialog>
+
+  <!-- FORM DIALOG -->
+  <dialog id="formDialog" class="admin-dialog admin-dialog-wide">
+    <div class="dialog-head">
+      <h2 id="formDialogTitle">New itinerary</h2>
+      <button type="button" class="icon-btn" id="closeFormDialog">✕</button>
+    </div>
+
+    <form id="itineraryForm" class="admin-form dialog-body">
+      <input type="hidden" id="itineraryId" />
+
+      <div class="grid-2">
+        <div class="form-row">
+          <label for="slug">Slug</label>
+          <input id="slug" type="text" required />
+        </div>
+        <div class="form-row">
+          <label for="title">Title</label>
+          <input id="title" type="text" required />
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="form-row">
+          <label for="price_label">Price label</label>
+          <input id="price_label" type="text" placeholder="from $3,420" />
+        </div>
+        <div class="form-row">
+          <label for="price_amount">Price amount</label>
+          <input id="price_amount" type="number" step="0.01" />
+        </div>
+        <div class="form-row">
+          <label for="currency">Currency</label>
+          <input id="currency" type="text" value="USD" />
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="form-row">
+          <label for="duration_nights">Duration nights</label>
+          <input id="duration_nights" type="number" />
+        </div>
+        <div class="form-row">
+          <label for="duration_label">Duration label</label>
+          <input id="duration_label" type="text" placeholder="10 nights" />
+        </div>
+        <div class="form-row">
+          <label for="region">Region</label>
+          <input id="region" type="text" value="Sri Lanka" />
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="form-row">
+          <label for="hero_image">Hero image URL</label>
+          <input id="hero_image" type="text" />
+        </div>
+        <div class="form-row">
+          <label for="card_image">Card image URL</label>
+          <input id="card_image" type="text" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="description">Description</label>
+        <textarea id="description" rows="4"></textarea>
+      </div>
+
+      <div class="grid-2">
+        <div class="form-row">
+          <label for="transport">Transport</label>
+          <input id="transport" type="text" />
+        </div>
+        <div class="form-row">
+          <label for="pace">Pace</label>
+          <input id="pace" type="text" />
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="form-row">
+          <label for="best_time">Best time</label>
+          <input id="best_time" type="text" />
+        </div>
+        <div class="form-row">
+          <label for="ideal_for">Ideal for</label>
+          <input id="ideal_for" type="text" />
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="form-row">
+          <label for="tags">Tags</label>
+          <input id="tags" type="text" placeholder="couple, culture, beach" />
+          <small>Comma separated</small>
+        </div>
+        <div class="form-row form-row-inline">
+          <label for="sort_order">Sort order</label>
+          <input id="sort_order" type="number" value="0" />
+          <label class="checkbox-inline">
+            <input id="is_published" type="checkbox" checked />
+            Published
+          </label>
+        </div>
+      </div>
+
+      <div class="form-row">
+		  <div class="builder-header">
+			<div>
+			  <label>Featured stays</label>
+			  <small>Add the hotel cards shown on the itinerary page</small>
+			</div>
+			<button type="button" class="btn-secondary" id="addStayBtn">+ Add stay</button>
+		  </div>
+
+		  <div id="featuredStaysBuilder" class="builder-list"></div>
+		</div>
+
+		<div class="form-row">
+		  <div class="builder-header">
+			<div>
+			  <label>Itinerary days</label>
+			  <small>Add the day-by-day timeline content</small>
+			</div>
+			<button type="button" class="btn-secondary" id="addDayBtn">+ Add day</button>
+		  </div>
+
+		  <div id="itineraryDaysBuilder" class="builder-list"></div>
+		</div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary" id="saveBtn">Save itinerary</button>
+        <button type="button" class="btn-secondary" id="resetBtn">Clear</button>
+        <button type="button" class="btn-danger" id="deleteBtn" style="display:none;">Delete</button>
+      </div>
+
+      <p id="formMessage" class="form-message"></p>
+    </form>
+  </dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script>
+		// Check authentication on page load
+		document.addEventListener('DOMContentLoaded', () => {
+		  let authChecked = false;
+
+		  supabaseClient.auth.onAuthStateChange((event, session) => {
+			console.log('[AUTH]', event);
+
+			// Prevent double execution
+			if (authChecked) return;
+			authChecked = true;
+
+			// ❌ Not authenticated → login
+			if (!session || !session.user) {
+			  window.location.replace('login.html');
+			  return;
+			}
+
+			// ✅ Authenticated → show UI
+			document.body.style.display = 'block';
+			console.log('Logged in as:', session.user.email);
+		  });
+		});
+		// Add logout functionality
+		function addLogoutButton() {
+			const headerRight = document.querySelector('.action-bar');
+			const logoutBtn = document.createElement('button');
+			logoutBtn.className = 'btn btn-secondary';
+			logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
+			logoutBtn.onclick = logout;
+			
+			// Insert before the add property button
+			headerRight.insertBefore(logoutBtn, headerRight.firstChild);
+		}
+		
+		async function logout() {
+			try {
+				// Sign out from Supabase
+				const { error } = await supabaseClient.auth.signOut();
+				
+				if (error) throw error;
+				
+				// Clear local storage
+				sessionStorage.removeItem('asbathworks_admin_token');
+				sessionStorage.removeItem('asbathworks_admin_user');
+				
+				// Redirect to login page
+				window.location.href = 'admin-login.html';
+				
+			} catch (error) {
+				console.error('Logout error:', error);
+				alert('Logout failed. Please try again.');
+			}
+		}
+		
+		// Call this after the page loads
+		setTimeout(addLogoutButton, 100);
+	</script>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>
