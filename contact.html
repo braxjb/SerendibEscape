@@ -104,57 +104,59 @@
                 <p class="page-subtitle">Whether you're dreaming of misty mountains, golden beaches, or cultural discoveries — we're here to help bring your Sri Lankan journey to life.</p>
                 
                 <!-- Contact Form -->
-                <form class="contact-form" id="contactForm" action="#" method="POST" data-netlify=true>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="first_name">First Name</label>
-                            <input type="text" name="first_name" placeholder="Your first name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="last_name">Last Name</label>
-                            <input type="text" name="last_name" placeholder="Your last name" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" name="email" placeholder="hello@example.com" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="phone">Phone Number (Optional)</label>
-                        <input type="tel" name="phone" placeholder="+94 XX XXX XXXX">
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="travel_dates">Travel Dates</label>
-                            <input type="text" name="travel_dates" placeholder="e.g., December 2025">
-                        </div>
-                        <div class="form-group">
-                            <label for="group_size">Group Size</label>
-                            <select name="group_size">
-                                <option value="solo">Solo Traveller</option>
-                                <option value="couple">Couple / Honeymoon</option>
-                                <option value="family">Family (2-4)</option>
-                                <option value="group">Group (5+)</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="message">Tell us about your dream journey</label>
-                        <textarea name="message" placeholder="What experiences are you dreaming of? Any specific destinations or interests?" required></textarea>
-                    </div>
-                    
-                    <button type="submit" class="submit-btn">
-                        <span>Send enquiry</span>
-                        <div class="arrow-icon">
-                            <div class="dashed-circle"></div>
-                            <i class="fas fa-arrow-right"></i>
-                        </div>
-                    </button>
-                </form>
+                <form class="contact-form" id="contactForm" name="contact" method="POST" data-netlify="true">
+					<input type="hidden" name="form-name" value="contact">
+
+					<div class="form-row">
+						<div class="form-group">
+							<label for="first_name">First Name</label>
+							<input type="text" name="first_name" placeholder="Your first name" required>
+						</div>
+						<div class="form-group">
+							<label for="last_name">Last Name</label>
+							<input type="text" name="last_name" placeholder="Your last name" required>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label for="email">Email Address</label>
+						<input type="email" name="email" placeholder="hello@example.com" required>
+					</div>
+					
+					<div class="form-group">
+						<label for="phone">Phone Number (Optional)</label>
+						<input type="tel" name="phone" placeholder="+94 XX XXX XXXX">
+					</div>
+					
+					<div class="form-row">
+						<div class="form-group">
+							<label for="travel_dates">Travel Dates</label>
+							<input type="text" name="travel_dates" placeholder="e.g., December 2025">
+						</div>
+						<div class="form-group">
+							<label for="group_size">Group Size</label>
+							<select name="group_size">
+								<option value="solo">Solo Traveller</option>
+								<option value="couple">Couple / Honeymoon</option>
+								<option value="family">Family (2-4)</option>
+								<option value="group">Group (5+)</option>
+							</select>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label for="message">Tell us about your dream journey</label>
+						<textarea name="message" placeholder="What experiences are you dreaming of? Any specific destinations or interests?" required></textarea>
+					</div>
+					
+					<button type="submit" class="submit-btn">
+						<span>Send enquiry</span>
+						<div class="arrow-icon">
+							<div class="dashed-circle"></div>
+							<i class="fas fa-arrow-right"></i>
+						</div>
+					</button>
+				</form>
                 
                 <!-- Contact Info Section -->
                 <div class="contact-info-section">
