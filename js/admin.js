@@ -2,31 +2,56 @@ const ADMIN_ALLOWED_USER_IDS = [
   "67982a5d-ee33-4e9d-ba9b-9f59b172874c"
 ];
 
-const tableBody = document.getElementById("itinerariesTableBody");
-const tableCount = document.getElementById("tableCount");
-const searchInput = document.getElementById("searchInput");
-const pageMessage = document.getElementById("pageMessage");
+const els = {
+  tableBody: document.getElementById("itinerariesTableBody"),
+  tableCount: document.getElementById("tableCount"),
+  searchInput: document.getElementById("searchInput"),
+  pageMessage: document.getElementById("pageMessage"),
 
-const formDialog = document.getElementById("formDialog");
-const viewDialog = document.getElementById("viewDialog");
+  formDialog: document.getElementById("formDialog"),
+  viewDialog: document.getElementById("viewDialog"),
 
-const closeFormDialog = document.getElementById("closeFormDialog");
-const closeViewDialog = document.getElementById("closeViewDialog");
+  closeFormDialog: document.getElementById("closeFormDialog"),
+  closeViewDialog: document.getElementById("closeViewDialog"),
 
-const formDialogTitle = document.getElementById("formDialogTitle");
-const form = document.getElementById("itineraryForm");
-const formMessage = document.getElementById("formMessage");
-const newItineraryBtn = document.getElementById("newItineraryBtn");
-const deleteBtn = document.getElementById("deleteBtn");
-const resetBtn = document.getElementById("resetBtn");
-const viewDialogBody = document.getElementById("viewDialogBody");
-const addStayBtn = document.getElementById("addStayBtn");
-const addDayBtn = document.getElementById("addDayBtn");
-const featuredStaysBuilder = document.getElementById("featuredStaysBuilder");
-const itineraryDaysBuilder = document.getElementById("itineraryDaysBuilder");
+  formDialogTitle: document.getElementById("formDialogTitle"),
+  form: document.getElementById("itineraryForm"),
+  formMessage: document.getElementById("formMessage"),
+  newItineraryBtn: document.getElementById("newItineraryBtn"),
+  deleteBtn: document.getElementById("deleteBtn"),
+  resetBtn: document.getElementById("resetBtn"),
+  logoutBtn: document.getElementById("logoutBtn"),
+  viewDialogBody: document.getElementById("viewDialogBody"),
+  addStayBtn: document.getElementById("addStayBtn"),
+  addDayBtn: document.getElementById("addDayBtn"),
+  featuredStaysBuilder: document.getElementById("featuredStaysBuilder"),
+  itineraryDaysBuilder: document.getElementById("itineraryDaysBuilder"),
 
-let allRows = [];
-let currentEditingId = null;
+  itineraryId: document.getElementById("itineraryId"),
+  slug: document.getElementById("slug"),
+  title: document.getElementById("title"),
+  priceLabel: document.getElementById("price_label"),
+  priceAmount: document.getElementById("price_amount"),
+  currency: document.getElementById("currency"),
+  durationNights: document.getElementById("duration_nights"),
+  durationLabel: document.getElementById("duration_label"),
+  region: document.getElementById("region"),
+  heroImage: document.getElementById("hero_image"),
+  cardImage: document.getElementById("card_image"),
+  description: document.getElementById("description"),
+  transport: document.getElementById("transport"),
+  pace: document.getElementById("pace"),
+  bestTime: document.getElementById("best_time"),
+  idealFor: document.getElementById("ideal_for"),
+  tags: document.getElementById("tags"),
+  sortOrder: document.getElementById("sort_order"),
+  isPublished: document.getElementById("is_published")
+};
+
+const state = {
+  allRows: [],
+  currentEditingId: null
+};
 
 function escapeHtml(value) {
   if (value === null || value === undefined) return "";
@@ -38,28 +63,44 @@ function escapeHtml(value) {
     .replace(/'/g, "&#039;");
 }
 
-function prettyJson(value) {
-  return JSON.stringify(value ?? [], null, 2);
-}
-
-function parseJsonTextarea(value, fallback = []) {
-  const trimmed = String(value || "").trim();
-  if (!trimmed) return fallback;
-  return JSON.parse(trimmed);
-}
-
 function parseTags(value) {
   return String(value || "")
     .split(",")
-    .map(v => v.trim().toLowerCase())
+    .map(tag => tag.trim().toLowerCase())
     .filter(Boolean);
+}
+
+function asNumberOrNull(value) {
+  if (value === "" || value === null || value === undefined) return null;
+  const num = Number(value);
+  return Number.isNaN(num) ? null : num;
+}
+
+function createStayItem(data = {}) {
+  return {
+    name: data.name || "",
+    location: data.location || "",
+    description: data.description || "",
+    image: data.image || ""
+  };
+}
+
+function createDayItem(data = {}) {
+  return {
+    day_number: data.day_number ?? "",
+    title: data.title || "",
+    location: data.location || "",
+    description: data.description || "",
+    overnight_stay: data.overnight_stay || "",
+    image: data.image || ""
+  };
 }
 
 async function requireAdmin() {
   const { data, error } = await supabaseClient.auth.getUser();
 
   if (error || !data.user) {
-    window.location.href = "admin-login.html";
+    window.location.replace("admin-login.html");
     return null;
   }
 
@@ -76,12 +117,24 @@ async function requireAdmin() {
   return data.user;
 }
 
+async function logout() {
+  try {
+    const { error } = await supabaseClient.auth.signOut();
+    if (error) throw error;
+    window.location.replace("admin-login.html");
+  } catch (error) {
+    console.error("Logout error:", error);
+    els.pageMessage.textContent = "Logout failed. Please try again.";
+  }
+}
+
 async function loadItineraries() {
-  tableBody.innerHTML = `
+  els.tableBody.innerHTML = `
     <tr>
       <td colspan="8" class="loading-cell">Loading itineraries...</td>
     </tr>
   `;
+  els.pageMessage.textContent = "";
 
   const { data, error } = await supabaseClient
     .from("itineraries")
@@ -90,8 +143,8 @@ async function loadItineraries() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    pageMessage.textContent = error.message;
-    tableBody.innerHTML = `
+    els.pageMessage.textContent = error.message;
+    els.tableBody.innerHTML = `
       <tr>
         <td colspan="8" class="loading-cell">Could not load itineraries.</td>
       </tr>
@@ -99,29 +152,28 @@ async function loadItineraries() {
     return;
   }
 
-  allRows = data || [];
+  state.allRows = data || [];
   renderTable();
 }
 
 function getFilteredRows() {
-  const q = String(searchInput?.value || "").trim().toLowerCase();
+  const q = String(els.searchInput.value || "").trim().toLowerCase();
 
-  if (!q) return [...allRows];
+  if (!q) return [...state.allRows];
 
-  return allRows.filter(row => {
-    return (
-      String(row.title || "").toLowerCase().includes(q) ||
-      String(row.slug || "").toLowerCase().includes(q)
-    );
-  });
+  return state.allRows.filter(row =>
+    String(row.title || "").toLowerCase().includes(q) ||
+    String(row.slug || "").toLowerCase().includes(q)
+  );
 }
 
 function renderTable() {
   const rows = getFilteredRows();
-  tableCount.textContent = `${rows.length} itinerar${rows.length === 1 ? "y" : "ies"}`;
+
+  els.tableCount.textContent = `${rows.length} itinerar${rows.length === 1 ? "y" : "ies"}`;
 
   if (!rows.length) {
-    tableBody.innerHTML = `
+    els.tableBody.innerHTML = `
       <tr>
         <td colspan="8" class="loading-cell">No itineraries found.</td>
       </tr>
@@ -129,11 +181,9 @@ function renderTable() {
     return;
   }
 
-  tableBody.innerHTML = rows.map(row => `
+  els.tableBody.innerHTML = rows.map(row => `
     <tr>
-      <td>
-        <span class="cell-title">${escapeHtml(row.title || "")}</span>
-      </td>
+      <td><span class="cell-title">${escapeHtml(row.title || "")}</span></td>
       <td>${escapeHtml(row.slug || "")}</td>
       <td>${escapeHtml(row.price_label || "-")}</td>
       <td>${escapeHtml(row.duration_label || "-")}</td>
@@ -146,28 +196,27 @@ function renderTable() {
       <td>${escapeHtml(row.sort_order ?? 0)}</td>
       <td>
         <div class="action-group">
-          <button class="btn-table" data-action="view" data-id="${row.id}">View</button>
-          <button class="btn-table" data-action="edit" data-id="${row.id}">Edit</button>
+          <button class="btn-table" type="button" data-action="view" data-id="${row.id}">View</button>
+          <button class="btn-table" type="button" data-action="edit" data-id="${row.id}">Edit</button>
         </div>
       </td>
     </tr>
   `).join("");
 
-  tableBody.querySelectorAll("[data-action]").forEach(btn => {
+  els.tableBody.querySelectorAll("[data-action]").forEach(btn => {
     btn.addEventListener("click", () => {
       const id = Number(btn.dataset.id);
-      const action = btn.dataset.action;
-      const row = allRows.find(r => r.id === id);
+      const row = state.allRows.find(item => item.id === id);
       if (!row) return;
 
-      if (action === "view") openViewDialog(row);
-      if (action === "edit") openEditDialog(row);
+      if (btn.dataset.action === "view") openViewDialog(row);
+      if (btn.dataset.action === "edit") openEditDialog(row);
     });
   });
 }
 
 function openViewDialog(row) {
-  viewDialogBody.innerHTML = `
+  els.viewDialogBody.innerHTML = `
     <div class="view-block">
       <h3>Basic details</h3>
       <div class="view-grid">
@@ -201,124 +250,131 @@ function openViewDialog(row) {
 
     <div class="view-block">
       <h3>Tags</h3>
-      <div class="json-preview">${escapeHtml(prettyJson(row.tags || []))}</div>
+      <div class="json-preview">${escapeHtml(JSON.stringify(row.tags || [], null, 2))}</div>
     </div>
 
     <div class="view-block">
       <h3>Featured stays</h3>
-      <div class="json-preview">${escapeHtml(prettyJson(row.featured_stays || []))}</div>
+      <div class="json-preview">${escapeHtml(JSON.stringify(row.featured_stays || [], null, 2))}</div>
     </div>
 
     <div class="view-block">
       <h3>Itinerary days</h3>
-      <div class="json-preview">${escapeHtml(prettyJson(row.itinerary_days || []))}</div>
+      <div class="json-preview">${escapeHtml(JSON.stringify(row.itinerary_days || [], null, 2))}</div>
     </div>
   `;
 
-  viewDialog.showModal();
+  els.viewDialog.showModal();
+}
+
+function setFormDefaults() {
+  els.currency.value = "USD";
+  els.region.value = "Sri Lanka";
+  els.sortOrder.value = 0;
+  els.isPublished.checked = true;
+}
+
+function resetForm() {
+  state.currentEditingId = null;
+  els.form.reset();
+  setFormDefaults();
+
+  els.formDialogTitle.textContent = "New itinerary";
+  els.deleteBtn.style.display = "none";
+  els.formMessage.textContent = "";
+
+  renderFeaturedStaysBuilder([]);
+  renderItineraryDaysBuilder([]);
 }
 
 function fillForm(row) {
-  currentEditingId = row.id;
-  formDialogTitle.textContent = `Edit itinerary`;
-  deleteBtn.style.display = "inline-flex";
+  state.currentEditingId = row.id;
+  els.formDialogTitle.textContent = "Edit itinerary";
+  els.deleteBtn.style.display = "inline-flex";
 
-  document.getElementById("itineraryId").value = row.id ?? "";
-  document.getElementById("slug").value = row.slug ?? "";
-  document.getElementById("title").value = row.title ?? "";
-  document.getElementById("price_label").value = row.price_label ?? "";
-  document.getElementById("price_amount").value = row.price_amount ?? "";
-  document.getElementById("currency").value = row.currency ?? "USD";
-  document.getElementById("duration_nights").value = row.duration_nights ?? "";
-  document.getElementById("duration_label").value = row.duration_label ?? "";
-  document.getElementById("region").value = row.region ?? "Sri Lanka";
-  document.getElementById("hero_image").value = row.hero_image ?? "";
-  document.getElementById("card_image").value = row.card_image ?? "";
-  document.getElementById("description").value = row.description ?? "";
-  document.getElementById("transport").value = row.transport ?? "";
-  document.getElementById("pace").value = row.pace ?? "";
-  document.getElementById("best_time").value = row.best_time ?? "";
-  document.getElementById("ideal_for").value = row.ideal_for ?? "";
-  document.getElementById("tags").value = Array.isArray(row.tags) ? row.tags.join(", ") : "";
+  els.itineraryId.value = row.id ?? "";
+  els.slug.value = row.slug ?? "";
+  els.title.value = row.title ?? "";
+  els.priceLabel.value = row.price_label ?? "";
+  els.priceAmount.value = row.price_amount ?? "";
+  els.currency.value = row.currency ?? "USD";
+  els.durationNights.value = row.duration_nights ?? "";
+  els.durationLabel.value = row.duration_label ?? "";
+  els.region.value = row.region ?? "Sri Lanka";
+  els.heroImage.value = row.hero_image ?? "";
+  els.cardImage.value = row.card_image ?? "";
+  els.description.value = row.description ?? "";
+  els.transport.value = row.transport ?? "";
+  els.pace.value = row.pace ?? "";
+  els.bestTime.value = row.best_time ?? "";
+  els.idealFor.value = row.ideal_for ?? "";
+  els.tags.value = Array.isArray(row.tags) ? row.tags.join(", ") : "";
+  els.sortOrder.value = row.sort_order ?? 0;
+  els.isPublished.checked = !!row.is_published;
+
   renderFeaturedStaysBuilder(row.featured_stays || []);
   renderItineraryDaysBuilder(row.itinerary_days || []);
-  document.getElementById("sort_order").value = row.sort_order ?? 0;
-  document.getElementById("is_published").checked = !!row.is_published;
 
-  formMessage.textContent = "";
-}
-function createStayItem(data = {}) {
-  return {
-    name: data.name || "",
-    location: data.location || "",
-    description: data.description || "",
-    image: data.image || ""
-  };
-}
-
-function createDayItem(data = {}) {
-  return {
-    day_number: data.day_number ?? "",
-    title: data.title || "",
-    location: data.location || "",
-    description: data.description || "",
-    overnight_stay: data.overnight_stay || "",
-    image: data.image || ""
-  };
+  els.formMessage.textContent = "";
 }
 
 function getFeaturedStaysFromUI() {
-  const cards = featuredStaysBuilder.querySelectorAll(".stay-builder-card");
-
-  return Array.from(cards).map(card => ({
-    name: card.querySelector('[data-field="name"]').value.trim(),
-    location: card.querySelector('[data-field="location"]').value.trim(),
-    description: card.querySelector('[data-field="description"]').value.trim(),
-    image: card.querySelector('[data-field="image"]').value.trim()
-  })).filter(item => item.name || item.location || item.description || item.image);
+  return Array.from(els.featuredStaysBuilder.querySelectorAll(".stay-builder-card"))
+    .map(card => ({
+      name: card.querySelector('[data-field="name"]').value.trim(),
+      location: card.querySelector('[data-field="location"]').value.trim(),
+      description: card.querySelector('[data-field="description"]').value.trim(),
+      image: card.querySelector('[data-field="image"]').value.trim()
+    }))
+    .filter(item => item.name || item.location || item.description || item.image);
 }
 
 function getItineraryDaysFromUI() {
-  const cards = itineraryDaysBuilder.querySelectorAll(".day-builder-card");
-
-  return Array.from(cards).map(card => ({
-    day_number: Number(card.querySelector('[data-field="day_number"]').value || 0),
-    title: card.querySelector('[data-field="title"]').value.trim(),
-    location: card.querySelector('[data-field="location"]').value.trim(),
-    description: card.querySelector('[data-field="description"]').value.trim(),
-    overnight_stay: card.querySelector('[data-field="overnight_stay"]').value.trim(),
-    image: card.querySelector('[data-field="image"]').value.trim()
-  })).filter(item =>
-    item.day_number || item.title || item.location || item.description || item.overnight_stay || item.image
-  );
+  return Array.from(els.itineraryDaysBuilder.querySelectorAll(".day-builder-card"))
+    .map(card => ({
+      day_number: asNumberOrNull(card.querySelector('[data-field="day_number"]').value) ?? 0,
+      title: card.querySelector('[data-field="title"]').value.trim(),
+      location: card.querySelector('[data-field="location"]').value.trim(),
+      description: card.querySelector('[data-field="description"]').value.trim(),
+      overnight_stay: card.querySelector('[data-field="overnight_stay"]').value.trim(),
+      image: card.querySelector('[data-field="image"]').value.trim()
+    }))
+    .filter(item =>
+      item.day_number || item.title || item.location || item.description || item.overnight_stay || item.image
+    );
 }
-function resetForm() {
-  currentEditingId = null;
-  form.reset();
 
-  formDialogTitle.textContent = "New itinerary";
-  deleteBtn.style.display = "none";
+function attachBuilderActions() {
+  els.featuredStaysBuilder.querySelectorAll(".remove-stay-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const index = Number(btn.dataset.index);
+      const items = getFeaturedStaysFromUI();
+      items.splice(index, 1);
+      renderFeaturedStaysBuilder(items);
+    });
+  });
 
-  document.getElementById("currency").value = "USD";
-  document.getElementById("region").value = "Sri Lanka";
-  document.getElementById("sort_order").value = 0;
-  document.getElementById("is_published").checked = true;
-  renderFeaturedStaysBuilder([]);
-  renderItineraryDaysBuilder([]);
-
-  formMessage.textContent = "";
+  els.itineraryDaysBuilder.querySelectorAll(".remove-day-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const index = Number(btn.dataset.index);
+      const items = getItineraryDaysFromUI();
+      items.splice(index, 1);
+      renderItineraryDaysBuilder(items);
+    });
+  });
 }
+
 function renderFeaturedStaysBuilder(items = []) {
   const stays = Array.isArray(items) ? items : [];
 
   if (!stays.length) {
-    featuredStaysBuilder.innerHTML = `
+    els.featuredStaysBuilder.innerHTML = `
       <div class="builder-empty">No featured stays added yet.</div>
     `;
     return;
   }
 
-  featuredStaysBuilder.innerHTML = stays.map((stay, index) => `
+  els.featuredStaysBuilder.innerHTML = stays.map((stay, index) => `
     <div class="builder-card stay-builder-card" data-index="${index}">
       <div class="builder-card-head">
         <div class="builder-card-title">Stay ${index + 1}</div>
@@ -347,42 +403,23 @@ function renderFeaturedStaysBuilder(items = []) {
         <label>Image URL</label>
         <input type="text" data-field="image" value="${escapeHtml(stay.image || "")}">
       </div>
-
-      <div class="builder-preview">
-        <strong>Preview</strong>
-        <div>${escapeHtml(stay.name || "Untitled stay")} ${stay.location ? `— ${escapeHtml(stay.location)}` : ""}</div>
-        ${stay.image ? `<img src="${escapeHtml(stay.image)}" alt="${escapeHtml(stay.name || "Stay image")}">` : ""}
-      </div>
     </div>
   `).join("");
 
-  featuredStaysBuilder.querySelectorAll(".remove-stay-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const index = Number(btn.dataset.index);
-      const current = getFeaturedStaysFromUI();
-      current.splice(index, 1);
-      renderFeaturedStaysBuilder(current);
-    });
-  });
-
-  featuredStaysBuilder.querySelectorAll("input, textarea").forEach(el => {
-    el.addEventListener("input", () => {
-      renderFeaturedStaysBuilder(getFeaturedStaysFromUI());
-    });
-  });
+  attachBuilderActions();
 }
 
 function renderItineraryDaysBuilder(items = []) {
   const days = Array.isArray(items) ? items : [];
 
   if (!days.length) {
-    itineraryDaysBuilder.innerHTML = `
+    els.itineraryDaysBuilder.innerHTML = `
       <div class="builder-empty">No itinerary days added yet.</div>
     `;
     return;
   }
 
-  itineraryDaysBuilder.innerHTML = days.map((day, index) => `
+  els.itineraryDaysBuilder.innerHTML = days.map((day, index) => `
     <div class="builder-card day-builder-card" data-index="${index}">
       <div class="builder-card-head">
         <div class="builder-card-title">Day ${escapeHtml(day.day_number || index + 1)}</div>
@@ -421,135 +458,85 @@ function renderItineraryDaysBuilder(items = []) {
           <input type="text" data-field="image" value="${escapeHtml(day.image || "")}">
         </div>
       </div>
-
-      <div class="builder-preview">
-        <strong>Preview</strong>
-        <div>Day ${escapeHtml(day.day_number || index + 1)} — ${escapeHtml(day.title || "Untitled day")}</div>
-        <div>${escapeHtml(day.location || "")}</div>
-        ${day.image ? `<img src="${escapeHtml(day.image)}" alt="${escapeHtml(day.title || "Day image")}">` : ""}
-      </div>
     </div>
   `).join("");
 
-  itineraryDaysBuilder.querySelectorAll(".remove-day-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const index = Number(btn.dataset.index);
-      const current = getItineraryDaysFromUI();
-      current.splice(index, 1);
-      renderItineraryDaysBuilder(current);
-    });
-  });
-
-  itineraryDaysBuilder.querySelectorAll("input, textarea").forEach(el => {
-    el.addEventListener("input", () => {
-      renderItineraryDaysBuilder(getItineraryDaysFromUI());
-    });
-  });
+  attachBuilderActions();
 }
+
 function buildPayload() {
   return {
-    slug: document.getElementById("slug").value.trim(),
-    title: document.getElementById("title").value.trim(),
-    price_label: document.getElementById("price_label").value.trim() || null,
-    price_amount: document.getElementById("price_amount").value ? Number(document.getElementById("price_amount").value) : null,
-    currency: document.getElementById("currency").value.trim() || "USD",
-    duration_nights: document.getElementById("duration_nights").value ? Number(document.getElementById("duration_nights").value) : null,
-    duration_label: document.getElementById("duration_label").value.trim() || null,
-    region: document.getElementById("region").value.trim() || "Sri Lanka",
-    hero_image: document.getElementById("hero_image").value.trim() || null,
-    card_image: document.getElementById("card_image").value.trim() || null,
-    description: document.getElementById("description").value.trim() || null,
-    transport: document.getElementById("transport").value.trim() || null,
-    pace: document.getElementById("pace").value.trim() || null,
-    best_time: document.getElementById("best_time").value.trim() || null,
-    ideal_for: document.getElementById("ideal_for").value.trim() || null,
-    tags: parseTags(document.getElementById("tags").value),
+    slug: els.slug.value.trim(),
+    title: els.title.value.trim(),
+    price_label: els.priceLabel.value.trim() || null,
+    price_amount: asNumberOrNull(els.priceAmount.value),
+    currency: els.currency.value.trim() || "USD",
+    duration_nights: asNumberOrNull(els.durationNights.value),
+    duration_label: els.durationLabel.value.trim() || null,
+    region: els.region.value.trim() || "Sri Lanka",
+    hero_image: els.heroImage.value.trim() || null,
+    card_image: els.cardImage.value.trim() || null,
+    description: els.description.value.trim() || null,
+    transport: els.transport.value.trim() || null,
+    pace: els.pace.value.trim() || null,
+    best_time: els.bestTime.value.trim() || null,
+    ideal_for: els.idealFor.value.trim() || null,
+    tags: parseTags(els.tags.value),
     featured_stays: getFeaturedStaysFromUI(),
-	itinerary_days: getItineraryDaysFromUI(),
-	sort_order: Number(document.getElementById("sort_order").value || 0),
-    is_published: document.getElementById("is_published").checked
+    itinerary_days: getItineraryDaysFromUI(),
+    sort_order: asNumberOrNull(els.sortOrder.value) ?? 0,
+    is_published: els.isPublished.checked
   };
 }
 
 function openNewDialog() {
   resetForm();
-  formDialog.showModal();
+  els.formDialog.showModal();
 }
 
 function openEditDialog(row) {
   resetForm();
   fillForm(row);
-  formDialog.showModal();
+  els.formDialog.showModal();
 }
-addStayBtn?.addEventListener("click", () => {
-  const current = getFeaturedStaysFromUI();
-  current.push(createStayItem());
-  renderFeaturedStaysBuilder(current);
-});
 
-addDayBtn?.addEventListener("click", () => {
-  const current = getItineraryDaysFromUI();
-  current.push(createDayItem({
-    day_number: current.length + 1
-  }));
-  renderItineraryDaysBuilder(current);
-});
-newItineraryBtn?.addEventListener("click", openNewDialog);
+function closeOnBackdrop(dialog) {
+  dialog.addEventListener("click", e => {
+    const rect = dialog.getBoundingClientRect();
+    const clickedInside =
+      e.clientX >= rect.left &&
+      e.clientX <= rect.right &&
+      e.clientY >= rect.top &&
+      e.clientY <= rect.bottom;
 
-closeFormDialog?.addEventListener("click", () => formDialog.close());
-closeViewDialog?.addEventListener("click", () => viewDialog.close());
+    if (!clickedInside) {
+      dialog.close();
+    }
+  });
+}
 
-formDialog?.addEventListener("click", (e) => {
-  const rect = formDialog.getBoundingClientRect();
-  const inside =
-    e.clientX >= rect.left &&
-    e.clientX <= rect.right &&
-    e.clientY >= rect.top &&
-    e.clientY <= rect.bottom;
-
-  if (!inside) formDialog.close();
-});
-
-viewDialog?.addEventListener("click", (e) => {
-  const rect = viewDialog.getBoundingClientRect();
-  const inside =
-    e.clientX >= rect.left &&
-    e.clientX <= rect.right &&
-    e.clientY >= rect.top &&
-    e.clientY <= rect.bottom;
-
-  if (!inside) viewDialog.close();
-});
-
-searchInput?.addEventListener("input", renderTable);
-
-resetBtn?.addEventListener("click", () => {
-  resetForm();
-});
-
-form?.addEventListener("submit", async (e) => {
+async function saveItinerary(e) {
   e.preventDefault();
-  formMessage.textContent = "";
+  els.formMessage.textContent = "";
 
-  let payload;
-  try {
-    payload = buildPayload();
-  } catch (error) {
-    formMessage.textContent = `Invalid JSON: ${error.message}`;
+  const payload = buildPayload();
+
+  if (!payload.slug || !payload.title) {
+    els.formMessage.textContent = "Slug and title are required.";
     return;
   }
 
   let result;
 
-  if (currentEditingId) {
-    result = await window.supabaseClient
+  if (state.currentEditingId) {
+    result = await supabaseClient
       .from("itineraries")
       .update(payload)
-      .eq("id", currentEditingId)
+      .eq("id", state.currentEditingId)
       .select()
       .single();
   } else {
-    result = await window.supabaseClient
+    result = await supabaseClient
       .from("itineraries")
       .insert(payload)
       .select()
@@ -557,43 +544,70 @@ form?.addEventListener("submit", async (e) => {
   }
 
   if (result.error) {
-    formMessage.textContent = result.error.message;
+    els.formMessage.textContent = result.error.message;
     return;
   }
 
-  formMessage.textContent = currentEditingId ? "Itinerary updated." : "Itinerary created.";
+  els.pageMessage.textContent = state.currentEditingId
+    ? "Itinerary updated."
+    : "Itinerary created.";
+
+  els.formDialog.close();
+  resetForm();
   await loadItineraries();
+}
 
-  if (result.data) {
-    currentEditingId = result.data.id;
-    fillForm(result.data);
-  }
-});
+async function deleteItinerary() {
+  if (!state.currentEditingId) return;
+  if (!window.confirm("Delete this itinerary?")) return;
 
-deleteBtn?.addEventListener("click", async () => {
-  if (!currentEditingId) return;
-  if (!confirm("Delete this itinerary?")) return;
-
-  const { error } = await window.supabaseClient
+  const { error } = await supabaseClient
     .from("itineraries")
     .delete()
-    .eq("id", currentEditingId);
+    .eq("id", state.currentEditingId);
 
   if (error) {
-    formMessage.textContent = error.message;
+    els.formMessage.textContent = error.message;
     return;
   }
 
-  formDialog.close();
+  els.formDialog.close();
   resetForm();
-  pageMessage.textContent = "Itinerary deleted.";
+  els.pageMessage.textContent = "Itinerary deleted.";
   await loadItineraries();
-});
+}
 
+function bindEvents() {
+  els.logoutBtn?.addEventListener("click", logout);
+  els.newItineraryBtn?.addEventListener("click", openNewDialog);
+  els.closeFormDialog?.addEventListener("click", () => els.formDialog.close());
+  els.closeViewDialog?.addEventListener("click", () => els.viewDialog.close());
+  els.searchInput?.addEventListener("input", renderTable);
+  els.resetBtn?.addEventListener("click", resetForm);
+  els.form?.addEventListener("submit", saveItinerary);
+  els.deleteBtn?.addEventListener("click", deleteItinerary);
 
+  els.addStayBtn?.addEventListener("click", () => {
+    const items = getFeaturedStaysFromUI();
+    items.push(createStayItem());
+    renderFeaturedStaysBuilder(items);
+  });
+
+  els.addDayBtn?.addEventListener("click", () => {
+    const items = getItineraryDaysFromUI();
+    items.push(createDayItem({ day_number: items.length + 1 }));
+    renderItineraryDaysBuilder(items);
+  });
+
+  closeOnBackdrop(els.formDialog);
+  closeOnBackdrop(els.viewDialog);
+}
 
 (async function init() {
   const user = await requireAdmin();
   if (!user) return;
+
+  bindEvents();
+  resetForm();
   await loadItineraries();
 })();

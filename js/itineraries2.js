@@ -33,7 +33,7 @@ let allItineraries = [];
 let filteredItineraries = [];
 let activeFilters = [];
 let currentPage = 1;
-const itemsPerPage = 12;
+const itemsPerPage = 6;
 
 function escapeHtml(value) {
     if (value === null || value === undefined) return "";
@@ -222,7 +222,7 @@ function updatePaginationButtons(totalPages) {
 
     pageNumbersContainer.querySelectorAll(".page-number").forEach(el => {
         el.addEventListener("click", () => {
-            const page = parseInt(el.dataset.page, 10);
+            const page = parseInt(el.dataset.page, 5);
             if (!Number.isNaN(page) && page !== currentPage) {
                 currentPage = page;
                 renderItineraries();
