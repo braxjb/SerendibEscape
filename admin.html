@@ -18,51 +18,97 @@
 <body class="admin-body">
   <header class="admin-header">
     <div>
-      <h1>Itineraries Admin</h1>
-      <p>Manage all itinerary records from one place.</p>
+        <h1>Content Admin</h1>
+	    <p>Manage itineraries and blog posts from one place.</p>
     </div>
 
     <div class="admin-header-actions">
-      <button id="newItineraryBtn" class="btn-primary" type="button">+ New Itinerary</button>
-      <button id="logoutBtn" class="btn-secondary" type="button">Logout</button>
+	  <button id="newItemBtn" class="btn-primary" type="button">+ New Item</button>
+	  <button id="logoutBtn" class="btn-secondary" type="button">Logout</button>
     </div>
   </header>
 
   <main class="admin-main">
-    <section class="toolbar-card">
-      <div class="toolbar-left">
-        <h2>All itineraries</h2>
-        <p id="tableCount">0 itineraries</p>
-      </div>
+	<section class="admin-tabs">
+	  <button type="button" class="admin-tab is-active" data-tab="itineraries">Itineraries</button>
+	  <button type="button" class="admin-tab" data-tab="blog_posts">Blog Posts</button>
+	</section>
+	<section id="panel-itineraries" class="admin-panel is-active">
+		<section class="toolbar-card">
+		  <div class="toolbar-left">
+			<h2>All itineraries</h2>
+			<p id="tableCount">0 itineraries</p>
+		  </div>
 
-      <div class="toolbar-right">
-        <input type="text" id="searchInput" placeholder="Search by title or slug" />
-      </div>
-    </section>
+		  <div class="toolbar-right">
+			<input type="text" id="searchInput" placeholder="Search by title or slug" />
+		  </div>
+		</section>
+		<section class="table-card">
+		  <div class="table-wrap">
+			<table class="admin-table">
+			  <thead>
+				<tr>
+				  <th>Title</th>
+				  <th>Slug</th>
+				  <th>Price</th>
+				  <th>Duration</th>
+				  <th>Region</th>
+				  <th>Status</th>
+				  <th>Sort</th>
+				  <th>Actions</th>
+				</tr>
+			  </thead>
+			  <tbody id="itinerariesTableBody">
+				<tr>
+				  <td colspan="8" class="loading-cell">Loading itineraries...</td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>
+		</section>
+	</section>
+	<section id="panel-blog-posts" class="admin-panel" hidden>
+	  <section class="toolbar-card">
+		<div class="toolbar-left">
+		  <h2>All blog posts</h2>
+		  <p id="blogTableCount">0 posts</p>
+		</div>
 
-    <section class="table-card">
-      <div class="table-wrap">
-        <table class="admin-table">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Slug</th>
-              <th>Price</th>
-              <th>Duration</th>
-              <th>Region</th>
-              <th>Status</th>
-              <th>Sort</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="itinerariesTableBody">
-            <tr>
-              <td colspan="8" class="loading-cell">Loading itineraries...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+		<div class="toolbar-right">
+		  <input type="text" id="blogSearchInput" placeholder="Search by title, slug, or author" />
+		  <select id="blogStatusFilter">
+			<option value="">All statuses</option>
+			<option value="published">Published</option>
+			<option value="draft">Draft</option>
+		  </select>
+		</div>
+	  </section>
+
+	  <section class="table-card">
+		<div class="table-wrap">
+		  <table class="admin-table">
+			<thead>
+			  <tr>
+				<th>Title</th>
+				<th>Slug</th>
+				<th>Layout</th>
+				<th>Author</th>
+				<th>Status</th>
+				<th>Published</th>
+				<th>Updated</th>
+				<th>Actions</th>
+			  </tr>
+			</thead>
+			<tbody id="blogPostsTableBody">
+			  <tr>
+				<td colspan="8" class="loading-cell">Loading blog posts...</td>
+			  </tr>
+			</tbody>
+		  </table>
+		</div>
+	  </section>
+	</section>
 
     <p id="pageMessage" class="page-message"></p>
   </main>
@@ -215,6 +261,134 @@
       </div>
 
       <p id="formMessage" class="form-message"></p>
+    </form>
+  </dialog>
+
+  <dialog id="blogViewDialog" class="admin-dialog">
+    <div class="dialog-head">
+      <h2>View blog post</h2>
+      <button type="button" class="icon-btn" id="closeBlogViewDialog">✕</button>
+    </div>
+    <div class="dialog-body view-layout" id="blogViewDialogBody"></div>
+  </dialog>
+  <dialog id="blogFormDialog" class="admin-dialog admin-dialog-wide">
+    <div class="dialog-head">
+      <h2 id="blogFormDialogTitle">New blog post</h2>
+      <button type="button" class="icon-btn" id="closeBlogFormDialog">✕</button>
+    </div>
+  
+    <form id="blogPostForm" class="admin-form dialog-body">
+      <input type="hidden" id="blogPostId" />
+  
+      <div class="grid-2">
+        <div class="form-row">
+          <label for="blog_slug">Slug</label>
+          <input id="blog_slug" type="text" required />
+        </div>
+        <div class="form-row">
+          <label for="blog_title">Title</label>
+          <input id="blog_title" type="text" required />
+        </div>
+      </div>
+  
+      <div class="grid-3">
+        <div class="form-row">
+          <label for="blog_category">Category key</label>
+          <input id="blog_category" type="text" placeholder="culture" />
+        </div>
+        <div class="form-row">
+          <label for="blog_category_display">Category label</label>
+          <input id="blog_category_display" type="text" placeholder="Culture & Heritage" />
+        </div>
+        <div class="form-row">
+          <label for="blog_author">Author</label>
+          <input id="blog_author" type="text" />
+        </div>
+      </div>
+  
+      <div class="grid-3">
+        <div class="form-row">
+          <label for="blog_layout_type">Layout</label>
+          <select id="blog_layout_type">
+            <option value="standard">Standard</option>
+            <option value="feature">Feature</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="blog_status">Status</label>
+          <select id="blog_status">
+            <option value="draft">Draft</option>
+            <option value="published">Published</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="blog_published_at">Published at</label>
+          <input id="blog_published_at" type="datetime-local" />
+        </div>
+      </div>
+  
+      <div class="grid-2">
+        <div class="form-row">
+          <label for="blog_hero_image">Hero image URL</label>
+          <input id="blog_hero_image" type="text" />
+        </div>
+        <div class="form-row">
+          <label for="blog_card_image">Card image URL</label>
+          <input id="blog_card_image" type="text" />
+        </div>
+      </div>
+  
+      <div class="form-row">
+        <label for="blog_excerpt">Excerpt</label>
+        <textarea id="blog_excerpt" rows="3"></textarea>
+      </div>
+  
+      <div class="grid-2">
+        <div class="form-row">
+          <label for="blog_intro">Intro</label>
+          <textarea id="blog_intro" rows="4"></textarea>
+        </div>
+        <div class="form-row">
+          <label for="blog_blockquote">Blockquote</label>
+          <textarea id="blog_blockquote" rows="4"></textarea>
+        </div>
+      </div>
+  
+      <div class="form-row">
+        <label for="blog_pull_quote">Pull quote</label>
+        <textarea id="blog_pull_quote" rows="3"></textarea>
+      </div>
+  
+      <div class="grid-2">
+        <div class="form-row">
+          <label for="blog_lead_image">Lead image</label>
+          <input id="blog_lead_image" type="text" />
+        </div>
+        <div class="form-row">
+          <label for="blog_lead_image_alt">Lead image alt</label>
+          <input id="blog_lead_image_alt" type="text" />
+        </div>
+      </div>
+  
+      <div class="form-row">
+        <div class="builder-header">
+          <div>
+            <label>Content sections</label>
+            <small>Add the structured sections for the article body</small>
+          </div>
+          <button type="button" class="btn-secondary" id="addBlogSectionBtn">+ Add section</button>
+        </div>
+  
+        <div id="blogSectionsBuilder" class="builder-list"></div>
+      </div>
+  
+      <div class="form-actions">
+        <button type="submit" class="btn-primary" id="saveBlogBtn">Save blog post</button>
+        <button type="button" class="btn-secondary" id="resetBlogBtn">Clear</button>
+        <button type="button" class="btn-danger" id="deleteBlogBtn" style="display:none;">Delete</button>
+      </div>
+  
+      <p id="blogFormMessage" class="form-message"></p>
     </form>
   </dialog>
 
