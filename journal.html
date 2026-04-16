@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Journal | Stories from Sri Lanka | Red Dot Tours</title>
+    <title>Journal | Stories from Sri Lanka | Serendib Escape</title>
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -11,865 +11,46 @@
     <!-- Lenis Smooth Scroll -->
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.16/dist/lenis.min.js"></script>
     
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --color-white: #FFFFFF;
-            --color-stone: #F9F9F7;
-            --color-cream: #F4F1EA;
-            --color-dark: #1a1a1a;
-            --color-red: #BC2026;
-            --color-red-dark: #9e1a1f;
-            --color-gray-light: #f5f5f5;
-            --color-gray-mid: #6b6b6b;
-            --color-gray-dark: #333;
-            --font-serif: 'Playfair Display', serif;
-            --font-sans: 'Inter', sans-serif;
-            --font-mono: 'Montserrat', sans-serif;
-        }
-
-        body {
-            font-family: var(--font-sans);
-            background-color: var(--color-white);
-            color: var(--color-dark);
-            line-height: 1.5;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 40px;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 24px;
-            }
-        }
-
-        /* Header */
-        .site-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: 24px 40px;
-            transition: all 0.4s ease;
-            background: transparent;
-            color: var(--color-dark);
-        }
-
-        .site-header.scrolled {
-            background: var(--color-white);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            padding: 16px 40px;
-        }
-
-        .header-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            font-family: var(--font-serif);
-            font-size: 1.2rem;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            text-decoration: none;
-            color: var(--color-dark);
-        }
-
-        .logo span {
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            font-weight: 400;
-            letter-spacing: 0.2em;
-            margin-left: 2px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 32px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: inherit;
-            transition: color 0.3s;
-            position: relative;
-            padding-bottom: 4px;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 1px;
-            background: var(--color-red);
-            transition: width 0.3s ease, left 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-            left: 0;
-        }
-
-        .btn-cta {
-            background: var(--color-red);
-            color: white !important;
-            padding: 12px 28px;
-            border-radius: 0;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        @media (max-width: 1024px) {
-            .nav-links {
-                display: none;
-            }
-            .menu-toggle {
-                display: block;
-            }
-            .site-header, .site-header.scrolled {
-                padding: 16px 24px;
-            }
-        }
-
-        /* Hero Section - Full Viewport */
-        .hero-journal {
-            position: relative;
-            height: 100vh;
-            min-height: 600px;
-            width: 100%;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), url('https://images.pexels.com/photos/161140/sri-lanka-asia-travel-beach-161140.jpeg?auto=compress&cs=tinysrgb&w=1600');
-            background-size: cover;
-            background-position: center 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .hero-content {
-            width: 100%;
-        }
-
-        .hero-text-overlay {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 40px;
-        }
-
-        .hero-title-large {
-            font-family: var(--font-serif);
-            font-size: clamp(40px, 10vw, 84px);
-            font-weight: 600;
-            color: white;
-            line-height: 1.2;
-            margin-bottom: 16px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeUp 0.8s forwards 0.3s;
-        }
-
-        .hero-subtitle {
-            font-family: var(--font-sans);
-            font-size: clamp(14px, 4vw, 18px);
-            color: rgba(255, 255, 255, 0.9);
-            max-width: 90%;
-            margin: 0 auto;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeUp 0.8s forwards 0.5s;
-        }
-
-        @keyframes fadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Scroll Indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            z-index: 10;
-            animation: bounce 2s infinite;
-            cursor: pointer;
-        }
-
-        .scroll-indicator span {
-            width: 1px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.6);
-        }
-
-        .scroll-indicator p {
-            color: white;
-            font-size: 10px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 400;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(8px); }
-        }
-
-        /* Breadcrumb */
-        .breadcrumb-section {
-            background: var(--color-white);
-            padding: 16px 0;
-            border-bottom: 1px solid #eaeaea;
-        }
-
-        .breadcrumbs {
-            font-family: var(--font-mono);
-            font-size: 10px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--color-gray-mid);
-        }
-
-        .breadcrumbs a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        .breadcrumbs a:hover {
-            color: var(--color-red);
-        }
-
-        /* Intro Text Section */
-        .intro-text-section {
-            background: var(--color-white);
-            padding: 50px 0;
-        }
-
-        .intro-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-        }
-
-        .intro-left {
-            font-family: var(--font-serif);
-            font-size: clamp(20px, 4vw, 24px);
-            line-height: 1.3;
-            color: var(--color-dark);
-        }
-
-        .intro-right {
-            font-size: clamp(14px, 3vw, 16px);
-            line-height: 1.6;
-            color: var(--color-gray-mid);
-        }
-
-        /* Main Content Layout */
-        .main-content {
-            display: flex;
-            gap: 40px;
-            padding: 50px 0;
-            position: relative;
-        }
-
-        /* Sidebar Filters */
-        .filters-sidebar {
-            width: 280px;
-            flex-shrink: 0;
-            position: sticky;
-            top: 100px;
-            align-self: flex-start;
-            height: fit-content;
-        }
-
-        .filter-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .filter-header h3 {
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .filter-count {
-            background: var(--color-gray-light);
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .clear-all {
-            color: var(--color-red);
-            font-size: 12px;
-            text-decoration: none;
-            cursor: pointer;
-            display: none;
-        }
-
-        .clear-all.visible {
-            display: inline;
-        }
-
-        .filter-group {
-            margin-bottom: 24px;
-        }
-
-        .filter-group h4 {
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-            color: var(--color-gray-mid);
-        }
-
-        .filter-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .filter-tag {
-            padding: 6px 14px;
-            background: var(--color-stone);
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: none;
-            font-family: var(--font-sans);
-        }
-
-        .filter-tag.active {
-            background: var(--color-red);
-            color: white;
-        }
-
-        /* Results Area */
-        .results-area {
-            flex: 1;
-        }
-
-        /* Featured Article */
-        .featured-article {
-            margin-bottom: 50px;
-            text-decoration: none;
-            display: block;
-            position: relative;
-            width: 100%;
-            aspect-ratio: 1069.86 / 534.92;
-            overflow: hidden;
-        }
-
-        .featured-image-full {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .featured-image-full img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-        }
-
-        .featured-article:hover .featured-image-full img {
-            transform: scale(1.03);
-        }
-
-        /* Description Box */
-        .featured-description-box {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            right: auto;
-            width: min(280px, calc(100% - 40px));
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(2px);
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            z-index: 10;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .featured-category {
-            font-family: var(--font-mono);
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--color-red);
-            display: inline-block;
-        }
-
-        .featured-title {
-            font-family: var(--font-serif);
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--color-dark);
-            line-height: 1.3;
-        }
-
-        .featured-excerpt {
-            font-family: var(--font-sans);
-            font-size: 11px;
-            line-height: 1.4;
-            color: var(--color-gray-mid);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .read-article-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: transparent;
-            border: 1px solid var(--color-red);
-            border-radius: 60px;
-            padding: 6px 14px;
-            text-decoration: none;
-            font-family: var(--font-mono);
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            color: var(--color-red);
-            transition: all 0.3s ease;
-            width: fit-content;
-            cursor: pointer;
-        }
-
-        .read-article-btn:hover {
-            background: var(--color-red);
-            color: white;
-            gap: 12px;
-        }
-
-        /* Articles Grid */
-        .articles-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-
-        .article-card {
-            text-decoration: none;
-            display: block;
-            transition: transform 0.3s ease;
-        }
-
-        .article-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .article-image-square {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            overflow: hidden;
-            background: #f0f0f0;
-        }
-
-        .article-image-square img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .article-card:hover .article-image-square img {
-            transform: scale(1.05);
-        }
-
-        .article-description-outer {
-            width: 100%;
-            background: white;
-            position: relative;
-        }
-
-        .article-description-inner {
-            position: relative;
-            width: calc(100% - 30px);
-            margin: 0 auto;
-            background: white;
-            padding: 16px;
-            text-align: center;
-            transform: translateY(-16px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(0, 0, 0, 0.03);
-        }
-
-        .article-category {
-            font-family: var(--font-mono);
-            font-size: 9px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--color-red);
-            margin-bottom: 6px;
-            display: inline-block;
-        }
-
-        .article-title {
-            font-family: var(--font-serif);
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--color-dark);
-            line-height: 1.3;
-            margin-bottom: 8px;
-        }
-
-        .article-excerpt {
-            font-family: var(--font-sans);
-            font-size: 11px;
-            line-height: 1.4;
-            color: var(--color-gray-mid);
-            margin-bottom: 10px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .article-meta {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            font-size: 9px;
-            color: var(--color-gray-mid);
-            margin-bottom: 10px;
-        }
-
-        .article-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: transparent;
-            border: 1px solid var(--color-red);
-            border-radius: 60px;
-            padding: 5px 12px;
-            text-decoration: none;
-            font-family: var(--font-mono);
-            font-size: 9px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            color: var(--color-red);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .article-btn:hover {
-            background: var(--color-red);
-            color: white;
-            gap: 10px;
-        }
-
-        /* Pagination */
-        .pagination-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 16px;
-            margin: 40px 0 60px;
-            flex-wrap: wrap;
-        }
-
-        .pagination-btn {
-            background: var(--color-white);
-            border: 1px solid #e0e0e0;
-            padding: 10px 20px;
-            font-family: var(--font-mono);
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: var(--color-dark);
-            min-width: 90px;
-        }
-
-        .pagination-btn:hover:not(:disabled) {
-            background: var(--color-red);
-            border-color: var(--color-red);
-            color: white;
-        }
-
-        .pagination-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        .page-numbers {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .page-number {
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-mono);
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: var(--color-gray-mid);
-            border-radius: 50%;
-        }
-
-        .page-number:hover {
-            background: rgba(188, 32, 38, 0.1);
-            color: var(--color-red);
-        }
-
-        .page-number.active {
-            background: var(--color-red);
-            color: white;
-        }
-
-        /* Footer */
-        .footer {
-            background: #111111;
-            color: rgba(255,255,255,0.6);
-            padding: 50px 0 30px;
-            position: relative;
-        }
-
-        .footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--color-red);
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1.5fr;
-            gap: 30px;
-        }
-
-        .footer-logo {
-            font-family: var(--font-serif);
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: white;
-            margin-bottom: 12px;
-        }
-
-        .social-icons {
-            display: flex;
-            gap: 16px;
-            margin-top: 16px;
-        }
-
-        .social-icons a {
-            color: rgba(255,255,255,0.6);
-            text-decoration: none;
-            font-size: 18px;
-        }
-
-        .footer-links h4 {
-            color: white;
-            font-size: 13px;
-            margin-bottom: 16px;
-        }
-
-        .footer-links a {
-            display: block;
-            color: rgba(255,255,255,0.6);
-            text-decoration: none;
-            margin-bottom: 10px;
-            font-size: 12px;
-        }
-
-        .trust-logos {
-            display: flex;
-            gap: 16px;
-            margin-top: 16px;
-        }
-
-        .trust-logos img {
-            height: 28px;
-            filter: brightness(0) invert(0.6);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255,255,255,0.1);
-            margin-top: 40px;
-            padding-top: 24px;
-            text-align: center;
-            font-size: 10px;
-        }
-
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--color-red);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-decoration: none;
-            z-index: 99;
-            transition: transform 0.3s;
-            cursor: pointer;
-        }
-
-        .back-to-top:hover {
-            transform: translateY(-5px);
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .articles-grid {
-                gap: 24px;
-            }
-        }
-
-        @media (max-width: 900px) {
-            .main-content {
-                flex-direction: column;
-            }
-            .filters-sidebar {
-                width: 100%;
-                position: relative;
-                top: 0;
-            }
-            .filter-tags {
-                justify-content: center;
-            }
-            .filter-header {
-                justify-content: center;
-            }
-            .articles-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .footer-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .intro-grid {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hero-journal {
-                min-height: 500px;
-            }
-            .hero-title-large {
-                font-size: 42px;
-            }
-            .featured-description-box {
-                bottom: 15px;
-                left: 15px;
-                right: 15px;
-                width: auto;
-            }
-            .articles-grid {
-                gap: 20px;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .hero-title-large {
-                font-size: 36px;
-            }
-            .articles-grid {
-                grid-template-columns: 1fr;
-                max-width: 380px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-            .footer-grid {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            .social-icons {
-                justify-content: center;
-            }
-            .trust-logos {
-                justify-content: center;
-            }
-        }
-    </style>
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/journal.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
 </head>
 <body>
 
+<!-- ============================================ -->
+<!-- NAVIGATION BAR - SERENDIB ESCAPE -->
+<!-- ============================================ -->
 <header class="site-header" id="siteHeader">
     <div class="header-inner">
-        <a href="#" class="logo">RED DOT<span>TOURS</span></a>
-        <div class="nav-links">
-            <a href="#">Destinations</a>
-            <a href="#">About Us</a>
-            <a href="#">Inspiration</a>
-            <a href="#">Trip Finder</a>
-            <a href="journal.html">Journal</a>
-            <a href="#" class="btn-cta">Plan Your Trip</a>
-        </div>
-        <button class="menu-toggle" id="menuToggle">☰</button>
+        <!-- Logo with Image and Text -->
+        <a href="index.html" class="logo-wrapper">
+            <div class="logo-container">
+                <img src="images/WhatsApp_Image_2026-02-11_at_09.02.53-removebg-preview.png" alt="Serendib Escape Logo" class="logo-img">
+                <div class="logo-text">
+                    <span class="logo-primary">SERENDIB</span>
+                    <span class="logo-accent">ESCAPE</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Desktop Navigation Menu -->
+        <nav class="nav-links" aria-label="Main Navigation">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="destinations.html" class="nav-link">Destinations</a>
+            <a href="itineraries.html" class="nav-link">Itineraries</a>
+            <a href="experiences.html" class="nav-link">Experiences</a>
+            <a href="journal.html" class="nav-link">Journal</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="contact.html" class="nav-link btn-inquire">Inquire</a>
+        </nav>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu" aria-expanded="false">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
     </div>
 </header>
 
@@ -972,332 +153,145 @@
     </div>
 </main>
 
-<footer class="footer">
-    <div class="container">
-        <div class="footer-grid">
-            <div>
-                <div class="footer-logo">RED DOT<span style="font-size: 10px;">TOURS</span></div>
-                <p style="font-size: 13px;">Tailor-made journeys to Sri Lanka, India & the Maldives.</p>
-                <div class="social-icons">
-                    <a href="#">📷</a>
-                    <a href="#">📘</a>
-                    <a href="#">🐦</a>
-                    <a href="#">📌</a>
+<!-- Footer -->
+    <footer class="vintage-footer">
+        <div class="footer-container">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="footer-logo-wrapper">
+                        <img src="images/logo.png" alt="Serendib Escape Logo" class="footer-logo-img">
+                        <div class="footer-logo-text">
+                            <span class="logo-primary">SERENDIB</span>
+                            <span class="logo-accent">ESCAPE</span>
+                        </div>
+                    </div>
+                    <p class="footer-tagline">
+                        Curating extraordinary journeys through Sri Lanka's most breathtaking destinations. 
+                        Experience luxury, authenticity, and unparalleled service.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <circle cx="12" cy="12" r="4.5"></circle>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Pinterest">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M8 21.1c-.4-2.1-.6-4.2 0-6.2.9-2.9 1.5-5.9 2.4-8.8"></path>
+                                <path d="M12 12c-2.8 0-4 1.8-4 4 0 2.6 1.5 4 4 4 3.5 0 5-2.8 5-5.5 0-3-1.9-5.5-4.5-5.5-2.5 0-4 1.8-4 3.5"></path>
+                                <circle cx="12" cy="12" r="10"></circle>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-links-group">
+                    <h4 class="footer-heading">Explore</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Destinations</a></li>
+                        <li><a href="#">Itineraries</a></li>
+                        <li><a href="#">Experiences</a></li>
+                        <li><a href="#">Journal</a></li>
+                        <li><a href="#">Travel Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-group">
+                    <h4 class="footer-heading">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-group">
+                    <h4 class="footer-heading">Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Booking Conditions</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">Accessibility</a></li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h4 class="footer-heading">Stay Inspired</h4>
+                    <p class="newsletter-text">Receive exclusive travel insights, special offers, and destination guides.</p>
+                    <form class="newsletter-form" action="#" method="POST">
+                        <input type="email" placeholder="Your email address" aria-label="Email address">
+                        <button type="submit" aria-label="Subscribe">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </button>
+                    </form>
+                    <div class="trust-badges">
+                        <div class="trust-badge">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 2L15 8L22 9L17 14L18 21L12 17L6 21L7 14L2 9L9 8L12 2Z"></path>
+                            </svg>
+                            <span>ABTA Protected</span>
+                        </div>
+                        <div class="trust-badge">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 2L15 8L22 9L17 14L18 21L12 17L6 21L7 14L2 9L9 8L12 2Z"></path>
+                            </svg>
+                            <span>ATOL Bonded</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="footer-links">
-                <h4>Destinations</h4>
-                <a href="#">Sri Lanka</a>
-                <a href="#">India</a>
-                <a href="#">Maldives</a>
-                <a href="#">Bhutan</a>
-            </div>
-            <div class="footer-links">
-                <h4>About</h4>
-                <a href="#">Our Story</a>
-                <a href="#">Sustainability</a>
-                <a href="#">Careers</a>
-            </div>
-            <div class="footer-links">
-                <h4>Legal</h4>
-                <div class="trust-logos">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/TripAdvisor_logo.svg/2560px-TripAdvisor_logo.svg.png" alt="TripAdvisor">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/ABTA_Logo.svg/2048px-ABTA_Logo.svg.png" alt="ABTA">
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    <p>&copy; <span id="currentYear"></span> Serendib Escape — Tailor-Made Sri Lanka Journeys. All rights reserved.</p>
                 </div>
-                <a href="#">ATOL Protected</a>
-                <a href="#">Privacy Policy</a>
+                <div class="footer-payment">
+                    <span>We Accept</span>
+                    <div class="payment-icons">
+                        <svg width="32" height="20" viewBox="0 0 38 24" fill="none">
+                            <rect x="0.5" y="0.5" width="37" height="23" rx="2.5" fill="white" stroke="#E0E0E0"/>
+                            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#1A1A1A" font-size="10" font-family="monospace">VISA</text>
+                        </svg>
+                        <svg width="32" height="20" viewBox="0 0 38 24" fill="none">
+                            <rect x="0.5" y="0.5" width="37" height="23" rx="2.5" fill="white" stroke="#E0E0E0"/>
+                            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#1A1A1A" font-size="8" font-family="monospace">MC</text>
+                        </svg>
+                        <svg width="32" height="20" viewBox="0 0 38 24" fill="none">
+                            <rect x="0.5" y="0.5" width="37" height="23" rx="2.5" fill="white" stroke="#E0E0E0"/>
+                            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#1A1A1A" font-size="8" font-family="monospace">AMEX</text>
+                        </svg>
+                        <svg width="32" height="20" viewBox="0 0 38 24" fill="none">
+                            <rect x="0.5" y="0.5" width="37" height="23" rx="2.5" fill="white" stroke="#E0E0E0"/>
+                            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#1A1A1A" font-size="8" font-family="monospace">PAYPAL</text>
+                        </svg>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="footer-bottom">
-            © 2025 Red Dot Tours — Tailor-Made Travel. All rights reserved. Site by Form
-        </div>
-    </div>
-</footer>
+    </footer>
+
 
 <a href="#" class="back-to-top" id="backToTop">↑</a>
 
-<script>
-    // Complete Article Database (matching the article page)
-    const articlesDB = {
-        'the-sacred-city-of-kandy': {
-            slug: 'the-sacred-city-of-kandy',
-            title: "The Sacred City of Kandy: Where Tradition Meets Tranquility",
-            category: "culture",
-            categoryDisplay: "Culture & Heritage",
-            region: "hill-country",
-            date: "March 15, 2025",
-            readTime: "8 min read",
-            author: "Samanthie Perera",
-            image: "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop",
-            featuredImage: "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600&fit=crop",
-            excerpt: "Discover the spiritual heart of Sri Lanka, where ancient rituals and the Temple of the Tooth create an atmosphere unlike anywhere else.",
-            featured: true
-        },
-        'guide-to-sri-lanka-wildlife-safaris': {
-            slug: 'guide-to-sri-lanka-wildlife-safaris',
-            title: "A Guide to Sri Lanka's Best Wildlife Safaris",
-            category: "wildlife",
-            categoryDisplay: "Wildlife & Nature",
-            region: "coastal",
-            date: "March 10, 2025",
-            readTime: "6 min read",
-            author: "Mark Wilson",
-            image: "https://images.pexels.com/photos/247502/pexels-photo-247502.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop",
-            featuredImage: "https://images.pexels.com/photos/247502/pexels-photo-247502.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600&fit=crop",
-            excerpt: "From leopards in Yala to elephants in Udawalawe, discover the best places to witness Sri Lanka's incredible biodiversity.",
-            featured: false
-        },
-        'flavours-of-jaffna-culinary-journey': {
-            slug: 'flavours-of-jaffna-culinary-journey',
-            title: "The Flavours of Jaffna: A Culinary Journey",
-            category: "food",
-            categoryDisplay: "Food & Culinary",
-            region: "coastal",
-            date: "March 5, 2025",
-            readTime: "7 min read",
-            author: "Priya Kumar",
-            image: "https://images.pexels.com/photos/4045581/pexels-photo-4045581.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop",
-            featuredImage: "https://images.pexels.com/photos/4045581/pexels-photo-4045581.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600&fit=crop",
-            excerpt: "Explore the unique Tamil cuisine of Northern Sri Lanka, from crab curry to traditional sweets.",
-            featured: false
-        },
-        'hidden-beaches-sri-lanka': {
-            slug: 'hidden-beaches-sri-lanka',
-            title: "5 Hidden Beaches You Won't Find in Guidebooks",
-            category: "travel-tips",
-            categoryDisplay: "Travel Tips",
-            region: "coastal",
-            date: "February 28, 2025",
-            readTime: "5 min read",
-            author: "Emma Thompson",
-            image: "https://images.pexels.com/photos/2867380/pexels-photo-2867380.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop",
-            featuredImage: "https://images.pexels.com/photos/2867380/pexels-photo-2867380.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600&fit=crop",
-            excerpt: "Escape the crowds and discover secluded coastal gems along Sri Lanka's southern and eastern shores.",
-            featured: false
-        },
-        'art-of-ceylon-tea': {
-            slug: 'art-of-ceylon-tea',
-            title: "The Art of Ceylon Tea: From Leaf to Cup",
-            category: "culture",
-            categoryDisplay: "Culture & Heritage",
-            region: "hill-country",
-            date: "February 22, 2025",
-            readTime: "6 min read",
-            author: "Samanthie Perera",
-            image: "https://images.pexels.com/photos/1461282/pexels-photo-1461282.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop",
-            featuredImage: "https://images.pexels.com/photos/1461282/pexels-photo-1461282.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600&fit=crop",
-            excerpt: "Visit the misty tea plantations of Nuwara Eliya and learn about the centuries-old tradition of Ceylon tea.",
-            featured: false
-        },
-        'interview-local-fisherman-mirissa': {
-            slug: 'interview-local-fisherman-mirissa',
-            title: "Interview: A Local Fisherman's Life in Mirissa",
-            category: "interviews",
-            categoryDisplay: "Interviews",
-            region: "coastal",
-            date: "February 18, 2025",
-            readTime: "9 min read",
-            author: "James Carter",
-            image: "https://images.pexels.com/photos/2245436/pexels-photo-2245436.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop",
-            featuredImage: "https://images.pexels.com/photos/2245436/pexels-photo-2245436.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600&fit=crop",
-            excerpt: "Meet Dayan, a third-generation fisherman who shares stories of life on the Indian Ocean.",
-            featured: false
-        }
-    };
+<!-- JavaScript Files -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/journal.js"></script>
+<script src="js/header.js"></script>
+<script src="js/footer.js"></script>
 
-    const regularArticles = Object.values(articlesDB).filter(a => !a.featured);
-    let activeFilters = [];
-    let currentPage = 1;
-    const itemsPerPage = 6;
-    let filteredArticles = [...regularArticles];
-
-    function getCategoryName(category) {
-        const categories = {
-            'culture': 'Culture & Heritage',
-            'wildlife': 'Wildlife & Nature',
-            'food': 'Food & Culinary',
-            'travel-tips': 'Travel Tips',
-            'interviews': 'Interviews',
-            'sustainable': 'Sustainable Travel'
-        };
-        return categories[category] || category;
-    }
-
-    function renderArticles() {
-        if (activeFilters.length > 0) {
-            filteredArticles = regularArticles.filter(article => 
-                activeFilters.some(filter => 
-                    article.category === filter || article.region === filter
-                )
-            );
-        } else {
-            filteredArticles = [...regularArticles];
-        }
-        
-        const filterCount = document.getElementById('filterCount');
-        const clearAll = document.getElementById('clearAll');
-        if (filterCount) filterCount.textContent = filteredArticles.length;
-        if (clearAll) clearAll.classList.toggle('visible', activeFilters.length > 0);
-        
-        const totalPages = Math.ceil(filteredArticles.length / itemsPerPage);
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        const paginatedItems = filteredArticles.slice(startIndex, endIndex);
-        
-        const grid = document.getElementById('articlesGrid');
-        if (grid) {
-            grid.innerHTML = paginatedItems.map(article => `
-                <a href="article.html?slug=${article.slug}" class="article-card">
-                    <div class="article-image-square">
-                        <img src="${article.image}" alt="${article.title}">
-                    </div>
-                    <div class="article-description-outer">
-                        <div class="article-description-inner">
-                            <span class="article-category">${article.categoryDisplay}</span>
-                            <h3 class="article-title">${article.title}</h3>
-                            <p class="article-excerpt">${article.excerpt.substring(0, 80)}...</p>
-                            <div class="article-meta">
-                                <span>📅 ${article.date}</span>
-                                <span>⏱ ${article.readTime}</span>
-                            </div>
-                            <span class="article-btn">Read Article →</span>
-                        </div>
-                    </div>
-                </a>
-            `).join('');
-        }
-        
-        updatePaginationButtons(totalPages);
-    }
-    
-    function updatePaginationButtons(totalPages) {
-        const prevBtn = document.getElementById('prevPageBtn');
-        const nextBtn = document.getElementById('nextPageBtn');
-        const pageNumbersContainer = document.getElementById('pageNumbers');
-        
-        if (prevBtn) prevBtn.disabled = currentPage === 1;
-        if (nextBtn) nextBtn.disabled = currentPage === totalPages || totalPages === 0;
-        
-        if (!pageNumbersContainer) return;
-        
-        let pageNumbersHtml = '';
-        const maxVisiblePages = 5;
-        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-        
-        if (endPage - startPage + 1 < maxVisiblePages) {
-            startPage = Math.max(1, endPage - maxVisiblePages + 1);
-        }
-        
-        if (startPage > 1) {
-            pageNumbersHtml += `<div class="page-number" data-page="1">1</div>`;
-            if (startPage > 2) pageNumbersHtml += `<span class="page-dots">...</span>`;
-        }
-        
-        for (let i = startPage; i <= endPage; i++) {
-            pageNumbersHtml += `<div class="page-number ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</div>`;
-        }
-        
-        if (endPage < totalPages) {
-            if (endPage < totalPages - 1) pageNumbersHtml += `<span class="page-dots">...</span>`;
-            pageNumbersHtml += `<div class="page-number" data-page="${totalPages}">${totalPages}</div>`;
-        }
-        
-        pageNumbersContainer.innerHTML = pageNumbersHtml;
-        
-        document.querySelectorAll('.page-number').forEach(el => {
-            el.addEventListener('click', () => {
-                const page = parseInt(el.dataset.page);
-                if (!isNaN(page) && page !== currentPage) {
-                    currentPage = page;
-                    renderArticles();
-                }
-            });
-        });
-    }
-
-    function initFilters() {
-        const filterTags = document.querySelectorAll('.filter-tag');
-        filterTags.forEach(tag => {
-            tag.addEventListener('click', () => {
-                const filterValue = tag.dataset.filter;
-                if (activeFilters.includes(filterValue)) {
-                    activeFilters = activeFilters.filter(f => f !== filterValue);
-                    tag.classList.remove('active');
-                } else {
-                    activeFilters.push(filterValue);
-                    tag.classList.add('active');
-                }
-                currentPage = 1;
-                renderArticles();
-            });
-        });
-        
-        const clearAll = document.getElementById('clearAll');
-        if (clearAll) {
-            clearAll.addEventListener('click', (e) => {
-                e.preventDefault();
-                activeFilters = [];
-                document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
-                currentPage = 1;
-                renderArticles();
-            });
-        }
-    }
-
-    renderArticles();
-    initFilters();
-
-    const prevBtn = document.getElementById('prevPageBtn');
-    const nextBtn = document.getElementById('nextPageBtn');
-    if (prevBtn) {
-        prevBtn.addEventListener('click', () => {
-            if (currentPage > 1) {
-                currentPage--;
-                renderArticles();
-            }
-        });
-    }
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            const totalPages = Math.ceil(filteredArticles.length / itemsPerPage);
-            if (currentPage < totalPages) {
-                currentPage++;
-                renderArticles();
-            }
-        });
-    }
-
-    // Lenis Smooth Scroll
-    const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
-    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-    requestAnimationFrame(raf);
-
-    const header = document.getElementById('siteHeader');
-    window.addEventListener('scroll', () => {
-        if (header) header.classList.toggle('scrolled', window.scrollY > 50);
-    });
-
-    const scrollIndicator = document.getElementById('scrollIndicator');
-    if (scrollIndicator) {
-        scrollIndicator.addEventListener('click', () => {
-            const overviewSection = document.querySelector('.intro-text-section');
-            if (overviewSection) lenis.scrollTo(overviewSection, { offset: -70 });
-        });
-    }
-
-    const backToTop = document.getElementById('backToTop');
-    if (backToTop) {
-        backToTop.addEventListener('click', (e) => {
-            e.preventDefault();
-            lenis.scrollTo(0, { immediate: true });
-        });
-    }
-
-    const menuToggle = document.getElementById('menuToggle');
-    if (menuToggle) {
-        menuToggle.addEventListener('click', () => alert('Mobile menu navigation would expand here'));
-    }
-</script>
 </body>
 </html>

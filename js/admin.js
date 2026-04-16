@@ -1,7 +1,3 @@
-const ADMIN_ALLOWED_USER_IDS = [
-  "67982a5d-ee33-4e9d-ba9b-9f59b172874c"
-];
-
 const els = {
   pageMessage: document.getElementById("pageMessage"),
 
@@ -164,7 +160,24 @@ async function requireAdmin() {
     return null;
   }
 
-  if (!ADMIN_ALLOWED_USER_IDS.includes(data.user.id)) {
+  const { data: profile, error: profileError } = await supabaseClient
+    .from("profiles")
+    .select("id, is_admin")
+    .eq("id", data.user.id)
+    .maybeSingle();
+
+  if (profileError) {
+    console.error("Profile check failed:", profileError);
+    document.body.innerHTML = `
+      <main style="padding:40px;font-family:Arial,sans-serif;">
+        <h1>Access denied</h1>
+        <p>Could not verify admin profile.</p>
+      </main>
+    `;
+    return null;
+  }
+
+  if (!profile || profile.is_admin !== true) {
     document.body.innerHTML = `
       <main style="padding:40px;font-family:Arial,sans-serif;">
         <h1>Access denied</h1>

@@ -331,6 +331,7 @@ async function loadArticle() {
     .eq('slug', slug)
     .eq('status', 'published')
     .single();
+  console.log(article);
 
   if (error || !article) {
     document.getElementById('articleTitle').textContent = 'Article Not Found';

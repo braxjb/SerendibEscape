@@ -828,3 +828,29 @@ body {
 .back-to-top:hover {
     transform: translateY(-5px);
 }
+
+.results-message {
+    grid-column: 1 / -1;
+    min-height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 32px;
+    background: var(--color-stone);
+    color: var(--color-gray-mid);
+    font-size: 16px;
+}
+
+.mobile-menu-overlay {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: 0.3s ease;
+}
+
+.mobile-menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
