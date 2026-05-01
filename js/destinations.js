@@ -155,7 +155,6 @@ async function fetchDestinationItineraries() {
     .eq("is_published", true)
     .order("sort_order", { ascending: true })
     .order("created_at", { ascending: false })
-    .limit(3);
 
   if (error) {
     throw error;
