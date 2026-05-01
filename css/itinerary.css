@@ -1295,3 +1295,96 @@ body {
 .back-to-top:hover {
     transform: translateY(-5px);
 }
+
+/* Premium page reveal animations */
+.reveal-premium {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.reveal-premium.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Premium card hover */
+.at-a-glance,
+.stay-card,
+.step-box,
+.why-item,
+.testimonial-carousel {
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.at-a-glance:hover,
+.stay-card:hover,
+.why-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.12);
+}
+
+/* Hero luxury zoom */
+.hero-itinerary {
+    animation: heroLuxuryZoom 12s ease-out forwards;
+}
+
+@keyframes heroLuxuryZoom {
+    from {
+        background-size: 105%;
+    }
+    to {
+        background-size: 112%;
+    }
+}
+
+/* Soft premium glow for buttons */
+.back-button {
+	z-index: 1;
+}
+/*.book-btn,
+.ghost-btn,
+.back-button {
+    position: relative;
+    overflow: hidden;
+}
+
+.book-btn::before,
+.ghost-btn::before,
+.back-button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 80%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.35),
+        transparent
+    );
+    transition: left 0.7s ease;
+}
+
+.book-btn:hover::before,
+.ghost-btn:hover::before,
+.back-button:hover::before {
+    left: 120%;
+}
+*/
+/* Timeline expand animation */
+.day-content {
+    animation: premiumDrop 0.45s ease;
+}
+
+@keyframes premiumDrop {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

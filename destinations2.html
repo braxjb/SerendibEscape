@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Serendib Escape | Tailor-Made Holidays in Sri Lanka, India & Maldives</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+    
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.16/dist/lenis.min.js"></script>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/destinations2.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+</head>
+<body>
+
+<!-- ============================================ -->
+<!-- NAVIGATION BAR - SERENDIB ESCAPE -->
+<!-- ============================================ -->
+<header class="site-header" id="siteHeader">
+    <div class="header-inner">
+        <!-- Logo with Image and Text -->
+        <a href="index.html" class="logo-wrapper">
+            <div class="logo-container">
+                <img src="images/WhatsApp_Image_2026-02-11_at_09.02.53-removebg-preview.png" alt="Serendib Escape Logo" class="logo-img">
+                <div class="logo-text">
+                    <span class="logo-primary">SERENDIB</span>
+                    <span class="logo-accent">ESCAPE</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Desktop Navigation Menu -->
+        <nav class="nav-links" aria-label="Main Navigation">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="destinations.html" class="nav-link">Destinations</a>
+            <a href="itineraries.html" class="nav-link">Itineraries</a>
+            <a href="experiences.html" class="nav-link">Experiences</a>
+            <a href="journal.html" class="nav-link">Journal</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="contact.html" class="nav-link btn-inquire">Inquire</a>
+        </nav>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu" aria-expanded="false">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+    </div>
+</header>
+
+<!-- Mobile Menu Overlay - Moved outside header for proper z-index -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <div class="mobile-menu-container">
+        <div class="mobile-menu-header">
+            <div class="mobile-logo">
+                <img src="images/WhatsApp_Image_2026-02-11_at_09.02.53-removebg-preview.png" alt="Serendib Escape Logo" class="mobile-logo-img">
+                <div class="mobile-logo-text">
+                    <span class="mobile-logo-primary">SERENDIB</span>
+                    <span class="mobile-logo-accent">ESCAPE</span>
+                </div>
+            </div>
+            <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close Menu">✕</button>
+        </div>
+        <ul class="mobile-nav-menu">
+            <li><a href="index.html" class="mobile-nav-link">Home</a></li>
+            <li><a href="destinations.html" class="mobile-nav-link">Destinations</a></li>
+            <li><a href="itineraries.html" class="mobile-nav-link">Itineraries</a></li>
+            <li><a href="experiences.html" class="mobile-nav-link">Experiences</a></li>
+            <li><a href="journal.html" class="mobile-nav-link">Journal</a></li>
+            <li><a href="about.html" class="mobile-nav-link">About</a></li>
+            <li><a href="contact.html" class="mobile-nav-link mobile-inquire">Inquire Now</a></li>
+        </ul>
+        <div class="mobile-menu-footer">
+            <div class="mobile-social">
+                <a href="#" class="mobile-social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="mobile-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="mobile-social-link" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+            </div>
+            <p class="mobile-menu-tagline">Your Luxury Sri Lanka Experience</p>
+        </div>
+    </div>
+</div>
+
+<main class="destination-page">
+
+  <!-- HERO -->
+  <section class="destination-hero">
+    <div class="destination-hero-bg">
+      <img src="./images/sri-lanka-hero.jpg" alt="Sri Lanka landscape" />
+    </div>
+
+    <div class="destination-hero-content">
+      <span class="hero-kicker animate-in">Destinations</span>
+      <h1 class="hero-headline animate-in">
+        Sri Lanka <span class="italic">Tailor-Made</span> Holidays
+      </h1>
+      <p class="hero-description animate-in">
+        From ancient cities and misty tea country to wild safaris, golden beaches,
+        and hidden cultural experiences, Sri Lanka is a compact island filled with
+        unforgettable journeys.
+      </p>
+
+      <div class="hero-buttons animate-in">
+        <a href="#plan-trip" class="btn-primary">
+          Start Planning
+          <span class="btn-arrow">→</span>
+        </a>
+        <a href="#places" class="btn-secondary">
+          Explore Places
+          <span class="btn-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE NAV -->
+  <nav class="destination-subnav">
+    <a href="#overview">Overview</a>
+    <a href="#places">Places to Visit</a>
+    <a href="#itineraries">Itineraries</a>
+    <a href="#stays">Stays</a>
+    <a href="#facts">Facts</a>
+    <a href="#faq">FAQs</a>
+  </nav>
+
+  <!-- OVERVIEW -->
+  <section id="overview" class="destination-overview">
+    <div class="destination-container overview-grid">
+      <div class="overview-left">
+        <span class="script">Island of contrasts</span>
+        <h2 class="headline">
+          A small island with beaches, wildlife, culture, tea country and ancient history.
+        </h2>
+        <div class="divider"></div>
+        <p>
+          Sri Lanka is ideal for travellers who want variety without long internal flights.
+          Within one journey, guests can explore UNESCO heritage sites, travel through
+          green hill country, watch elephants and leopards in national parks, relax on
+          the coast, and experience warm local hospitality.
+        </p>
+        <p>
+          This page can work as your main destination guide. Later, you can connect each
+          place card to an itinerary page, blog post, hotel page, or enquiry form.
+        </p>
+
+        <a href="#plan-trip" class="luxury-btn">
+          <span>Design My Journey</span>
+          <span class="arrow-icon">→</span>
+        </a>
+      </div>
+
+      <div class="overview-image-card">
+        <img src="./images/sri-lanka-overview.jpg" alt="Sri Lanka travel experience" />
+        <div class="overview-floating-card">
+          <span>Best for</span>
+          <strong>Culture • Wildlife • Beaches • Tea Country</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY WE LOVE -->
+  <section class="destination-love-section">
+    <div class="destination-container">
+      <div class="section-heading-center">
+        <span class="articles-script">Why we love Sri Lanka</span>
+        <h2 class="articles-title">
+          Experiences that feel <span class="italic">personal</span>
+        </h2>
+        <div class="articles-divider"></div>
+        <p class="articles-subtitle">
+          These are the reasons travellers keep choosing Sri Lanka for private,
+          meaningful and flexible holidays.
+        </p>
+      </div>
+
+      <div class="love-grid">
+        <article class="love-card">
+          <span class="love-number">01</span>
+          <h3>Wildlife Safaris</h3>
+          <p>
+            Track elephants, leopards, sloth bears and rich birdlife across national parks
+            such as Yala, Wilpattu, Gal Oya and Udawalawe.
+          </p>
+        </article>
+
+        <article class="love-card">
+          <span class="love-number">02</span>
+          <h3>Ancient Cities</h3>
+          <p>
+            Discover Sigiriya, Dambulla, Anuradhapura and Polonnaruwa with stories,
+            temples, ruins and sacred cultural landmarks.
+          </p>
+        </article>
+
+        <article class="love-card">
+          <span class="love-number">03</span>
+          <h3>Tea Country</h3>
+          <p>
+            Journey through misty mountain roads, tea estates, waterfalls, colonial towns
+            and scenic train routes.
+          </p>
+        </article>
+
+        <article class="love-card">
+          <span class="love-number">04</span>
+          <h3>Coastal Escapes</h3>
+          <p>
+            Choose between lively surf towns, quiet boutique beach stays, family-friendly
+            coastlines and romantic hideaways.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLACES TO VISIT -->
+  <section id="places" class="featured-destinations-section destination-places">
+    <div class="featured-container">
+      <div class="featured-micro-text animate-in">
+        <span class="micro-script">Places to visit</span>
+      </div>
+
+      <h2 class="featured-headline animate-in">
+        Explore the island by <span class="highlight-italic">region</span>
+      </h2>
+
+
+      <div class="featured-grid destination-card-grid">
+
+        <a href="#" class="featured-card animate-in">
+          <div class="featured-image-wrapper">
+            <img class="featured-image" src="https://images.unsplash.com/photo-1653151106233-8e928c21bc1a?q=80&w=1152&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Colombo and Negombo" />
+            <div class="image-overlay"></div>
+          </div>
+          <div class="featured-card-content">
+            <span class="card-location">West Coast</span>
+            <h3 class="featured-card-title">Colombo & Negombo</h3>
+            <p class="featured-card-description">
+              Markets, colonial buildings, temples, seafood, city hotels and easy airport access.
+            </p>
+            <span class="card-link">Explore →</span>
+          </div>
+        </a>
+
+        <a href="#" class="featured-card animate-in">
+          <div class="featured-image-wrapper">
+            <img class="featured-image" src="https://images.unsplash.com/photo-1612862862126-865765df2ded?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Sigiriya and Cultural Triangle" />
+            <div class="image-overlay"></div>
+          </div>
+          <div class="featured-card-content">
+            <span class="card-location">Heritage</span>
+            <h3 class="featured-card-title">Cultural Triangle</h3>
+            <p class="featured-card-description">
+              Ancient kingdoms, cave temples, sacred ruins and the iconic Sigiriya Rock Fortress.
+            </p>
+            <span class="card-link">Explore →</span>
+          </div>
+        </a>
+
+        <a href="#" class="featured-card animate-in">
+          <div class="featured-image-wrapper">
+            <img class="featured-image" src="https://images.unsplash.com/photo-1642095012245-bda8033e8ee3?q=80&w=1026&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Kandy and Hill Country" />
+            <div class="image-overlay"></div>
+          </div>
+          <div class="featured-card-content">
+            <span class="card-location">Mountains</span>
+            <h3 class="featured-card-title">Kandy & Hill Country</h3>
+            <p class="featured-card-description">
+              Tea plantations, scenic trains, mountain views, waterfalls and cultural traditions.
+            </p>
+            <span class="card-link">Explore →</span>
+          </div>
+        </a>
+
+        <a href="#" class="featured-card animate-in">
+          <div class="featured-image-wrapper">
+            <img class="featured-image" src="https://images.unsplash.com/photo-1561532696-c2182d891561?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Galle Fort" />
+            <div class="image-overlay"></div>
+          </div>
+          <div class="featured-card-content">
+            <span class="card-location">South Coast</span>
+            <h3 class="featured-card-title">Galle</h3>
+            <p class="featured-card-description">
+              A historic fort city with boutique hotels, cafés, galleries and coastal charm.
+            </p>
+            <span class="card-link">Explore →</span>
+          </div>
+        </a>
+
+        <a href="#" class="featured-card animate-in">
+          <div class="featured-image-wrapper">
+            <img class="featured-image" src="https://images.unsplash.com/photo-1561532696-c2182d891561?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Yala National Park" />
+            <div class="image-overlay"></div>
+          </div>
+          <div class="featured-card-content">
+            <span class="card-location">Wildlife</span>
+            <h3 class="featured-card-title">South Coast & Yala</h3>
+            <p class="featured-card-description">
+              Golden beaches, whale watching, village life and thrilling leopard safaris.
+            </p>
+            <span class="card-link">Explore →</span>
+          </div>
+        </a>
+
+        <a href="#" class="featured-card animate-in">
+          <div class="featured-image-wrapper">
+            <img class="featured-image" src="https://images.unsplash.com/photo-1552055568-f8c4fb8c6320?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="East Coast Sri Lanka" />
+            <div class="image-overlay"></div>
+          </div>
+          <div class="featured-card-content">
+            <span class="card-location">Summer Coast</span>
+            <h3 class="featured-card-title">East Coast</h3>
+            <p class="featured-card-description">
+              Calm seas, quiet beaches, family-friendly stays and a more relaxed coastal rhythm.
+            </p>
+            <span class="card-link">Explore →</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ITINERARIES -->
+  <section id="itineraries" class="destination-itineraries">
+  <div class="destination-container">
+    <div class="section-heading-center reveal">
+      <span class="articles-script">Get inspired</span>
+      <h2 class="articles-title">
+        Sri Lanka itinerary <span class="italic">ideas</span>
+      </h2>
+      <div class="articles-divider"></div>
+      <p class="articles-subtitle">
+        Hand-picked Sri Lanka journeys designed for culture, wildlife, beaches and boutique stays.
+      </p>
+    </div>
+
+    <div class="itinerary-grid" id="destinationItineraryGrid">
+      <div class="itinerary-empty-state">
+        <h3>No itineraries available yet.</h3>
+        <p>
+          We are currently preparing our Sri Lanka itinerary ideas. Please check back soon,
+          or contact us to design a tailor-made journey.
+        </p>
+        <a href="./contact.html" class="btn-primary">
+          Enquire Now
+          <span class="btn-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- STAYS -->
+  <section id="stays" class="destination-stays">
+    <div class="destination-container stays-layout">
+      <div class="stays-copy">
+        <span class="events-script">Stays we love</span>
+        <h2 class="events-headline">
+          Boutique hotels, villas and <span class="italic">characterful</span> retreats
+        </h2>
+        <div class="events-divider"></div>
+        <p class="events-text">
+          Add a hand-picked collection of hotels and villas here. You can show properties
+          by destination, style, price level, or experience type.
+        </p>
+        <p class="events-text">
+          This section is useful if your site sells tailor-made trips, because it gives
+          clients a feeling of the accommodation style before they enquire.
+        </p>
+      </div>
+
+      <div class="stays-list">
+        <a href="#" class="stay-row">
+          <img src="./images/stay-1.jpg" alt="Sri Lanka boutique stay" />
+          <div>
+            <h3>Tea Estate Bungalow</h3>
+            <p>Hatton, Sri Lanka</p>
+          </div>
+          <span>→</span>
+        </a>
+
+        <a href="#" class="stay-row">
+          <img src="./images/stay-2.jpg" alt="Sri Lanka beach villa" />
+          <div>
+            <h3>South Coast Beach Villa</h3>
+            <p>Galle, Sri Lanka</p>
+          </div>
+          <span>→</span>
+        </a>
+
+        <a href="#" class="stay-row">
+          <img src="./images/stay-3.jpg" alt="Sri Lanka safari lodge" />
+          <div>
+            <h3>Safari Lodge</h3>
+            <p>Yala, Sri Lanka</p>
+          </div>
+          <span>→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FACTS -->
+  <section id="facts" class="destination-facts">
+    <div class="destination-container">
+      <div class="facts-grid">
+        <div class="fact-card">
+          <span>Best Time</span>
+          <strong>Year-round</strong>
+          <p>Different coasts work better in different seasons.</p>
+        </div>
+
+        <div class="fact-card">
+          <span>Ideal Duration</span>
+          <strong>10–14 Days</strong>
+          <p>Enough time for culture, tea country, wildlife and beach.</p>
+        </div>
+
+        <div class="fact-card">
+          <span>Travel Style</span>
+          <strong>Private Car</strong>
+          <p>A chauffeur-guide is the most flexible way to explore.</p>
+        </div>
+
+        <div class="fact-card">
+          <span>Best For</span>
+          <strong>Variety</strong>
+          <p>Culture, nature, food, beaches and soft adventure.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="destination-faq">
+    <div class="destination-container faq-layout">
+      <div>
+        <span class="script">Good to know</span>
+        <h2 class="headline">Sri Lanka travel FAQs</h2>
+        <div class="divider"></div>
+      </div>
+
+      <div class="faq-list">
+        <details>
+          <summary>How many days are enough for Sri Lanka?</summary>
+          <p>
+            Around 10 to 14 days is a good duration for a balanced trip. Shorter trips can
+            focus on one or two regions.
+          </p>
+        </details>
+
+        <details>
+          <summary>Is Sri Lanka good for families?</summary>
+          <p>
+            Yes. Wildlife, beaches, cultural activities and short travel distances make it
+            suitable for family holidays.
+          </p>
+        </details>
+
+        <details>
+          <summary>What is the best way to travel around Sri Lanka?</summary>
+          <p>
+            A private car with a chauffeur-guide is usually the easiest and most comfortable
+            option for tailor-made journeys.
+          </p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="plan-trip" class="destination-cta">
+    <div class="destination-cta-inner">
+      <span class="why-script">Start planning</span>
+      <h2>Design your Sri Lanka journey</h2>
+      <p>
+        Tell us your travel style, dates and interests. We will help shape a route that
+        feels personal, realistic and memorable.
+      </p>
+      <a href="./contact.html" class="btn-primary">
+        Enquire Now
+        <span class="btn-arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+
+<!-- Footer -->
+    <footer class="vintage-footer">
+        <div class="footer-container">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="footer-logo-wrapper">
+                        <img src="images/logo.png" alt="Serendib Escape Logo" class="footer-logo-img">
+                        <div class="footer-logo-text">
+                            <span class="logo-primary">SERENDIB</span>
+                            <span class="logo-accent">ESCAPE</span>
+                        </div>
+                    </div>
+                    <p class="footer-tagline">
+                        Curating extraordinary journeys through Sri Lanka's most breathtaking destinations. 
+                        Experience luxury, authenticity, and unparalleled service.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <circle cx="12" cy="12" r="4.5"></circle>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Pinterest">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M8 21.1c-.4-2.1-.6-4.2 0-6.2.9-2.9 1.5-5.9 2.4-8.8"></path>
+                                <path d="M12 12c-2.8 0-4 1.8-4 4 0 2.6 1.5 4 4 4 3.5 0 5-2.8 5-5.5 0-3-1.9-5.5-4.5-5.5-2.5 0-4 1.8-4 3.5"></path>
+                                <circle cx="12" cy="12" r="10"></circle>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-links-group">
+                    <h4 class="footer-heading">Explore</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Destinations</a></li>
+                        <li><a href="#">Itineraries</a></li>
+                        <li><a href="#">Experiences</a></li>
+                        <li><a href="#">Journal</a></li>
+                        <li><a href="#">Travel Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-group">
+                    <h4 class="footer-heading">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-group">
+                    <h4 class="footer-heading">Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Booking Conditions</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">Accessibility</a></li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h4 class="footer-heading">Stay Inspired</h4>
+                    <p class="newsletter-text">Receive exclusive travel insights, special offers, and destination guides.</p>
+                    <form class="newsletter-form" action="#" method="POST">
+                        <input type="email" placeholder="Your email address" aria-label="Email address">
+                        <button type="submit" aria-label="Subscribe">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </button>
+                    </form>
+                    <div class="trust-badges">
+                        <div class="trust-badge">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 2L15 8L22 9L17 14L18 21L12 17L6 21L7 14L2 9L9 8L12 2Z"></path>
+                            </svg>
+                            <span>ABTA Protected</span>
+                        </div>
+                        <div class="trust-badge">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 2L15 8L22 9L17 14L18 21L12 17L6 21L7 14L2 9L9 8L12 2Z"></path>
+                            </svg>
+                            <span>ATOL Bonded</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    <p>&copy; <span id="currentYear"></span> Serendib Escape — Tailor-Made Sri Lanka Journeys. All rights reserved.</p>
+                </div>
+                <div class="footer-payment">
+                    <span>We Accept</span>
+                    <div class="payment-icons">
+                        <svg width="32" height="20" viewBox="0 0 38 24" fill="none">
+                            <rect x="0.5" y="0.5" width="37" height="23" rx="2.5" fill="white" stroke="#E0E0E0"/>
+                            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#1A1A1A" font-size="10" font-family="monospace">VISA</text>
+                        </svg>
+                        <svg width="32" height="20" viewBox="0 0 38 24" fill="none">
+                            <rect x="0.5" y="0.5" width="37" height="23" rx="2.5" fill="white" stroke="#E0E0E0"/>
+                            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#1A1A1A" font-size="8" font-family="monospace">MC</text>
+                        </svg>
+                        <svg width="32" height="20" viewBox="0 0 38 24" fill="none">
+                            <rect x="0.5" y="0.5" width="37" height="23" rx="2.5" fill="white" stroke="#E0E0E0"/>
+                            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#1A1A1A" font-size="8" font-family="monospace">AMEX</text>
+                        </svg>
+                        <svg width="32" height="20" viewBox="0 0 38 24" fill="none">
+                            <rect x="0.5" y="0.5" width="37" height="23" rx="2.5" fill="white" stroke="#E0E0E0"/>
+                            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#1A1A1A" font-size="8" font-family="monospace">PAYPAL</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+<!-- JavaScript Files -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+<script src="js/destinations.js"></script>
+<script src="js/header.js"></script>
+<script src="js/footer.js"></script>
+
+
+</body>
+</html>

@@ -775,6 +775,29 @@ function initPageInteractions() {
             }
         });
     }
+	const revealItems = document.querySelectorAll(
+		".intro-section, .timeline-section, .stays-section, .purchase-section, .customize-section, .testimonials-section, .trust-bar, .how-it-works, .why-section, .day-item, .stay-card, .step-box, .why-item"
+	);
+
+	revealItems.forEach((item) => {
+		item.classList.add("reveal-premium");
+	});
+
+	const revealObserver = new IntersectionObserver(
+		(entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					entry.target.classList.add("visible");
+					revealObserver.unobserve(entry.target);
+				}
+			});
+		},
+		{
+			threshold: 0.15
+		}
+	);
+
+	revealItems.forEach((item) => revealObserver.observe(item));
 }
 
 // ============================================

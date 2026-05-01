@@ -77,3 +77,166 @@ if (typeof gsap !== 'undefined') {
     });
     gsap.ticker.lagSmoothing(0);
 }
+
+// ============================================
+// DESTINATIONS PAGE - DYNAMIC ITINERARIES
+// ============================================
+
+function escapeHtml(value) {
+  if (value === null || value === undefined) return "";
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function getItineraryDuration(row) {
+  if (row.duration_label) return row.duration_label;
+
+  if (row.duration_nights) {
+    const nights = Number(row.duration_nights);
+    return nights === 1 ? "1 Night" : `${nights} Nights`;
+  }
+
+  return "Tailor-made journey";
+}
+
+function getItineraryImage(row) {
+  return (
+    row.card_image ||
+    row.hero_image ||
+    "./images/itinerary-classic.jpg"
+  );
+}
+
+function getItineraryExcerpt(row) {
+  return (
+    row.excerpt ||
+    row.summary ||
+    row.short_description ||
+    "A private Sri Lanka journey designed around culture, wildlife, scenery and authentic local experiences."
+  );
+}
+
+function mapDestinationItinerary(row) {
+  return {
+    id: row.id,
+    slug: row.slug || "",
+    title: row.title || "Untitled Itinerary",
+    region: row.region || "Sri Lanka",
+    duration: getItineraryDuration(row),
+    image: getItineraryImage(row),
+    excerpt: getItineraryExcerpt(row)
+  };
+}
+
+async function fetchDestinationItineraries() {
+  const { data, error } = await supabaseClient
+    .from("itineraries")
+    .select(`
+      id,
+      slug,
+      title,
+      region,
+      duration_nights,
+      duration_label,
+      hero_image,
+      card_image,
+      excerpt,
+      summary,
+      short_description,
+      is_published,
+      sort_order,
+      created_at
+    `)
+    .eq("is_published", true)
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: false })
+    .limit(3);
+
+  if (error) {
+    throw error;
+  }
+
+  return (data || []).map(mapDestinationItinerary);
+}
+
+function renderDestinationItineraries(itineraries) {
+  const grid = document.getElementById("destinationItineraryGrid");
+  if (!grid) return;
+
+  if (!itineraries.length) {
+  grid.innerHTML = `
+    <div class="itinerary-empty-state">
+      <h3>No itineraries available yet.</h3>
+      <p>
+        We are currently preparing our Sri Lanka itinerary ideas. Please check back soon,
+        or contact us to design a tailor-made journey.
+      </p>
+      <a href="./contact.html" class="btn-primary">
+        Enquire Now
+        <span class="btn-arrow">→</span>
+      </a>
+    </div>
+  `;
+  return;
+}
+
+  grid.innerHTML = itineraries.map((item, index) => {
+    const url = item.slug
+      ? `itinerary.html?slug=${encodeURIComponent(item.slug)}`
+      : "#";
+
+    return `
+      <article class="itinerary-card reveal" style="--i: ${index};">
+        <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" />
+
+        <div class="itinerary-content">
+          <span>${escapeHtml(item.region)} • ${escapeHtml(item.duration)}</span>
+          <h3>${escapeHtml(item.title)}</h3>
+          <p>${escapeHtml(item.excerpt)}</p>
+          <a href="${url}">View itinerary →</a>
+        </div>
+      </article>
+    `;
+  }).join("");
+
+  // Re-observe newly inserted reveal elements
+  if (typeof observeRevealElements === "function") {
+    observeRevealElements();
+  } else {
+    document.querySelectorAll(".reveal, .reveal-left, .reveal-right, .reveal-scale")
+      .forEach((el) => el.classList.add("is-visible"));
+  }
+}
+
+async function initDestinationItineraries() {
+  const grid = document.getElementById("destinationItineraryGrid");
+  if (!grid) return;
+
+  try {
+    const itineraries = await fetchDestinationItineraries();
+    renderDestinationItineraries(itineraries);
+  } catch (error) {
+    console.error("Error loading destination itineraries:", error);
+
+    grid.innerHTML = `
+      <div class="itinerary-empty-state">
+      <h3>No itineraries available yet.</h3>
+      <p>
+        We are currently preparing our Sri Lanka itinerary ideas. Please check back soon,
+        or contact us to design a tailor-made journey.
+      </p>
+      <a href="./contact.html" class="btn-primary">
+        Enquire Now
+        <span class="btn-arrow">→</span>
+      </a>
+    </div>
+    `;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", initDestinationItineraries);
