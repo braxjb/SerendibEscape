@@ -25,7 +25,8 @@
     <div class="admin-header-actions">
 	  <button id="newItemBtn" class="btn-primary" type="button">+ New Item</button>
 	  <button id="logoutBtn" class="btn-secondary" type="button">Logout</button>
-    </div>
+	<button type="button" class="admin-tab" data-tab="experiences">Experiences</button>
+	</div>
   </header>
 
   <main class="admin-main">
@@ -84,6 +85,49 @@
 		  </select>
 		</div>
 	  </section>
+
+		<!-- Experiences Panel -->
+<section id="panel-experiences" class="admin-panel" hidden>
+  <section class="toolbar-card">
+    <div class="toolbar-left">
+      <h2>All experiences</h2>
+      <p id="experienceTableCount">0 experiences</p>
+    </div>
+
+    <div class="toolbar-right">
+      <input type="text" id="experienceSearchInput" placeholder="Search by title, slug, or location" />
+      <select id="experienceStatusFilter">
+        <option value="">All statuses</option>
+        <option value="published">Published</option>
+        <option value="draft">Draft</option>
+      </select>
+    </div>
+  </section>
+
+  <section class="table-card">
+    <div class="table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Slug</th>
+            <th>Location</th>
+            <th>Price</th>
+            <th>Duration</th>
+            <th>Difficulty</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="experiencesTableBody">
+          <tr>
+            <td colspan="8" class="loading-cell">Loading experiences...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</section>
 
 	  <section class="table-card">
 		<div class="table-wrap">
@@ -391,6 +435,213 @@
       <p id="blogFormMessage" class="form-message"></p>
     </form>
   </dialog>
+	<!-- Experience Dialog -->
+<dialog id="experienceFormDialog" class="admin-dialog admin-dialog-wide">
+  <div class="dialog-head">
+    <h2 id="experienceFormDialogTitle">New Experience</h2>
+    <button type="button" class="icon-btn" id="closeExperienceFormDialog">✕</button>
+  </div>
+
+  <form id="experienceForm" class="admin-form dialog-body">
+    <input type="hidden" id="experienceId" />
+
+    <div class="grid-2">
+      <div class="form-row">
+        <label for="expSlug">Slug <span class="required">*</span></label>
+        <input id="expSlug" type="text" required placeholder="experience-slug" />
+        <small>URL-friendly name (e.g., adams-peak-sunrise-hike)</small>
+      </div>
+      <div class="form-row">
+        <label for="expTitle">Title <span class="required">*</span></label>
+        <input id="expTitle" type="text" required placeholder="Experience title" />
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="form-row">
+        <label for="expLocation">Location</label>
+        <input id="expLocation" type="text" placeholder="City or region" />
+      </div>
+      <div class="form-row">
+        <label for="expPriceLabel">Price label</label>
+        <input id="expPriceLabel" type="text" placeholder="$85" />
+      </div>
+      <div class="form-row">
+        <label for="expPriceAmount">Price amount</label>
+        <input id="expPriceAmount" type="number" step="0.01" />
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="form-row">
+        <label for="expCurrency">Currency</label>
+        <input id="expCurrency" type="text" value="USD" />
+      </div>
+      <div class="form-row">
+        <label for="expDuration">Duration</label>
+        <input id="expDuration" type="text" placeholder="1 Day" />
+      </div>
+      <div class="form-row">
+        <label for="expDurationLabel">Duration label</label>
+        <input id="expDurationLabel" type="text" placeholder="1 Day" />
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="form-row">
+        <label for="expGroupSize">Group Size</label>
+        <select id="expGroupSize">
+          <option value="Small (2-6)">Small (2-6)</option>
+          <option value="Medium (7-15)">Medium (7-15)</option>
+          <option value="Large (16+)">Large (16+)</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="expDifficulty">Difficulty</label>
+        <select id="expDifficulty">
+          <option value="beginner">Beginner</option>
+          <option value="moderate" selected>Moderate</option>
+          <option value="challenging">Challenging</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="expFeatured">Featured</label>
+        <select id="expFeatured">
+          <option value="false">No</option>
+          <option value="true">Yes</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="form-row">
+        <label for="expUpcomingDate">Upcoming Date</label>
+        <input id="expUpcomingDate" type="date" />
+      </div>
+      <div class="form-row">
+        <label for="expEventDates">Event Dates</label>
+        <input id="expEventDates" type="text" placeholder="2026-07-15, 2026-07-22" />
+        <small>Comma separated (YYYY-MM-DD)</small>
+      </div>
+      <div class="form-row">
+        <label for="expSpotsRemaining">Spots Remaining</label>
+        <input id="expSpotsRemaining" type="number" value="10" min="0" />
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="form-row">
+        <label for="expHeroImage">Hero image URL</label>
+        <input id="expHeroImage" type="text" />
+      </div>
+      <div class="form-row">
+        <label for="expCardImage">Card image URL</label>
+        <input id="expCardImage" type="text" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label for="expShortDescription">Short Description</label>
+      <textarea id="expShortDescription" rows="2"></textarea>
+    </div>
+
+    <div class="form-row">
+      <label for="expDescription">Full Description</label>
+      <textarea id="expDescription" rows="4"></textarea>
+    </div>
+
+    <div class="grid-2">
+      <div class="form-row">
+        <label for="expCategories">Categories</label>
+        <input id="expCategories" type="text" placeholder="hiking, wellness, camping" />
+        <small>Comma separated</small>
+      </div>
+      <div class="form-row">
+        <label for="expTags">Tags</label>
+        <input id="expTags" type="text" placeholder="adventure, nature, group" />
+        <small>Comma separated</small>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="form-row">
+        <label for="expSortOrder">Sort order</label>
+        <input id="expSortOrder" type="number" value="0" />
+      </div>
+      <div class="form-row form-row-inline">
+        <label class="checkbox-inline">
+          <input id="expIsPublished" type="checkbox" checked />
+          Published
+        </label>
+      </div>
+    </div>
+
+    <!-- Itinerary Days Builder -->
+    <div class="form-row">
+      <div class="builder-header">
+        <div>
+          <label>Itinerary Days</label>
+          <small>Add the day-by-day schedule</small>
+        </div>
+        <button type="button" class="btn-secondary" id="addExperienceDayBtn">+ Add day</button>
+      </div>
+      <div id="experienceDaysBuilder" class="builder-list"></div>
+    </div>
+
+    <!-- Included Builder -->
+    <div class="form-row">
+      <div class="builder-header">
+        <div>
+          <label>What's Included</label>
+          <small>Items included in the experience</small>
+        </div>
+        <button type="button" class="btn-secondary" id="addIncludedBtn">+ Add item</button>
+      </div>
+      <div id="includedBuilder" class="builder-list"></div>
+    </div>
+
+    <!-- Excluded Builder -->
+    <div class="form-row">
+      <div class="builder-header">
+        <div>
+          <label>What's Not Included</label>
+          <small>Items excluded from the experience</small>
+        </div>
+        <button type="button" class="btn-secondary" id="addExcludedBtn">+ Add item</button>
+      </div>
+      <div id="excludedBuilder" class="builder-list"></div>
+    </div>
+
+    <!-- Gallery Builder -->
+    <div class="form-row">
+      <div class="builder-header">
+        <div>
+          <label>Gallery Images</label>
+          <small>Image URLs for the experience gallery</small>
+        </div>
+        <button type="button" class="btn-secondary" id="addGalleryImageBtn">+ Add image</button>
+      </div>
+      <div id="galleryBuilder" class="builder-list"></div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary" id="saveExperienceBtn">Save Experience</button>
+      <button type="button" class="btn-secondary" id="resetExperienceBtn">Clear</button>
+      <button type="button" class="btn-danger" id="deleteExperienceBtn" style="display:none;">Delete</button>
+    </div>
+
+    <p id="experienceFormMessage" class="form-message"></p>
+  </form>
+</dialog>
+
+<!-- Experience View Dialog -->
+<dialog id="experienceViewDialog" class="admin-dialog">
+  <div class="dialog-head">
+    <h2>View Experience</h2>
+    <button type="button" class="icon-btn" id="closeExperienceViewDialog">✕</button>
+  </div>
+  <div class="dialog-body view-layout" id="experienceViewDialogBody"></div>
+</dialog>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase-client.js"></script>
