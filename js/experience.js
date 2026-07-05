@@ -82,7 +82,14 @@ function getExperienceSlug() {
 
 // ── DATA FETCH ──
 async function fetchExperienceBySlug(slug) {
+    if (!slug) {
+        console.log("No slug provided to fetchExperienceBySlug");
+        return null;
+    }
+
     try {
+        console.log("Querying Supabase for experience with slug:", slug);
+        
         const { data, error } = await supabaseClient
             .from("experiences")
             .select(`
@@ -117,16 +124,14 @@ async function fetchExperienceBySlug(slug) {
                 created_at
             `)
             .eq("slug", slug)
-            .eq("is_published", true)
             .single();
 
+        console.log("Supabase response - data:", data);
+        console.log("Supabase response - error:", error);
+
         if (error) {
-            console.log("Error fetching from Supabase:", error);
-            // Return dummy data as fallback only if we have a slug
-            if (slug) {
-                console.log("Using dummy data as fallback");
-                return { ...DUMMY_EXPERIENCE, slug: slug };
-            }
+            console.error("Supabase error:", error);
+            // Don't fallback to dummy data, show the error
             return null;
         }
 
@@ -135,6 +140,7 @@ async function fetchExperienceBySlug(slug) {
             return null;
         }
 
+        console.log("Successfully fetched experience:", data.title);
         return data;
     } catch (error) {
         console.error("Error in fetchExperienceBySlug:", error);
