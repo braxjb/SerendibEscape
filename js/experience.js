@@ -2,6 +2,12 @@
 // EXPERIENCE DETAIL PAGE SCRIPT - SUPABASE VERSION
 // ============================================
 
+// If using a separate file
+import { supabaseClient } from "./supabase-client.js";
+
+// Or if it's defined globally
+const supabaseClient = window.supabaseClient;
+
 // ── DUMMY DATA (Fallback only) ──
 const DUMMY_EXPERIENCE = {
     id: "exp-001",
