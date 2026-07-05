@@ -319,6 +319,87 @@ small {
   color: var(--muted);
 }
 
+/* =========================
+   EXPERIENCE BUILDER ITEMS
+   ========================= */
+
+.builder-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.builder-item input {
+  flex: 1;
+}
+
+.builder-item .btn-table {
+  flex-shrink: 0;
+}
+
+.included-item-wrapper,
+.excluded-item-wrapper,
+.gallery-item-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.included-item-wrapper input,
+.excluded-item-wrapper input,
+.gallery-item-wrapper input {
+  flex: 1;
+}
+
+.included-item-wrapper .btn-table,
+.excluded-item-wrapper .btn-table,
+.gallery-item-wrapper .btn-table {
+  flex-shrink: 0;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.difficulty-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.difficulty-badge.beginner {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.difficulty-badge.moderate {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.difficulty-badge.challenging {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.required {
+  color: #dc2626;
+}
+
+/* Experience form sections */
+#experienceForm .form-row:has(#experienceDaysBuilder),
+#experienceForm .form-row:has(#includedBuilder),
+#experienceForm .form-row:has(#excludedBuilder),
+#experienceForm .form-row:has(#galleryBuilder) {
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: #fcfcfd;
+}
+
 @media (max-width: 980px) {
   .admin-header,
   .toolbar-card {
