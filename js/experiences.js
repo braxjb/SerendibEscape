@@ -1,5 +1,5 @@
 // ============================================
-// EXPERIENCES PAGE SCRIPT - WITH CALENDAR & DUMMY EVENTS
+// EXPERIENCES PAGE SCRIPT - SUPABASE VERSION
 // ============================================
 
 const testimonials = [
@@ -20,182 +20,6 @@ const testimonials = [
         quote: "Camping in the rainforest with this group was an adventure I'll never forget. The wildlife, the stars, the stories around the fire.",
         author: "David K",
         location: "Canada, December 2025"
-    }
-];
-
-// ── DUMMY EXPERIENCES DATA ──
-// This data will be used if Supabase is not available or for demo purposes
-const DUMMY_EXPERIENCES = [
-    {
-        id: "exp-001",
-        slug: "adams-peak-sunrise-hike",
-        title: "Adams Peak Sunrise Hike",
-        location: "Central Highlands",
-        price: "$85",
-        duration: "1 Day",
-        group_size: "Small (2-6)",
-        difficulty: "challenging",
-        image: "https://images.pexels.com/photos/545976/pexels-photo-545976.jpeg?auto=compress&cs=tinysrgb&w=600",
-        categories: ["hiking"],
-        tags: ["hiking", "nature", "sunrise"],
-        upcoming_date: "2026-07-15",
-        event_dates: ["2026-07-15", "2026-07-22", "2026-07-29", "2026-08-05", "2026-08-12"],
-        spots_remaining: 6,
-        featured: true,
-        description: "Experience the spiritual sunrise hike to Adams Peak, one of Sri Lanka's most sacred mountains.",
-        short_description: "A spiritual sunrise trek to Sri Lanka's sacred mountain"
-    },
-    {
-        id: "exp-002",
-        slug: "yala-wildlife-safari",
-        title: "Yala National Park Wildlife Safari",
-        location: "Yala",
-        price: "$120",
-        duration: "2 Days",
-        group_size: "Medium (7-15)",
-        difficulty: "beginner",
-        image: "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=600",
-        categories: ["wildlife"],
-        tags: ["wildlife", "safari", "nature"],
-        upcoming_date: "2026-07-18",
-        event_dates: ["2026-07-18", "2026-07-25", "2026-08-01", "2026-08-08", "2026-08-15"],
-        spots_remaining: 4,
-        featured: true,
-        description: "Explore the wilds of Yala National Park, home to leopards, elephants, and exotic birdlife.",
-        short_description: "Spot leopards and elephants in their natural habitat"
-    },
-    {
-        id: "exp-003",
-        slug: "wellness-retreat-mirissa",
-        title: "Wellness & Yoga Retreat - Mirissa",
-        location: "Mirissa",
-        price: "$350",
-        duration: "4 Days",
-        group_size: "Small (2-6)",
-        difficulty: "beginner",
-        image: "https://images.pexels.com/photos/260608/pexels-photo-260608.jpeg?auto=compress&cs=tinysrgb&w=600",
-        categories: ["wellness"],
-        tags: ["wellness", "yoga", "meditation"],
-        upcoming_date: "2026-07-20",
-        event_dates: ["2026-07-20", "2026-08-03", "2026-08-17"],
-        spots_remaining: 8,
-        featured: true,
-        description: "Rejuvenate your mind, body, and soul with our wellness retreat on the beautiful shores of Mirissa.",
-        short_description: "Rejuvenate with yoga and meditation by the sea"
-    },
-    {
-        id: "exp-004",
-        slug: "kandy-cultural-immersion",
-        title: "Kandy Cultural Immersion & Temple Tour",
-        location: "Kandy",
-        price: "$65",
-        duration: "1 Day",
-        group_size: "Medium (7-15)",
-        difficulty: "beginner",
-        image: "https://images.pexels.com/photos/161140/sri-lanka-asia-travel-beach-161140.jpeg?auto=compress&cs=tinysrgb&w=600",
-        categories: ["cultural"],
-        tags: ["cultural", "heritage", "temple"],
-        upcoming_date: "2026-07-23",
-        event_dates: ["2026-07-23", "2026-07-30", "2026-08-06", "2026-08-13"],
-        spots_remaining: 12,
-        featured: false,
-        description: "Immerse yourself in the rich culture of Kandy, home to the sacred Temple of the Tooth.",
-        short_description: "Discover the cultural heart of Sri Lanka"
-    },
-    {
-        id: "exp-005",
-        slug: "camping-knuckles-mountains",
-        title: "Camping Adventure - Knuckles Mountains",
-        location: "Knuckles Range",
-        price: "$180",
-        duration: "3 Days",
-        group_size: "Small (2-6)",
-        difficulty: "moderate",
-        image: "https://images.pexels.com/photos/260608/pexels-photo-260608.jpeg?auto=compress&cs=tinysrgb&w=600",
-        categories: ["camping"],
-        tags: ["camping", "trekking", "nature"],
-        upcoming_date: "2026-08-01",
-        event_dates: ["2026-08-01", "2026-08-08", "2026-08-15", "2026-08-22"],
-        spots_remaining: 3,
-        featured: false,
-        description: "Camp under the stars in the stunning Knuckles Mountain Range.",
-        short_description: "Sleep under starlit skies in pristine wilderness"
-    },
-    {
-        id: "exp-006",
-        slug: "sri-lankan-culinary-journey",
-        title: "Sri Lankan Culinary Journey - Galle",
-        location: "Galle",
-        price: "$95",
-        duration: "1 Day",
-        group_size: "Medium (7-15)",
-        difficulty: "beginner",
-        image: "https://images.pexels.com/photos/161140/sri-lanka-asia-travel-beach-161140.jpeg?auto=compress&cs=tinysrgb&w=600",
-        categories: ["culinary"],
-        tags: ["culinary", "food", "culture"],
-        upcoming_date: "2026-08-05",
-        event_dates: ["2026-08-05", "2026-08-12", "2026-08-19", "2026-08-26"],
-        spots_remaining: 10,
-        featured: false,
-        description: "Savor the authentic flavors of Sri Lanka on this culinary journey through Galle.",
-        short_description: "Savour authentic Sri Lankan flavours"
-    },
-    {
-        id: "exp-007",
-        slug: "ella-hike-and-village-tour",
-        title: "Ella Hike & Village Tour",
-        location: "Ella",
-        price: "$75",
-        duration: "1 Day",
-        group_size: "Small (2-6)",
-        difficulty: "moderate",
-        image: "https://images.pexels.com/photos/545976/pexels-photo-545976.jpeg?auto=compress&cs=tinysrgb&w=600",
-        categories: ["hiking"],
-        tags: ["hiking", "village", "nature"],
-        upcoming_date: "2026-08-10",
-        event_dates: ["2026-08-10", "2026-08-17", "2026-08-24"],
-        spots_remaining: 5,
-        featured: false,
-        description: "Hike through Ella's stunning landscapes and visit local villages.",
-        short_description: "Conquer Sri Lanka's finest trails with expert guides"
-    },
-    {
-        id: "exp-008",
-        slug: "anuradhapura-heritage-tour",
-        title: "Anuradhapura Ancient City Heritage Tour",
-        location: "Anuradhapura",
-        price: "$80",
-        duration: "1 Day",
-        group_size: "Medium (7-15)",
-        difficulty: "beginner",
-        image: "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=600",
-        categories: ["cultural"],
-        tags: ["cultural", "heritage", "ancient"],
-        upcoming_date: "2026-08-14",
-        event_dates: ["2026-08-14", "2026-08-21", "2026-08-28"],
-        spots_remaining: 15,
-        featured: false,
-        description: "Explore the ancient city of Anuradhapura, a UNESCO World Heritage site.",
-        short_description: "Step back in time in Sri Lanka's ancient capital"
-    },
-    {
-        id: "exp-009",
-        slug: "wilpattu-night-safari",
-        title: "Wilpattu National Park Night Safari",
-        location: "Wilpattu",
-        price: "$150",
-        duration: "2 Days",
-        group_size: "Small (2-6)",
-        difficulty: "moderate",
-        image: "https://images.pexels.com/photos/260608/pexels-photo-260608.jpeg?auto=compress&cs=tinysrgb&w=600",
-        categories: ["wildlife"],
-        tags: ["wildlife", "safari", "night"],
-        upcoming_date: "2026-08-20",
-        event_dates: ["2026-08-20", "2026-08-27", "2026-09-03"],
-        spots_remaining: 2,
-        featured: false,
-        description: "Experience the thrill of a night safari in Wilpattu National Park.",
-        short_description: "Track elephants, leopards & exotic birdlife at night"
     }
 ];
 
@@ -237,7 +61,7 @@ function mapExperienceRow(row) {
         slug: row.slug,
         title: row.title || "Untitled experience",
         duration: row.duration || row.duration_label || "",
-        price: row.price || row.price_label || "",
+        price: row.price_label || "",
         group_size: row.group_size || "",
         difficulty: row.difficulty || "moderate",
         location: row.location || "Sri Lanka",
@@ -263,7 +87,7 @@ async function fetchExperiences() {
                 title,
                 location,
                 price_label,
-                price,
+                price_amount,
                 duration,
                 duration_label,
                 group_size,
@@ -289,19 +113,19 @@ async function fetchExperiences() {
             .order("created_at", { ascending: false });
 
         if (error) {
-            console.log("Supabase error, using dummy data:", error);
-            return DUMMY_EXPERIENCES.map(mapExperienceRow);
+            console.error("Supabase error:", error);
+            return [];
         }
 
         if (!data || data.length === 0) {
-            console.log("No data from Supabase, using dummy data");
-            return DUMMY_EXPERIENCES.map(mapExperienceRow);
+            console.log("No experiences found in database");
+            return [];
         }
 
         return (data || []).map(mapExperienceRow);
     } catch (error) {
-        console.log("Error fetching, using dummy data:", error);
-        return DUMMY_EXPERIENCES.map(mapExperienceRow);
+        console.error("Error fetching experiences:", error);
+        return [];
     }
 }
 
@@ -507,7 +331,7 @@ function renderEmptyState(message = "No experiences found.") {
     grid.innerHTML = `
         <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
             <h3 style="margin-bottom: 10px;">${escapeHtml(message)}</h3>
-            <p style="color: #6b6b6b;">Try selecting a different date or check back later for new experiences.</p>
+            <p style="color: #6b6b6b;">Check back later for new experiences or contact us for custom arrangements.</p>
         </div>
     `;
 }
