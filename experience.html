@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Serendib Escape | Experience Details</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Swiper for Carousel -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.16/dist/lenis.min.js"></script>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/experience.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+</head>
+<body>
+
+<!-- ============================================ -->
+<!-- NAVIGATION BAR - SERENDIB ESCAPE -->
+<!-- ============================================ -->
+<header class="site-header" id="siteHeader">
+    <div class="header-inner">
+        <a href="index.html" class="logo-wrapper">
+            <div class="logo-container">
+                <img src="images/WhatsApp_Image_2026-02-11_at_09.02.53-removebg-preview.png" alt="Serendib Escape Logo" class="logo-img">
+                <div class="logo-text">
+                    <span class="logo-primary">SERENDIB</span>
+                    <span class="logo-accent">ESCAPE</span>
+                </div>
+            </div>
+        </a>
+
+        <nav class="nav-links" aria-label="Main Navigation">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="destinations.html" class="nav-link">Destinations</a>
+            <a href="itineraries.html" class="nav-link">Itineraries</a>
+            <a href="experiences.html" class="nav-link active">Experiences</a>
+            <a href="journal.html" class="nav-link">Journal</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="contact.html" class="nav-link btn-inquire">Inquire</a>
+        </nav>
+
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu" aria-expanded="false">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+    </div>
+</header>
+
+<!-- Mobile Menu Overlay -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <div class="mobile-menu-container">
+        <div class="mobile-menu-header">
+            <div class="mobile-logo">
+                <img src="images/WhatsApp_Image_2026-02-11_at_09.02.53-removebg-preview.png" alt="Serendib Escape Logo" class="mobile-logo-img">
+                <div class="mobile-logo-text">
+                    <span class="mobile-logo-primary">SERENDIB</span>
+                    <span class="mobile-logo-accent">ESCAPE</span>
+                </div>
+            </div>
+            <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close Menu">✕</button>
+        </div>
+        <ul class="mobile-nav-menu">
+            <li><a href="index.html" class="mobile-nav-link">Home</a></li>
+            <li><a href="destinations.html" class="mobile-nav-link">Destinations</a></li>
+            <li><a href="itineraries.html" class="mobile-nav-link">Itineraries</a></li>
+            <li><a href="experiences.html" class="mobile-nav-link">Experiences</a></li>
+            <li><a href="journal.html" class="mobile-nav-link">Journal</a></li>
+            <li><a href="about.html" class="mobile-nav-link">About</a></li>
+            <li><a href="contact.html" class="mobile-nav-link mobile-inquire">Inquire Now</a></li>
+        </ul>
+    </div>
+</div>
+
+<main>
+    <!-- Hero Section -->
+    <section class="hero-experience" id="heroSection">
+        <a href="experiences.html" class="back-button" id="backToExperiences">← Back to Experiences</a>
+        <div class="hero-content">
+            <div class="hero-text-overlay">
+                <div class="hero-badge" id="heroBadge">Featured</div>
+                <div class="hero-price" id="heroPrice">Loading...</div>
+                <h1 class="hero-title" id="heroTitle">Loading experience...</h1>
+                <div class="hero-duration" id="heroDuration"></div>
+                <div class="hero-meta" id="heroMeta">
+                    <span class="hero-meta-item" id="heroDifficulty">Difficulty: Moderate</span>
+                    <span class="hero-meta-item" id="heroGroupSize">Group: Small</span>
+                    <span class="hero-meta-item" id="heroSpots">Spots: 6 left</span>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator" id="scrollIndicator">
+            <p>SCROLL</p>
+            <span></span>
+        </div>
+    </section>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-section">
+        <div class="container">
+            <div class="breadcrumbs">
+                <a href="experiences.html">Experiences</a> / <a href="#">Sri Lanka</a> / <span id="breadcrumbTitle">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Intro Section -->
+    <div class="intro-section">
+        <div class="container">
+            <div class="intro-grid">
+                <div class="intro-text" id="introDescription">
+                    <p>Loading experience details...</p>
+                </div>
+                <div class="at-a-glance">
+                    <h3>At a glance</h3>
+                    <div class="glance-item"><strong>Duration</strong> <span id="glanceDuration">Loading...</span></div>
+                    <div class="glance-item"><strong>Group Size</strong> <span id="glanceGroupSize">Loading...</span></div>
+                    <div class="glance-item"><strong>Difficulty</strong> <span id="glanceDifficulty">Loading...</span></div>
+                    <div class="glance-item"><strong>Location</strong> <span id="glanceLocation">Loading...</span></div>
+                    <div class="glance-item"><strong>Next Date</strong> <span id="glanceDate">Loading...</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Itinerary / Schedule Section -->
+    <div class="schedule-section">
+        <div class="container">
+            <div class="schedule-header">
+                <h2>Experience <i>Itinerary</i></h2>
+                <p>Your day-by-day adventure schedule</p>
+            </div>
+            <div class="days-list" id="daysList">
+                <div style="text-align: center; padding: 60px;">Loading your adventure...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Section -->
+    <div class="gallery-section">
+        <div class="container">
+            <div class="gallery-header">
+                <h2>Experience <i>Gallery</i></h2>
+                <p>Moments from past adventures</p>
+            </div>
+            <div class="swiper gallery-swiper" id="gallerySwiper">
+                <div class="swiper-wrapper" id="galleryWrapper">
+                    <div class="swiper-slide">Loading gallery...</div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- What's Included Section -->
+    <div class="included-section">
+        <div class="container">
+            <div class="included-grid">
+                <div class="included-left">
+                    <h2>What's <i>Included</i></h2>
+                    <ul id="includedList">
+                        <li>Loading inclusions...</li>
+                    </ul>
+                </div>
+                <div class="included-right">
+                    <h2>What's <i>Not Included</i></h2>
+                    <ul id="excludedList">
+                        <li>Loading exclusions...</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Book Now Section -->
+    <div class="book-section">
+        <div class="container">
+            <div class="book-container">
+                <div class="book-left">
+                    <h2>Ready to join this <i>adventure</i>?</h2>
+                    <p>Secure your spot on this experience today. Limited spots available!</p>
+                    <div class="book-details" id="bookDetails">
+                        <span class="book-price" id="bookPrice">$0</span>
+                        <span class="book-price-label">per person</span>
+                    </div>
+                </div>
+                <div class="book-right">
+                    <a href="#" class="book-btn" id="bookNowBtn">
+                        <span>Book Now</span>
+                        <div class="arrow-icon">
+                            <div class="dashed-circle"></div>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </div>
+                    </a>
+                    <div class="instant-deposit">50% deposit to secure your spot</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonials Section -->
+    <div class="testimonials-section">
+        <div class="container">
+            <div class="testimonials-header">
+                <h2>What <i>our</i> adventurers say</h2>
+            </div>
+            <div class="testimonial-carousel" id="testimonialCarousel">
+                <div class="testimonial-left" id="testimonialLeft">
+                    <div class="testimonial-text" id="testimonialText">"This experience was absolutely incredible! The guides were knowledgeable, the scenery was breathtaking, and I made friends for life."</div>
+                    <div>
+                        <div class="testimonial-attribution">
+                            <div class="testimonial-name" id="testimonialName">Sarah M (January 2026) Australia</div>
+                            <a href="#" class="testimonial-link" id="testimonialLink">Read the whole review here →</a>
+                        </div>
+                        <div class="carousel-nav">
+                            <button class="nav-circle" id="prevTestimonial">←</button>
+                            <button class="nav-circle" id="nextTestimonial">→</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-right">
+                    <img src="https://images.pexels.com/photos/2245436/pexels-photo-2245436.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Adventure moment" class="testimonial-image" id="testimonialImage">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trust Bar -->
+    <div class="trust-bar">
+        <div class="container">
+            <div class="trust-container">
+                <div class="trust-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/TripAdvisor_logo.svg/2560px-TripAdvisor_logo.svg.png" alt="TripAdvisor" class="trust-logo">
+                    <div class="trust-rating">
+                        <div class="stars-container">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='16' viewBox='0 0 80 16'%3E%3Cpolygon points='8,0 10,5 15,5 11,8 13,13 8,10 3,13 5,8 1,5 6,5' fill='%2334A853'/%3E%3Cpolygon points='24,0 26,5 31,5 27,8 29,13 24,10 19,13 21,8 17,5 22,5' fill='%2334A853'/%3E%3Cpolygon points='40,0 42,5 47,5 43,8 45,13 40,10 35,13 37,8 33,5 38,5' fill='%2334A853'/%3E%3Cpolygon points='56,0 58,5 63,5 59,8 61,13 56,10 51,13 53,8 49,5 54,5' fill='%2334A853'/%3E%3Cpolygon points='72,0 74,5 79,5 75,8 77,13 72,10 67,13 69,8 65,5 70,5' fill='%23FFC107'/%3E%3C/svg%3E" alt="5 stars">
+                        </div>
+                        <div class="trust-text">Rated 5 on TripAdvisor</div>
+                    </div>
+                </div>
+                <div class="trust-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/ABTA_Logo.svg/2048px-ABTA_Logo.svg.png" alt="Feefo" class="trust-logo">
+                    <div class="trust-rating">
+                        <div class="stars-container">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='16' viewBox='0 0 80 16'%3E%3Cpolygon points='8,0 10,5 15,5 11,8 13,13 8,10 3,13 5,8 1,5 6,5' fill='%23FFC107'/%3E%3Cpolygon points='24,0 26,5 31,5 27,8 29,13 24,10 19,13 21,8 17,5 22,5' fill='%23FFC107'/%3E%3Cpolygon points='40,0 42,5 47,5 43,8 45,13 40,10 35,13 37,8 33,5 38,5' fill='%23FFC107'/%3E%3Cpolygon points='56,0 58,5 63,5 59,8 61,13 56,10 51,13 53,8 49,5 54,5' fill='%23FFC107'/%3E%3Cpolygon points='72,0 74,5 79,5 75,8 77,13 72,10 67,13 69,8 65,5 70,5' fill='%23FFC107'/%3E%3C/svg%3E" alt="5 stars">
+                        </div>
+                        <div class="trust-text">Rated 4.9 on feefo</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Why Serendib Escape Section -->
+    <div class="why-section">
+        <div class="container">
+            <div style="text-align: center;">
+                <h2 style="font-family: var(--font-serif); font-size: 32px;">Why Serendib Escape?</h2>
+                <p style="color: var(--color-gray-mid); margin-top: 12px;">The Serendib Escape difference</p>
+            </div>
+            <div class="why-grid">
+                <div class="why-item">
+                    <div class="why-icon">✨</div>
+                    <h3>Expert Local Guides</h3>
+                    <p>Our guides are locals with deep knowledge of every trail</p>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">🌿</div>
+                    <h3>Sustainable Adventures</h3>
+                    <p>We prioritize eco-friendly practices and community support</p>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">🛡️</div>
+                    <h3>Safety First</h3>
+                    <p>All experiences include comprehensive safety protocols</p>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">🏕️</div>
+                    <h3>Small Groups</h3>
+                    <p>Intimate group sizes for a personal experience</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="vintage-footer">
+    <!-- keep your existing footer -->
+</footer>
+
+<a href="#" class="back-to-top" id="backToTop">↑</a>
+
+<!-- JavaScript Files -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/experience.js"></script>
+<script src="js/header.js"></script>
+<script src="js/footer.js"></script>
+
+</body>
+</html>
