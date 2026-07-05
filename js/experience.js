@@ -2,6 +2,16 @@
 // EXPERIENCE DETAIL PAGE - SUPABASE VERSION
 // ============================================
 
+// ── SUPABASE CLIENT ──
+// Use the same pattern as itinerary.js
+const SUPABASE_URL = "https://fqpofzlxixbitybltajx.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxcG9memx4aXhiaXR5Ymx0YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxNjc5MDksImV4cCI6MjA5MTc0MzkwOX0.woDW07ULao_dYlqBaafJmc1Mjt3FAthShm0CBoMmWFY";
+
+// Check if supabaseClient exists globally, otherwise create it
+if (typeof supabaseClient === 'undefined') {
+    var supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
+
 // ── HELPERS ──
 function escapeHtml(value) {
     if (value === null || value === undefined) return "";
@@ -272,6 +282,8 @@ function renderInclusions(items, container, isExcluded = false) {
 
 // ── POPULATE PAGE ──
 function populatePage(experience) {
+    console.log("📄 Populating page with experience data");
+
     // Hero Background
     const heroSection = document.querySelector(".hero-experience");
     const heroImage = getField(experience, "hero_image", "heroImage", "");
@@ -387,6 +399,12 @@ async function fetchExperienceBySlug(slug) {
     console.log(`🔍 Looking for experience with slug: "${slug}"`);
 
     try {
+        // Make sure supabaseClient exists
+        if (typeof supabaseClient === 'undefined') {
+            console.error("❌ supabaseClient is not defined!");
+            return { ...DUMMY_EXPERIENCE, slug: slug };
+        }
+
         const { data, error } = await supabaseClient
             .from("experiences")
             .select(`
@@ -426,21 +444,21 @@ async function fetchExperienceBySlug(slug) {
 
         if (error) {
             console.error("❌ Supabase error:", error);
-            console.log("Using dummy data as fallback");
+            console.log("⚠️ Using dummy data as fallback");
             return { ...DUMMY_EXPERIENCE, slug: slug };
         }
 
         if (!data) {
             console.log(`⚠️ No experience found with slug: "${slug}"`);
-            console.log("Using dummy data as fallback");
+            console.log("⚠️ Using dummy data as fallback");
             return { ...DUMMY_EXPERIENCE, slug: slug };
         }
 
-        console.log(`✅ Found experience: "${data.title}"`);
+        console.log(`✅ Found experience in database: "${data.title}"`);
         return data;
     } catch (error) {
         console.error("❌ Error fetching experience:", error);
-        console.log("Using dummy data as fallback");
+        console.log("⚠️ Using dummy data as fallback");
         return { ...DUMMY_EXPERIENCE, slug: slug };
     }
 }
@@ -448,11 +466,10 @@ async function fetchExperienceBySlug(slug) {
 // ── LOAD EXPERIENCE ──
 async function loadExperience() {
     const slug = getExperienceSlug();
-    console.log("📌 Experience slug:", slug);
+    console.log(`📌 Experience slug: "${slug}"`);
 
     if (!slug) {
         console.log("❌ No slug found in URL");
-        // Show not found state
         const container = document.getElementById("invoiceViewContent");
         if (container) {
             container.innerHTML = `
