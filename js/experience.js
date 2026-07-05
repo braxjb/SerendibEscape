@@ -1,5 +1,5 @@
 // ============================================
-// EXPERIENCE DETAIL PAGE - COMPLETE REWRITE
+// EXPERIENCE DETAIL PAGE - SIMPLIFIED WORKING VERSION
 // ============================================
 
 // ── HELPERS ──
@@ -17,6 +17,11 @@ function toArray(value) {
     return Array.isArray(value) ? value : [];
 }
 
+function getExperienceSlug() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get("slug");
+}
+
 function formatDate(dateStr) {
     if (!dateStr) return "TBC";
     try {
@@ -31,21 +36,20 @@ function formatDate(dateStr) {
     }
 }
 
-function getExperienceSlug() {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get("slug");
-}
-
-// ── DUMMY DATA (Fallback only) ──
+// ── DUMMY EXPERIENCE DATA ──
 const DUMMY_EXPERIENCE = {
     id: "exp-001",
     slug: "adams-peak-sunrise-hike",
     title: "Adams Peak Sunrise Hike",
-    price: "$85",
+    price_label: "$85",
+    price_amount: 85.00,
     duration: "1 Day",
+    duration_label: "1 Day",
     group_size: "Small (2-6)",
     difficulty: "challenging",
     location: "Central Highlands",
+    hero_image: "https://images.pexels.com/photos/545976/pexels-photo-545976.jpeg?auto=compress&cs=tinysrgb&w=800",
+    card_image: "https://images.pexels.com/photos/545976/pexels-photo-545976.jpeg?auto=compress&cs=tinysrgb&w=600",
     image: "https://images.pexels.com/photos/545976/pexels-photo-545976.jpeg?auto=compress&cs=tinysrgb&w=600",
     categories: ["hiking"],
     tags: ["hiking", "nature", "sunrise"],
@@ -67,13 +71,12 @@ const DUMMY_EXPERIENCE = {
         "International flights",
         "Travel insurance",
         "Personal expenses",
-        "Tips for guides",
-        "Additional meals"
+        "Tips for guides"
     ],
     gallery_images: [
-        "https://images.pexels.com/photos/545976/pexels-photo-545976.jpeg?auto=compress&cs=tinysrgb&w=600",
-        "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=600",
-        "https://images.pexels.com/photos/260608/pexels-photo-260608.jpeg?auto=compress&cs=tinysrgb&w=600"
+        "https://images.pexels.com/photos/545976/pexels-photo-545976.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "https://images.pexels.com/photos/260608/pexels-photo-260608.jpeg?auto=compress&cs=tinysrgb&w=800"
     ],
     itinerary_days: [
         {
@@ -125,38 +128,41 @@ const testimonialsData = [
 let currentTestimonial = 0;
 let gallerySwiper = null;
 
-// ── TESTIMONIAL FUNCTIONS ──
-function updateTestimonial() {
-    const t = testimonialsData[currentTestimonial];
-    const textEl = document.getElementById("testimonialText");
-    const nameEl = document.getElementById("testimonialName");
-    const imageEl = document.getElementById("testimonialImage");
+// ── RENDER FUNCTIONS ──
 
-    if (textEl) textEl.innerText = `"${t.text}"`;
-    if (nameEl) nameEl.innerText = t.name;
-    if (imageEl) imageEl.src = t.image;
+function renderTestimonials() {
+    const wrapper = document.getElementById("testimonialWrapper");
+    if (!wrapper) return;
+
+    wrapper.innerHTML = testimonialsData.map(t => `
+        <div class="swiper-slide">
+            <div class="testimonial-slide">
+                <div class="review-source">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/TripAdvisor_logo.svg/2560px-TripAdvisor_logo.svg.png" alt="TripAdvisor" style="height:32px;">
+                    <span>TripAdvisor</span>
+                </div>
+                <div class="stars">★★★★★</div>
+                <div class="review-quote">"${escapeHtml(t.text)}"</div>
+                <div class="review-author">${escapeHtml(t.name)}</div>
+            </div>
+        </div>
+    `).join("");
+
+    // Initialize Swiper for testimonials
+    new Swiper(".testimonialSwiper", {
+        slidesPerView: 1,
+        loop: true,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false
+        },
+        navigation: {
+            prevEl: ".testimonial-prev",
+            nextEl: ".testimonial-next"
+        }
+    });
 }
 
-function initTestimonials() {
-    const prevBtn = document.getElementById("prevTestimonial");
-    const nextBtn = document.getElementById("nextTestimonial");
-    updateTestimonial();
-
-    if (prevBtn) {
-        prevBtn.addEventListener("click", () => {
-            currentTestimonial = (currentTestimonial - 1 + testimonialsData.length) % testimonialsData.length;
-            updateTestimonial();
-        });
-    }
-    if (nextBtn) {
-        nextBtn.addEventListener("click", () => {
-            currentTestimonial = (currentTestimonial + 1) % testimonialsData.length;
-            updateTestimonial();
-        });
-    }
-}
-
-// ── GALLERY FUNCTIONS ──
 function renderGallery(images) {
     const wrapper = document.getElementById("galleryWrapper");
     if (!wrapper) return;
@@ -166,7 +172,7 @@ function renderGallery(images) {
     if (safeImages.length === 0) {
         wrapper.innerHTML = `
             <div class="swiper-slide">
-                <div style="display:flex;align-items:center;justify-content:center;height:400px;background:#f5f5f5;border-radius:16px;">
+                <div style="display:flex;align-items:center;justify-content:center;height:300px;background:#f5f5f5;border-radius:16px;">
                     <p style="color:#6b7a8f;">Gallery images coming soon</p>
                 </div>
             </div>
@@ -176,7 +182,7 @@ function renderGallery(images) {
 
     wrapper.innerHTML = safeImages.map(img => `
         <div class="swiper-slide">
-            <img src="${escapeHtml(img)}" alt="Experience gallery image" style="width:100%;height:400px;object-fit:cover;border-radius:16px;">
+            <img src="${escapeHtml(img)}" alt="Gallery image" style="width:100%;height:300px;object-fit:cover;border-radius:16px;">
         </div>
     `).join("");
 
@@ -203,7 +209,6 @@ function renderGallery(images) {
     }
 }
 
-// ── DAYS RENDERER ──
 function renderDays(days) {
     const container = document.getElementById("daysList");
     if (!container) return;
@@ -254,7 +259,7 @@ function renderDays(days) {
                             <div class="stay-section">
                                 <h4>🏨 Stay at</h4>
                                 <div class="stay-card-small">
-                                    <img src="${escapeHtml(day.image || "")}" alt="${escapeHtml(day.overnight_stay)}">
+                                    <img src="${escapeHtml(day.image || "")}" alt="${escapeHtml(day.overnight_stay)}" style="width:80px;height:80px;object-fit:cover;border-radius:12px;">
                                     <div class="stay-info">
                                         <h5>${escapeHtml(day.overnight_stay)}</h5>
                                         <p>${escapeHtml(day.location || "")}</p>
@@ -264,7 +269,7 @@ function renderDays(days) {
                         ` : ""}
                     </div>
                     <div class="expanded-right">
-                        <img src="${escapeHtml(day.image || "")}" alt="${escapeHtml(day.title || "Experience day")}">
+                        <img src="${escapeHtml(day.image || "")}" alt="${escapeHtml(day.title || "Experience day")}" style="width:100%;height:280px;object-fit:cover;border-radius:20px;">
                     </div>
                 </div>
             </div>
@@ -281,7 +286,6 @@ function renderDays(days) {
     });
 }
 
-// ── RENDER INCLUSIONS ──
 function renderInclusions(items, container, isExcluded = false) {
     if (!container) return;
     const safeItems = toArray(items);
@@ -292,19 +296,22 @@ function renderInclusions(items, container, isExcluded = false) {
     container.innerHTML = safeItems.map(item => `<li>${escapeHtml(item)}</li>`).join("");
 }
 
-// ── PAGE POPULATION ──
+// ── POPULATE PAGE ──
 function populatePage(experience) {
     console.log("Populating page with experience:", experience);
 
-    // Hero Section
+    // Hero Background
     const heroSection = document.querySelector(".hero-experience");
-    if (heroSection && experience.hero_image) {
-        heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url('${experience.hero_image}')`;
-    } else if (heroSection && experience.image) {
-        heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url('${experience.image}')`;
+    if (heroSection) {
+        const bgImage = experience.hero_image || experience.card_image || experience.image || "";
+        if (bgImage) {
+            heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url('${bgImage}')`;
+            heroSection.style.backgroundSize = "cover";
+            heroSection.style.backgroundPosition = "center 50%";
+        }
     }
 
-    // Badge
+    // Hero Badge
     const badge = document.getElementById("heroBadge");
     if (badge) {
         if (experience.featured) {
@@ -315,35 +322,49 @@ function populatePage(experience) {
         }
     }
 
-    // Price
+    // Hero Price
     const priceEl = document.getElementById("heroPrice");
-    if (priceEl) priceEl.textContent = experience.price_label || experience.price || "";
+    if (priceEl) {
+        priceEl.textContent = experience.price_label || experience.price || "";
+    }
 
-    // Title
+    // Hero Title
     const titleEl = document.getElementById("heroTitle");
-    if (titleEl) titleEl.textContent = experience.title || "Experience";
+    if (titleEl) {
+        titleEl.textContent = experience.title || "Experience";
+    }
 
-    // Duration
+    // Hero Duration
     const durationEl = document.getElementById("heroDuration");
-    if (durationEl) durationEl.textContent = experience.duration || experience.duration_label || "";
+    if (durationEl) {
+        durationEl.textContent = experience.duration || experience.duration_label || "";
+    }
 
-    // Meta
+    // Hero Meta
     const diffEl = document.getElementById("heroDifficulty");
-    if (diffEl) diffEl.textContent = `Difficulty: ${experience.difficulty || "Moderate"}`;
+    if (diffEl) {
+        diffEl.textContent = `Difficulty: ${experience.difficulty || "Moderate"}`;
+    }
 
     const groupEl = document.getElementById("heroGroupSize");
-    if (groupEl) groupEl.textContent = `Group: ${experience.group_size || "Small"}`;
+    if (groupEl) {
+        groupEl.textContent = `Group: ${experience.group_size || "Small"}`;
+    }
 
     const spotsEl = document.getElementById("heroSpots");
     if (spotsEl) {
         const spots = experience.spots_remaining || 0;
         spotsEl.textContent = `Spots: ${spots > 0 ? `${spots} left` : "Sold Out"}`;
-        if (spots === 0) spotsEl.style.color = "#dc2626";
+        if (spots === 0) {
+            spotsEl.style.color = "#dc2626";
+        }
     }
 
     // Breadcrumb
     const breadcrumbEl = document.getElementById("breadcrumbTitle");
-    if (breadcrumbEl) breadcrumbEl.textContent = experience.title || "";
+    if (breadcrumbEl) {
+        breadcrumbEl.textContent = experience.title || "";
+    }
 
     // Intro Description
     const introEl = document.getElementById("introDescription");
@@ -354,16 +375,24 @@ function populatePage(experience) {
 
     // At a Glance
     const gDuration = document.getElementById("glanceDuration");
-    if (gDuration) gDuration.textContent = experience.duration || experience.duration_label || "N/A";
+    if (gDuration) {
+        gDuration.textContent = experience.duration || experience.duration_label || "N/A";
+    }
 
     const gGroup = document.getElementById("glanceGroupSize");
-    if (gGroup) gGroup.textContent = experience.group_size || "N/A";
+    if (gGroup) {
+        gGroup.textContent = experience.group_size || "N/A";
+    }
 
     const gDiff = document.getElementById("glanceDifficulty");
-    if (gDiff) gDiff.textContent = experience.difficulty || "Moderate";
+    if (gDiff) {
+        gDiff.textContent = experience.difficulty || "Moderate";
+    }
 
     const gLoc = document.getElementById("glanceLocation");
-    if (gLoc) gLoc.textContent = experience.location || "Sri Lanka";
+    if (gLoc) {
+        gLoc.textContent = experience.location || "Sri Lanka";
+    }
 
     const gDate = document.getElementById("glanceDate");
     if (gDate) {
@@ -382,65 +411,33 @@ function populatePage(experience) {
 
     // Book Price
     const bookPriceEl = document.getElementById("bookPrice");
-    if (bookPriceEl) bookPriceEl.textContent = experience.price_label || experience.price || "$0";
+    if (bookPriceEl) {
+        bookPriceEl.textContent = experience.price_label || experience.price || "$0";
+    }
 
     // Gallery
     renderGallery(experience.gallery_images || []);
 }
 
-// ── NOT FOUND STATE ──
-function setNotFoundState() {
-    console.log("Setting not found state");
-    const titleEl = document.getElementById("heroTitle");
-    const priceEl = document.getElementById("heroPrice");
-    const durationEl = document.getElementById("heroDuration");
-    const introEl = document.getElementById("introDescription");
-    const daysEl = document.getElementById("daysList");
-
-    if (titleEl) titleEl.textContent = "Experience Not Found";
-    if (priceEl) priceEl.textContent = "";
-    if (durationEl) durationEl.textContent = "Please check the link and try again";
-
-    if (introEl) {
-        introEl.innerHTML = `<p>We couldn't find that experience. Please check the URL or return to the <a href="experiences.html">experiences page</a>.</p>`;
-    }
-
-    if (daysEl) {
-        daysEl.innerHTML = `
-            <div style="text-align:center; padding:60px;">
-                <a href="experiences.html" style="color: var(--color-red);">← Back to all experiences</a>
-            </div>
-        `;
-    }
-}
-
-// ── FETCH EXPERIENCE BY SLUG ──
-async function fetchExperienceBySlug(slug) {
-    if (!slug) {
-        console.error("No slug provided");
-        return null;
-    }
-
+// ── FETCH EXPERIENCE ──
+async function fetchExperience(slug) {
     console.log(`🔍 Looking for experience with slug: "${slug}"`);
 
     try {
-        // Try to fetch from Supabase
         const { data, error } = await supabaseClient
             .from("experiences")
             .select("*")
             .eq("slug", slug)
-            .maybeSingle(); // Use maybeSingle() instead of single() to avoid PGRST116 error
+            .maybeSingle();
 
         if (error) {
             console.error("❌ Supabase error:", error);
-            // Fallback to dummy data
             console.log("Using dummy data as fallback");
             return { ...DUMMY_EXPERIENCE, slug: slug };
         }
 
         if (!data) {
             console.log(`⚠️ No experience found with slug: "${slug}"`);
-            // Fallback to dummy data
             console.log("Using dummy data as fallback");
             return { ...DUMMY_EXPERIENCE, slug: slug };
         }
@@ -449,37 +446,8 @@ async function fetchExperienceBySlug(slug) {
         return data;
     } catch (error) {
         console.error("❌ Unexpected error:", error);
-        // Fallback to dummy data
-        console.log("Using dummy data as fallback due to error");
+        console.log("Using dummy data as fallback");
         return { ...DUMMY_EXPERIENCE, slug: slug };
-    }
-}
-
-// ── LOAD EXPERIENCE ──
-async function loadExperience() {
-    const slug = getExperienceSlug();
-    console.log("📌 Experience slug from URL:", slug);
-
-    if (!slug) {
-        console.log("❌ No slug found in URL");
-        setNotFoundState();
-        return;
-    }
-
-    try {
-        const experience = await fetchExperienceBySlug(slug);
-        console.log("📦 Experience data:", experience);
-
-        if (!experience) {
-            console.log("❌ Experience not found");
-            setNotFoundState();
-            return;
-        }
-
-        populatePage(experience);
-    } catch (error) {
-        console.error("❌ Error loading experience:", error);
-        setNotFoundState();
     }
 }
 
@@ -498,10 +466,12 @@ function initPageInteractions() {
     }
     requestAnimationFrame(raf);
 
-    // Header scroll effect
+    // Header scroll
     const header = document.getElementById("siteHeader");
     window.addEventListener("scroll", () => {
-        if (header) header.classList.toggle("scrolled", window.scrollY > 50);
+        if (header) {
+            header.classList.toggle("scrolled", window.scrollY > 50);
+        }
     });
 
     // Back to top
@@ -513,7 +483,7 @@ function initPageInteractions() {
         });
     }
 
-    // Back to experiences
+    // Back button
     const backBtn = document.getElementById("backToExperiences");
     if (backBtn) {
         backBtn.addEventListener("click", (e) => {
@@ -527,11 +497,13 @@ function initPageInteractions() {
     if (scrollIndicator) {
         scrollIndicator.addEventListener("click", () => {
             const intro = document.querySelector(".intro-section");
-            if (intro) lenis.scrollTo(intro, { offset: -70 });
+            if (intro) {
+                lenis.scrollTo(intro, { offset: -70 });
+            }
         });
     }
 
-    // Book now button
+    // Book button
     const bookBtn = document.getElementById("bookNowBtn");
     if (bookBtn) {
         bookBtn.addEventListener("click", (e) => {
@@ -562,41 +534,58 @@ function initPageInteractions() {
             }
         });
     }
-
-    // Reveal animations
-    const revealItems = document.querySelectorAll(
-        ".intro-section, .schedule-section, .gallery-section, .included-section, .book-section, .testimonials-section, .trust-bar, .why-section, .day-item, .why-item"
-    );
-
-    revealItems.forEach((item) => {
-        item.classList.add("reveal-premium");
-    });
-
-    const revealObserver = new IntersectionObserver(
-        (entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("visible");
-                    revealObserver.unobserve(entry.target);
-                }
-            });
-        },
-        { threshold: 0.15 }
-    );
-
-    revealItems.forEach((item) => revealObserver.observe(item));
 }
 
 // ── INIT ──
-document.addEventListener("DOMContentLoaded", async function() {
-    console.log("🚀 Experience page loaded");
+async function init() {
+    console.log("🚀 Experience page initializing...");
+
+    // Get slug from URL
+    const slug = getExperienceSlug();
+    console.log("📌 Slug from URL:", slug);
+
+    // If no slug, show error
+    if (!slug) {
+        console.log("❌ No slug found in URL");
+        const container = document.getElementById("invoiceViewContent");
+        if (container) {
+            container.innerHTML = `
+                <div style="padding:60px;text-align:center;">
+                    <h2>Experience Not Found</h2>
+                    <p>No experience specified. Please go back to the <a href="experiences.html">experiences page</a>.</p>
+                </div>
+            `;
+        }
+        return;
+    }
+
+    // Fetch the experience
+    const experience = await fetchExperience(slug);
     
+    if (!experience) {
+        console.log("❌ No experience data available");
+        const container = document.getElementById("invoiceViewContent");
+        if (container) {
+            container.innerHTML = `
+                <div style="padding:60px;text-align:center;">
+                    <h2>Experience Not Found</h2>
+                    <p>We couldn't find the experience you're looking for.</p>
+                    <a href="experiences.html" style="color:#BC2026;">← Back to experiences</a>
+                </div>
+            `;
+        }
+        return;
+    }
+
+    // Populate the page
+    populatePage(experience);
+
     // Initialize components
-    initTestimonials();
+    renderTestimonials();
     initPageInteractions();
-    
-    // Load the experience data
-    await loadExperience();
-    
-    console.log("✅ Experience page initialization complete");
-});
+
+    console.log("✅ Experience page loaded successfully");
+}
+
+// ── START ──
+document.addEventListener("DOMContentLoaded", init);
