@@ -1,5 +1,5 @@
 // ============================================
-// EXPERIENCES PAGE SCRIPT - WITH CALENDAR
+// EXPERIENCES PAGE SCRIPT - WITH CALENDAR & DUMMY EVENTS
 // ============================================
 
 const testimonials = [
@@ -20,6 +20,164 @@ const testimonials = [
         quote: "Camping in the rainforest with this group was an adventure I'll never forget. The wildlife, the stars, the stories around the fire.",
         author: "David K",
         location: "Canada, December 2025"
+    }
+];
+
+// ── DUMMY EXPERIENCES DATA ──
+// This data will be used if Supabase is not available or for demo purposes
+const DUMMY_EXPERIENCES = [
+    {
+        id: "exp-001",
+        slug: "adams-peak-sunrise-hike",
+        title: "Adams Peak Sunrise Hike",
+        location: "Central Highlands",
+        price: "$85",
+        duration: "1 Day",
+        group_size: "Small (2-6)",
+        difficulty: "challenging",
+        image: "https://images.pexels.com/photos/545976/pexels-photo-545976.jpeg?auto=compress&cs=tinysrgb&w=600",
+        categories: ["hiking"],
+        tags: ["hiking", "nature", "sunrise"],
+        upcoming_date: "2026-07-15",
+        event_dates: ["2026-07-15", "2026-07-22", "2026-07-29", "2026-08-05", "2026-08-12"],
+        spots_remaining: 6,
+        featured: true
+    },
+    {
+        id: "exp-002",
+        slug: "yala-wildlife-safari",
+        title: "Yala National Park Wildlife Safari",
+        location: "Yala",
+        price: "$120",
+        duration: "2 Days",
+        group_size: "Medium (7-15)",
+        difficulty: "beginner",
+        image: "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=600",
+        categories: ["wildlife"],
+        tags: ["wildlife", "safari", "nature"],
+        upcoming_date: "2026-07-18",
+        event_dates: ["2026-07-18", "2026-07-25", "2026-08-01", "2026-08-08", "2026-08-15"],
+        spots_remaining: 4,
+        featured: true
+    },
+    {
+        id: "exp-003",
+        slug: "wellness-retreat-mirissa",
+        title: "Wellness & Yoga Retreat - Mirissa",
+        location: "Mirissa",
+        price: "$350",
+        duration: "4 Days",
+        group_size: "Small (2-6)",
+        difficulty: "beginner",
+        image: "https://images.pexels.com/photos/260608/pexels-photo-260608.jpeg?auto=compress&cs=tinysrgb&w=600",
+        categories: ["wellness"],
+        tags: ["wellness", "yoga", "meditation"],
+        upcoming_date: "2026-07-20",
+        event_dates: ["2026-07-20", "2026-08-03", "2026-08-17"],
+        spots_remaining: 8,
+        featured: true
+    },
+    {
+        id: "exp-004",
+        slug: "kandy-cultural-immersion",
+        title: "Kandy Cultural Immersion & Temple Tour",
+        location: "Kandy",
+        price: "$65",
+        duration: "1 Day",
+        group_size: "Medium (7-15)",
+        difficulty: "beginner",
+        image: "https://images.pexels.com/photos/161140/sri-lanka-asia-travel-beach-161140.jpeg?auto=compress&cs=tinysrgb&w=600",
+        categories: ["cultural"],
+        tags: ["cultural", "heritage", "temple"],
+        upcoming_date: "2026-07-23",
+        event_dates: ["2026-07-23", "2026-07-30", "2026-08-06", "2026-08-13"],
+        spots_remaining: 12,
+        featured: false
+    },
+    {
+        id: "exp-005",
+        slug: "camping-knuckles-mountains",
+        title: "Camping Adventure - Knuckles Mountains",
+        location: "Knuckles Range",
+        price: "$180",
+        duration: "3 Days",
+        group_size: "Small (2-6)",
+        difficulty: "moderate",
+        image: "https://images.pexels.com/photos/260608/pexels-photo-260608.jpeg?auto=compress&cs=tinysrgb&w=600",
+        categories: ["camping"],
+        tags: ["camping", "trekking", "nature"],
+        upcoming_date: "2026-08-01",
+        event_dates: ["2026-08-01", "2026-08-08", "2026-08-15", "2026-08-22"],
+        spots_remaining: 3,
+        featured: false
+    },
+    {
+        id: "exp-006",
+        slug: "sri-lankan-culinary-journey",
+        title: "Sri Lankan Culinary Journey - Galle",
+        location: "Galle",
+        price: "$95",
+        duration: "1 Day",
+        group_size: "Medium (7-15)",
+        difficulty: "beginner",
+        image: "https://images.pexels.com/photos/161140/sri-lanka-asia-travel-beach-161140.jpeg?auto=compress&cs=tinysrgb&w=600",
+        categories: ["culinary"],
+        tags: ["culinary", "food", "culture"],
+        upcoming_date: "2026-08-05",
+        event_dates: ["2026-08-05", "2026-08-12", "2026-08-19", "2026-08-26"],
+        spots_remaining: 10,
+        featured: false
+    },
+    {
+        id: "exp-007",
+        slug: "ella-hike-and-village-tour",
+        title: "Ella Hike & Village Tour",
+        location: "Ella",
+        price: "$75",
+        duration: "1 Day",
+        group_size: "Small (2-6)",
+        difficulty: "moderate",
+        image: "https://images.pexels.com/photos/545976/pexels-photo-545976.jpeg?auto=compress&cs=tinysrgb&w=600",
+        categories: ["hiking"],
+        tags: ["hiking", "village", "nature"],
+        upcoming_date: "2026-08-10",
+        event_dates: ["2026-08-10", "2026-08-17", "2026-08-24"],
+        spots_remaining: 5,
+        featured: false
+    },
+    {
+        id: "exp-008",
+        slug: "anuradhapura-heritage-tour",
+        title: "Anuradhapura Ancient City Heritage Tour",
+        location: "Anuradhapura",
+        price: "$80",
+        duration: "1 Day",
+        group_size: "Medium (7-15)",
+        difficulty: "beginner",
+        image: "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=600",
+        categories: ["cultural"],
+        tags: ["cultural", "heritage", "ancient"],
+        upcoming_date: "2026-08-14",
+        event_dates: ["2026-08-14", "2026-08-21", "2026-08-28"],
+        spots_remaining: 15,
+        featured: false
+    },
+    {
+        id: "exp-009",
+        slug: "wilpattu-night-safari",
+        title: "Wilpattu National Park Night Safari",
+        location: "Wilpattu",
+        price: "$150",
+        duration: "2 Days",
+        group_size: "Small (2-6)",
+        difficulty: "moderate",
+        image: "https://images.pexels.com/photos/260608/pexels-photo-260608.jpeg?auto=compress&cs=tinysrgb&w=600",
+        categories: ["wildlife"],
+        tags: ["wildlife", "safari", "night"],
+        upcoming_date: "2026-08-20",
+        event_dates: ["2026-08-20", "2026-08-27", "2026-09-03"],
+        spots_remaining: 2,
+        featured: false
     }
 ];
 
@@ -61,56 +219,68 @@ function mapExperienceRow(row) {
         slug: row.slug,
         title: row.title || "Untitled experience",
         duration: row.duration || row.duration_label || "",
-        price: row.price_label || "",
+        price: row.price || row.price_label || "",
         group_size: row.group_size || "",
         difficulty: row.difficulty || "moderate",
         location: row.location || "Sri Lanka",
-        image: row.card_image || row.hero_image || "https://images.pexels.com/photos/161140/sri-lanka-asia-travel-beach-161140.jpeg?auto=compress&cs=tinysrgb&w=600",
+        image: row.card_image || row.hero_image || row.image || "https://images.pexels.com/photos/161140/sri-lanka-asia-travel-beach-161140.jpeg?auto=compress&cs=tinysrgb&w=600",
         tags: tags,
         categories: categories,
         upcoming_date: row.upcoming_date || null,
+        event_dates: row.event_dates || (row.upcoming_date ? [row.upcoming_date] : []),
         spots_remaining: row.spots_remaining || 0,
-        featured: row.featured || false,
-        // For calendar grouping
-        event_dates: row.event_dates || (row.upcoming_date ? [row.upcoming_date] : [])
+        featured: row.featured || false
     };
 }
 
 async function fetchExperiences() {
-    const { data, error } = await supabaseClient
-        .from("experiences")
-        .select(`
-            id,
-            slug,
-            title,
-            location,
-            price_label,
-            duration,
-            duration_label,
-            group_size,
-            difficulty,
-            hero_image,
-            card_image,
-            tags,
-            categories,
-            upcoming_date,
-            event_dates,
-            spots_remaining,
-            featured,
-            is_published,
-            sort_order,
-            created_at
-        `)
-        .eq("is_published", true)
-        .order("featured", { ascending: false })
-        .order("sort_order", { ascending: true })
-        .order("created_at", { ascending: false });
+    try {
+        const { data, error } = await supabaseClient
+            .from("experiences")
+            .select(`
+                id,
+                slug,
+                title,
+                location,
+                price_label,
+                price,
+                duration,
+                duration_label,
+                group_size,
+                difficulty,
+                hero_image,
+                card_image,
+                image,
+                tags,
+                categories,
+                upcoming_date,
+                event_dates,
+                spots_remaining,
+                featured,
+                is_published,
+                sort_order,
+                created_at
+            `)
+            .eq("is_published", true)
+            .order("featured", { ascending: false })
+            .order("sort_order", { ascending: true })
+            .order("created_at", { ascending: false });
 
-    if (error) {
-        throw error;
+        if (error) {
+            console.log("Supabase error, using dummy data:", error);
+            return DUMMY_EXPERIENCES.map(mapExperienceRow);
+        }
+
+        if (!data || data.length === 0) {
+            console.log("No data from Supabase, using dummy data");
+            return DUMMY_EXPERIENCES.map(mapExperienceRow);
+        }
+
+        return (data || []).map(mapExperienceRow);
+    } catch (error) {
+        console.log("Error fetching, using dummy data:", error);
+        return DUMMY_EXPERIENCES.map(mapExperienceRow);
     }
-
-    return (data || []).map(mapExperienceRow);
 }
 
 function applyFilters() {
@@ -193,23 +363,37 @@ function renderCalendar(month, year) {
             const dateKey = this.dataset.date;
             const hasEvent = this.dataset.hasEvent === 'true';
             
-            // Update selection
-            if (selectedDate === dateKey && hasEvent) {
+            if (!hasEvent) {
+                // If no event, just select/deselect
+                if (selectedDate === dateKey) {
+                    selectedDate = null;
+                    renderCalendar(currentMonth, currentYear);
+                    renderSelectedDateEvents(null);
+                    // Reset to show all experiences
+                    filterByDate(null);
+                } else {
+                    selectedDate = dateKey;
+                    renderCalendar(currentMonth, currentYear);
+                    renderSelectedDateEvents(null);
+                    // Reset to show all experiences
+                    filterByDate(null);
+                }
+                return;
+            }
+            
+            if (selectedDate === dateKey) {
                 // If already selected, deselect
                 selectedDate = null;
                 renderCalendar(currentMonth, currentYear);
                 renderSelectedDateEvents(null);
+                filterByDate(null);
                 return;
             }
             
             selectedDate = dateKey;
             renderCalendar(currentMonth, currentYear);
-            
-            if (hasEvent) {
-                renderSelectedDateEvents(dateKey);
-            } else {
-                renderSelectedDateEvents(null);
-            }
+            renderSelectedDateEvents(dateKey);
+            filterByDate(dateKey);
         });
     });
 }
@@ -280,26 +464,19 @@ function filterByDate(dateKey) {
     if (!dateKey || !eventsByDate[dateKey]) {
         // Show all experiences
         filteredExperiences = [...allExperiences];
+        document.getElementById('resultsTitle').textContent = 'All Experiences';
+        document.getElementById('resultsCount').textContent = `${filteredExperiences.length} experiences`;
     } else {
         // Show only experiences on this date
         const eventIds = eventsByDate[dateKey].map(e => e.id);
         filteredExperiences = allExperiences.filter(e => eventIds.includes(e.id));
+        const dateObj = new Date(dateKey + 'T00:00:00');
+        document.getElementById('resultsTitle').textContent = `Events on ${dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
+        document.getElementById('resultsCount').textContent = `${filteredExperiences.length} experiences`;
     }
     
     currentPage = 1;
     renderExperiences();
-    
-    // Update results header
-    const title = document.getElementById('resultsTitle');
-    const count = document.getElementById('resultsCount');
-    if (dateKey && eventsByDate[dateKey]) {
-        const dateObj = new Date(dateKey + 'T00:00:00');
-        title.textContent = `Events on ${dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
-        count.textContent = `${filteredExperiences.length} experiences`;
-    } else {
-        title.textContent = 'All Experiences';
-        count.textContent = `${filteredExperiences.length} experiences`;
-    }
 }
 
 // ── RENDER FUNCTIONS ──
@@ -311,7 +488,7 @@ function renderEmptyState(message = "No experiences found.") {
     grid.innerHTML = `
         <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
             <h3 style="margin-bottom: 10px;">${escapeHtml(message)}</h3>
-            <p style="color: #6b6b6b;">Try clearing filters or check other dates.</p>
+            <p style="color: #6b6b6b;">Try selecting a different date or check back later for new experiences.</p>
         </div>
     `;
 }
@@ -342,13 +519,24 @@ function renderExperiences() {
         paginationContainer.style.display = totalPages > 1 ? "flex" : "none";
     }
 
-    grid.innerHTML = paginatedItems.map((item, index) => `
+    const categoryIcons = {
+        hiking: '🥾',
+        wellness: '🧘',
+        camping: '🏕️',
+        cultural: '🎭',
+        wildlife: '🐘',
+        culinary: '🍜'
+    };
+
+    grid.innerHTML = paginatedItems.map((item, index) => {
+        const icon = categoryIcons[item.categories?.[0]?.toLowerCase()] || '🌟';
+        return `
         <a href="experience.html?slug=${encodeURIComponent(item.slug)}" class="experience-card" style="animation-delay: ${index * 0.05}s">
             <div class="card-image">
                 <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}">
                 ${item.featured ? '<span class="featured-badge">★ Featured</span>' : ''}
                 ${item.spots_remaining > 0 ? `<span class="spots-badge">${item.spots_remaining} spots left</span>` : '<span class="spots-badge sold-out">Sold Out</span>'}
-                <span class="category-label">${escapeHtml(item.categories[0] || 'Adventure')}</span>
+                <span class="category-label">${icon} ${escapeHtml(item.categories[0] || 'Adventure')}</span>
             </div>
             <div class="card-content">
                 <h3 class="card-title">${escapeHtml(item.title)}</h3>
@@ -365,7 +553,7 @@ function renderExperiences() {
                 <div class="view-link">View Experience →</div>
             </div>
         </a>
-    `).join("");
+    `}).join("");
 
     updatePaginationButtons(totalPages);
 }
@@ -426,44 +614,6 @@ function updatePaginationButtons(totalPages) {
                 currentPage = page;
                 renderExperiences();
                 window.scrollTo({ top: document.getElementById("experiences")?.offsetTop - 80 || 0, behavior: "smooth" });
-            }
-        });
-    });
-}
-
-// ── FILTERS ──
-
-function initCategoryCards() {
-    const categoryCards = document.querySelectorAll(".category-card");
-    
-    categoryCards.forEach(card => {
-        card.addEventListener("click", () => {
-            const category = card.dataset.category;
-            if (!category) return;
-            
-            // Clear date selection
-            selectedDate = null;
-            renderCalendar(currentMonth, currentYear);
-            
-            // Clear existing filters
-            activeFilters = [];
-            document.querySelectorAll(".filter-tag").forEach(tag => tag.classList.remove("active"));
-            
-            // Update results
-            activeFilters.push(category);
-            applyFilters();
-            
-            // Update results header
-            document.getElementById('resultsTitle').textContent = `${card.querySelector('h3').textContent}`;
-            document.getElementById('resultsCount').textContent = `${filteredExperiences.length} experiences`;
-            
-            currentPage = 1;
-            renderExperiences();
-            
-            // Scroll to experiences section
-            const experiencesSection = document.getElementById("experiences");
-            if (experiencesSection) {
-                experiencesSection.scrollIntoView({ behavior: "smooth", block: "start" });
             }
         });
     });
@@ -558,7 +708,7 @@ function initPageInteractions() {
             pill.classList.toggle("visible", heroBottom < 0);
         }
 
-        const sections = ["overview", "categories", "experiences", "testimonials", "process", "contact"];
+        const sections = ["overview", "intro", "experiences", "testimonials", "process", "contact"];
         let currentSection = "";
 
         for (const section of sections) {
@@ -680,7 +830,6 @@ async function initExperiencesPage() {
 document.addEventListener("DOMContentLoaded", async function () {
     initPaginationButtons();
     renderTestimonials();
-    initCategoryCards();
     initSwiper();
     initPageInteractions();
     await initExperiencesPage();
