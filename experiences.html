@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Experiences | Group Tours & Events | Serendib Escape</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.16/dist/lenis.min.js"></script>
+
+    <link rel="stylesheet" href="css/experiences.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+    <div class="header-inner">
+        <a href="index.html" class="logo-wrapper">
+            <div class="logo-container">
+                <img src="images/WhatsApp_Image_2026-02-11_at_09.02.53-removebg-preview.png" alt="Serendib Escape Logo" class="logo-img">
+                <div class="logo-text">
+                    <span class="logo-primary">SERENDIB</span>
+                    <span class="logo-accent">ESCAPE</span>
+                </div>
+            </div>
+        </a>
+
+        <nav class="nav-links" aria-label="Main Navigation">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="destinations.html" class="nav-link">Destinations</a>
+            <a href="itineraries.html" class="nav-link">Itineraries</a>
+            <a href="experiences.html" class="nav-link active">Experiences</a>
+            <a href="journal.html" class="nav-link">Journal</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="contact.html" class="nav-link btn-inquire">Inquire</a>
+        </nav>
+
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu" aria-expanded="false">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+    </div>
+</header>
+
+<div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <div class="mobile-menu-container">
+        <div class="mobile-menu-header">
+            <div class="mobile-logo">
+                <img src="images/WhatsApp_Image_2026-02-11_at_09.02.53-removebg-preview.png" alt="Serendib Escape Logo" class="mobile-logo-img">
+                <div class="mobile-logo-text">
+                    <span class="mobile-logo-primary">SERENDIB</span>
+                    <span class="mobile-logo-accent">ESCAPE</span>
+                </div>
+            </div>
+            <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close Menu">✕</button>
+        </div>
+        <ul class="mobile-nav-menu">
+            <li><a href="index.html" class="mobile-nav-link">Home</a></li>
+            <li><a href="destinations.html" class="mobile-nav-link">Destinations</a></li>
+            <li><a href="itineraries.html" class="mobile-nav-link">Itineraries</a></li>
+            <li><a href="experiences.html" class="mobile-nav-link">Experiences</a></li>
+            <li><a href="journal.html" class="mobile-nav-link">Journal</a></li>
+            <li><a href="about.html" class="mobile-nav-link">About</a></li>
+            <li><a href="contact.html" class="mobile-nav-link mobile-inquire">Inquire Now</a></li>
+        </ul>
+    </div>
+</div>
+
+<main>
+    <section class="hero-experiences" id="heroSection">
+        <div class="hero-content">
+            <div class="hero-text-overlay">
+                <h1 class="hero-title-large">Upcoming Experiences</h1>
+                <p class="hero-subtitle">Browse our calendar and join the adventure</p>
+            </div>
+        </div>
+        <div class="scroll-indicator" id="scrollIndicator">
+            <p>SCROLL</p>
+            <span></span>
+        </div>
+    </section>
+
+    <div class="breadcrumb-section" id="overview">
+        <div class="container">
+            <div class="breadcrumbs">
+                <a href="#">Destinations</a> / <a href="#">Sri Lanka</a> / <span>Experiences</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Categories Section -->
+    <section class="categories-section" id="categories">
+        <div class="container">
+            <div class="category-grid">
+                <div class="category-card" data-category="hiking">
+                    <div class="category-icon">🥾</div>
+                    <h3>Hiking & Trekking</h3>
+                    <p>Conquer Sri Lanka's finest trails</p>
+                </div>
+                <div class="category-card" data-category="wellness">
+                    <div class="category-icon">🧘</div>
+                    <h3>Wellness Retreats</h3>
+                    <p>Rejuvenate mind, body & soul</p>
+                </div>
+                <div class="category-card" data-category="camping">
+                    <div class="category-icon">🏕️</div>
+                    <h3>Camping Adventures</h3>
+                    <p>Sleep under starlit skies</p>
+                </div>
+                <div class="category-card" data-category="cultural">
+                    <div class="category-icon">🎭</div>
+                    <h3>Cultural Immersions</h3>
+                    <p>Connect with local traditions</p>
+                </div>
+                <div class="category-card" data-category="wildlife">
+                    <div class="category-icon">🐘</div>
+                    <h3>Wildlife Encounters</h3>
+                    <p>Track elephants & leopards</p>
+                </div>
+                <div class="category-card" data-category="culinary">
+                    <div class="category-icon">🍜</div>
+                    <h3>Culinary Journeys</h3>
+                    <p>Savour authentic flavours</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container" id="experiences">
+        <div class="main-content">
+            <!-- Calendar Sidebar -->
+            <aside class="calendar-sidebar">
+                <div class="calendar-header">
+                    <h3>Event Calendar</h3>
+                    <p class="calendar-subtitle">Click on a highlighted date to view events</p>
+                </div>
+
+                <div class="calendar-nav">
+                    <button class="calendar-nav-btn" id="prevMonth">‹</button>
+                    <span class="calendar-month-year" id="calendarMonthYear">January 2026</span>
+                    <button class="calendar-nav-btn" id="nextMonth">›</button>
+                </div>
+
+                <div class="calendar-grid" id="calendarGrid">
+                    <!-- Calendar will be rendered by JavaScript -->
+                </div>
+
+                <div class="calendar-legend">
+                    <span class="legend-item">
+                        <span class="legend-dot has-event"></span> Has Events
+                    </span>
+                    <span class="legend-item">
+                        <span class="legend-dot today"></span> Today
+                    </span>
+                    <span class="legend-item">
+                        <span class="legend-dot selected"></span> Selected
+                    </span>
+                </div>
+
+                <!-- Selected Date Events -->
+                <div class="selected-date-events" id="selectedDateEvents">
+                    <h4 id="selectedDateTitle">Select a date</h4>
+                    <div id="selectedDateEventsList">
+                        <p class="no-events-message">Click on a highlighted date to see events</p>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Results Grid -->
+            <div class="results-wrapper">
+                <div class="results-header">
+                    <h2 id="resultsTitle">All Experiences</h2>
+                    <span class="results-count" id="resultsCount">0 experiences</span>
+                </div>
+                <div class="results-grid" id="resultsGrid">
+                    <div class="results-message" id="resultsMessage">Loading experiences...</div>
+                </div>
+                <div class="pagination-container" id="paginationContainer">
+                    <button class="pagination-btn" id="prevPageBtn">← Previous</button>
+                    <div class="page-numbers" id="pageNumbers"></div>
+                    <button class="pagination-btn" id="nextPageBtn">Next →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="testimonials-section" id="testimonials">
+        <div class="container">
+            <div class="testimonial-slider">
+                <div class="swiper testimonialSwiper">
+                    <div class="swiper-wrapper" id="testimonialWrapper"></div>
+                </div>
+                <div class="slider-nav">
+                    <button class="testimonial-prev">←</button>
+                    <button class="testimonial-next">→</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="process-section" id="process">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="process-steps">
+                <div class="step-item"><div class="step-number">01</div><div class="step-title">Choose Your Experience</div><div class="step-desc">Browse our curated adventures</div></div>
+                <div class="step-item"><div class="step-number">02</div><div class="step-title">Check Availability</div><div class="step-desc">View upcoming group dates</div></div>
+                <div class="step-item"><div class="step-number">03</div><div class="step-title">Reserve Your Spot</div><div class="step-desc">Secure with a deposit</div></div>
+                <div class="step-item"><div class="step-number">04</div><div class="step-title">Prepare for Adventure</div><div class="step-desc">Get your packing list & guide</div></div>
+                <div class="step-item"><div class="step-number">05</div><div class="step-title">Experience & Connect</div><div class="step-desc">Join your group and explore</div></div>
+                <div class="step-item"><div class="step-number">06</div><div class="step-title">Share Your Story</div><div class="step-desc">Inspire others with your journey</div></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="expert-cta" id="contact">
+        <div class="expert-cta-image"></div>
+        <div class="expert-cta-content">
+            <h2>Ready for Your Next Adventure?</h2>
+            <p>Join a group of like-minded explorers on a journey you'll never forget.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn-solid-red">View Upcoming Dates →</a>
+                <a href="#" class="btn-outline-red">Contact Our Team</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="floating-pill" id="floatingPill">
+        <a class="pill-item" data-target="overview">Overview</a>
+        <a class="pill-item" data-target="categories">Categories</a>
+        <a class="pill-item" data-target="experiences">Calendar</a>
+        <a class="pill-item" data-target="testimonials">Testimonials</a>
+        <a class="pill-enquire" data-target="contact">📞 Book Now</a>
+    </div>
+
+    <a href="#" class="back-to-top" id="backToTop">↑</a>
+</main>
+
+<footer class="vintage-footer">
+    <!-- keep your existing footer -->
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/header.js"></script>
+<script src="js/footer.js"></script>
+<script src=js/experiences.js"></script>
+</body>
+</html>
