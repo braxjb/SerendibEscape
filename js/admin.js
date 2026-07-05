@@ -92,7 +92,61 @@ const els = {
   blogBlockquote: document.getElementById("blog_blockquote"),
   blogPullQuote: document.getElementById("blog_pull_quote"),
   blogLeadImage: document.getElementById("blog_lead_image"),
-  blogLeadImageAlt: document.getElementById("blog_lead_image_alt")
+  blogLeadImageAlt: document.getElementById("blog_lead_image_alt"),
+
+  // =========================
+  // EXPERIENCES (NEW)
+  // =========================
+  experienceTableBody: document.getElementById("experiencesTableBody"),
+  experienceTableCount: document.getElementById("experienceTableCount"),
+  experienceSearchInput: document.getElementById("experienceSearchInput"),
+  experienceStatusFilter: document.getElementById("experienceStatusFilter"),
+
+  experienceFormDialog: document.getElementById("experienceFormDialog"),
+  experienceViewDialog: document.getElementById("experienceViewDialog"),
+  closeExperienceFormDialog: document.getElementById("closeExperienceFormDialog"),
+  closeExperienceViewDialog: document.getElementById("closeExperienceViewDialog"),
+  experienceFormDialogTitle: document.getElementById("experienceFormDialogTitle"),
+  experienceForm: document.getElementById("experienceForm"),
+  experienceFormMessage: document.getElementById("experienceFormMessage"),
+  deleteExperienceBtn: document.getElementById("deleteExperienceBtn"),
+  resetExperienceBtn: document.getElementById("resetExperienceBtn"),
+  experienceViewDialogBody: document.getElementById("experienceViewDialogBody"),
+
+  // Experience form fields
+  experienceId: document.getElementById("experienceId"),
+  expSlug: document.getElementById("expSlug"),
+  expTitle: document.getElementById("expTitle"),
+  expLocation: document.getElementById("expLocation"),
+  expPriceLabel: document.getElementById("expPriceLabel"),
+  expPriceAmount: document.getElementById("expPriceAmount"),
+  expCurrency: document.getElementById("expCurrency"),
+  expDuration: document.getElementById("expDuration"),
+  expDurationLabel: document.getElementById("expDurationLabel"),
+  expGroupSize: document.getElementById("expGroupSize"),
+  expDifficulty: document.getElementById("expDifficulty"),
+  expHeroImage: document.getElementById("expHeroImage"),
+  expCardImage: document.getElementById("expCardImage"),
+  expDescription: document.getElementById("expDescription"),
+  expShortDescription: document.getElementById("expShortDescription"),
+  expCategories: document.getElementById("expCategories"),
+  expTags: document.getElementById("expTags"),
+  expUpcomingDate: document.getElementById("expUpcomingDate"),
+  expEventDates: document.getElementById("expEventDates"),
+  expSpotsRemaining: document.getElementById("expSpotsRemaining"),
+  expFeatured: document.getElementById("expFeatured"),
+  expSortOrder: document.getElementById("expSortOrder"),
+  expIsPublished: document.getElementById("expIsPublished"),
+
+  // Experience builder
+  addExperienceDayBtn: document.getElementById("addExperienceDayBtn"),
+  experienceDaysBuilder: document.getElementById("experienceDaysBuilder"),
+  addIncludedBtn: document.getElementById("addIncludedBtn"),
+  includedBuilder: document.getElementById("includedBuilder"),
+  addExcludedBtn: document.getElementById("addExcludedBtn"),
+  excludedBuilder: document.getElementById("excludedBuilder"),
+  addGalleryImageBtn: document.getElementById("addGalleryImageBtn"),
+  galleryBuilder: document.getElementById("galleryBuilder"),
 };
 
 const state = {
@@ -102,6 +156,10 @@ const state = {
     currentEditingId: null
   },
   blogPosts: {
+    rows: [],
+    currentEditingId: null
+  },
+  experiences: {
     rows: [],
     currentEditingId: null
   }
@@ -150,7 +208,7 @@ function toDatetimeLocalValue(value) {
 }
 
 // =========================
-// AUTH
+// AUTH (unchanged)
 // =========================
 async function requireAdmin() {
   const { data, error } = await supabaseClient.auth.getUser();
@@ -202,7 +260,7 @@ async function logout() {
 }
 
 // =========================
-// TABS
+// TABS (updated to include Experiences)
 // =========================
 function switchTab(tab) {
   state.activeTab = tab;
@@ -212,17 +270,23 @@ function switchTab(tab) {
   });
 
   const isItineraries = tab === "itineraries";
+  const isBlogPosts = tab === "blog_posts";
+  const isExperiences = tab === "experiences";
 
   if (els.itinerariesPanel) els.itinerariesPanel.hidden = !isItineraries;
-  if (els.blogPostsPanel) els.blogPostsPanel.hidden = isItineraries;
+  if (els.blogPostsPanel) els.blogPostsPanel.hidden = !isBlogPosts;
+  const experiencesPanel = document.getElementById("panel-experiences");
+  if (experiencesPanel) experiencesPanel.hidden = !isExperiences;
 
   if (els.newItemBtn) {
-    els.newItemBtn.textContent = isItineraries ? "+ New Itinerary" : "+ New Blog Post";
+    if (isItineraries) els.newItemBtn.textContent = "+ New Itinerary";
+    else if (isExperiences) els.newItemBtn.textContent = "+ New Experience";
+    else els.newItemBtn.textContent = "+ New Blog Post";
   }
 }
 
 // =========================
-// ITINERARY HELPERS
+// ITINERARY HELPERS (unchanged)
 // =========================
 function createStayItem(data = {}) {
   return {
@@ -682,7 +746,7 @@ async function deleteItinerary() {
 }
 
 // =========================
-// BLOG HELPERS
+// BLOG HELPERS (unchanged)
 // =========================
 function createBlogSectionItem(data = {}) {
   return {
@@ -1099,6 +1163,554 @@ async function deleteBlogPost() {
 }
 
 // =========================
+// EXPERIENCE HELPERS (NEW)
+// =========================
+
+function createExperienceDayItem(data = {}) {
+  return {
+    day_number: data.day_number ?? "",
+    title: data.title || "",
+    location: data.location || "",
+    description: data.description || "",
+    overnight_stay: data.overnight_stay || "",
+    image: data.image || ""
+  };
+}
+
+function getExperienceDaysFromUI() {
+  return Array.from(els.experienceDaysBuilder.querySelectorAll(".exp-day-builder-card"))
+    .map(card => ({
+      day_number: asNumberOrNull(card.querySelector('[data-field="day_number"]').value) ?? 0,
+      title: card.querySelector('[data-field="title"]').value.trim(),
+      location: card.querySelector('[data-field="location"]').value.trim(),
+      description: card.querySelector('[data-field="description"]').value.trim(),
+      overnight_stay: card.querySelector('[data-field="overnight_stay"]').value.trim(),
+      image: card.querySelector('[data-field="image"]').value.trim()
+    }))
+    .filter(item =>
+      item.day_number || item.title || item.location || item.description || item.overnight_stay || item.image
+    );
+}
+
+function getIncludedFromUI() {
+  return Array.from(els.includedBuilder.querySelectorAll('.included-item'))
+    .map(input => input.value.trim())
+    .filter(Boolean);
+}
+
+function getExcludedFromUI() {
+  return Array.from(els.excludedBuilder.querySelectorAll('.excluded-item'))
+    .map(input => input.value.trim())
+    .filter(Boolean);
+}
+
+function getGalleryImagesFromUI() {
+  return Array.from(els.galleryBuilder.querySelectorAll('.gallery-image-item'))
+    .map(input => input.value.trim())
+    .filter(Boolean);
+}
+
+function attachExperienceBuilderActions() {
+  // Experience days
+  els.experienceDaysBuilder.querySelectorAll(".remove-exp-day-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const index = Number(btn.dataset.index);
+      const items = getExperienceDaysFromUI();
+      items.splice(index, 1);
+      renderExperienceDaysBuilder(items);
+    });
+  });
+
+  // Included items
+  els.includedBuilder.querySelectorAll(".remove-included-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const index = Number(btn.dataset.index);
+      const items = getIncludedFromUI();
+      items.splice(index, 1);
+      renderIncludedBuilder(items);
+    });
+  });
+
+  // Excluded items
+  els.excludedBuilder.querySelectorAll(".remove-excluded-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const index = Number(btn.dataset.index);
+      const items = getExcludedFromUI();
+      items.splice(index, 1);
+      renderExcludedBuilder(items);
+    });
+  });
+
+  // Gallery images
+  els.galleryBuilder.querySelectorAll(".remove-gallery-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const index = Number(btn.dataset.index);
+      const items = getGalleryImagesFromUI();
+      items.splice(index, 1);
+      renderGalleryBuilder(items);
+    });
+  });
+}
+
+function renderExperienceDaysBuilder(items = []) {
+  const days = Array.isArray(items) ? items : [];
+
+  if (!days.length) {
+    els.experienceDaysBuilder.innerHTML = `
+      <div class="builder-empty">No itinerary days added yet.</div>
+    `;
+    return;
+  }
+
+  els.experienceDaysBuilder.innerHTML = days.map((day, index) => `
+    <div class="builder-card exp-day-builder-card" data-index="${index}">
+      <div class="builder-card-head">
+        <div class="builder-card-title">Day ${escapeHtml(day.day_number || index + 1)}</div>
+        <div class="builder-card-actions">
+          <button type="button" class="btn-table remove-exp-day-btn" data-index="${index}">Remove</button>
+        </div>
+      </div>
+
+      <div class="builder-grid-3">
+        <div class="form-row">
+          <label>Day number</label>
+          <input type="number" data-field="day_number" value="${escapeHtml(day.day_number ?? "")}">
+        </div>
+        <div class="form-row">
+          <label>Title</label>
+          <input type="text" data-field="title" value="${escapeHtml(day.title || "")}">
+        </div>
+        <div class="form-row">
+          <label>Location</label>
+          <input type="text" data-field="location" value="${escapeHtml(day.location || "")}">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label>Description</label>
+        <textarea data-field="description" rows="4">${escapeHtml(day.description || "")}</textarea>
+      </div>
+
+      <div class="builder-grid-2">
+        <div class="form-row">
+          <label>Overnight stay</label>
+          <input type="text" data-field="overnight_stay" value="${escapeHtml(day.overnight_stay || "")}">
+        </div>
+        <div class="form-row">
+          <label>Image URL</label>
+          <input type="text" data-field="image" value="${escapeHtml(day.image || "")}">
+        </div>
+      </div>
+    </div>
+  `).join("");
+
+  attachExperienceBuilderActions();
+}
+
+function renderIncludedBuilder(items = []) {
+  const list = Array.isArray(items) ? items : [];
+
+  if (!list.length) {
+    els.includedBuilder.innerHTML = `
+      <div class="builder-empty">No included items added yet.</div>
+    `;
+    return;
+  }
+
+  els.includedBuilder.innerHTML = list.map((item, index) => `
+    <div class="builder-item included-item-wrapper">
+      <input type="text" class="included-item" value="${escapeHtml(item)}" placeholder="e.g., Experienced local guide">
+      <button type="button" class="btn-table remove-included-btn" data-index="${index}">✕</button>
+    </div>
+  `).join("");
+
+  attachExperienceBuilderActions();
+}
+
+function renderExcludedBuilder(items = []) {
+  const list = Array.isArray(items) ? items : [];
+
+  if (!list.length) {
+    els.excludedBuilder.innerHTML = `
+      <div class="builder-empty">No excluded items added yet.</div>
+    `;
+    return;
+  }
+
+  els.excludedBuilder.innerHTML = list.map((item, index) => `
+    <div class="builder-item excluded-item-wrapper">
+      <input type="text" class="excluded-item" value="${escapeHtml(item)}" placeholder="e.g., International flights">
+      <button type="button" class="btn-table remove-excluded-btn" data-index="${index}">✕</button>
+    </div>
+  `).join("");
+
+  attachExperienceBuilderActions();
+}
+
+function renderGalleryBuilder(items = []) {
+  const list = Array.isArray(items) ? items : [];
+
+  if (!list.length) {
+    els.galleryBuilder.innerHTML = `
+      <div class="builder-empty">No gallery images added yet.</div>
+    `;
+    return;
+  }
+
+  els.galleryBuilder.innerHTML = list.map((item, index) => `
+    <div class="builder-item gallery-item-wrapper">
+      <input type="text" class="gallery-image-item" value="${escapeHtml(item)}" placeholder="https://example.com/image.jpg">
+      <button type="button" class="btn-table remove-gallery-btn" data-index="${index}">✕</button>
+    </div>
+  `).join("");
+
+  attachExperienceBuilderActions();
+}
+
+function buildExperiencePayload() {
+  return {
+    slug: els.expSlug.value.trim(),
+    title: els.expTitle.value.trim(),
+    location: els.expLocation.value.trim() || null,
+    price_label: els.expPriceLabel.value.trim() || null,
+    price_amount: asNumberOrNull(els.expPriceAmount.value),
+    currency: els.expCurrency.value.trim() || "USD",
+    duration: els.expDuration.value.trim() || null,
+    duration_label: els.expDurationLabel.value.trim() || null,
+    group_size: els.expGroupSize.value || null,
+    difficulty: els.expDifficulty.value || "moderate",
+    hero_image: els.expHeroImage.value.trim() || null,
+    card_image: els.expCardImage.value.trim() || null,
+    description: els.expDescription.value.trim() || null,
+    short_description: els.expShortDescription.value.trim() || null,
+    categories: parseTags(els.expCategories.value),
+    tags: parseTags(els.expTags.value),
+    upcoming_date: els.expUpcomingDate.value || null,
+    event_dates: els.expEventDates.value ? 
+      els.expEventDates.value.split(",").map(d => d.trim()).filter(Boolean) : [],
+    spots_remaining: asNumberOrNull(els.expSpotsRemaining.value) ?? 0,
+    featured: els.expFeatured.value === "true",
+    itinerary_days: getExperienceDaysFromUI(),
+    included: getIncludedFromUI(),
+    excluded: getExcludedFromUI(),
+    gallery_images: getGalleryImagesFromUI(),
+    sort_order: asNumberOrNull(els.expSortOrder.value) ?? 0,
+    is_published: els.expIsPublished.checked
+  };
+}
+
+function setExperienceFormDefaults() {
+  els.expCurrency.value = "USD";
+  els.expDifficulty.value = "moderate";
+  els.expGroupSize.value = "Small (2-6)";
+  els.expFeatured.value = "false";
+  els.expSortOrder.value = 0;
+  els.expIsPublished.checked = true;
+  els.expSpotsRemaining.value = 10;
+}
+
+function resetExperienceForm() {
+  state.experiences.currentEditingId = null;
+  els.experienceForm.reset();
+  setExperienceFormDefaults();
+
+  els.experienceFormDialogTitle.textContent = "New Experience";
+  els.deleteExperienceBtn.style.display = "none";
+  els.experienceFormMessage.textContent = "";
+
+  renderExperienceDaysBuilder([]);
+  renderIncludedBuilder([]);
+  renderExcludedBuilder([]);
+  renderGalleryBuilder([]);
+}
+
+function fillExperienceForm(row) {
+  state.experiences.currentEditingId = row.id;
+  els.experienceFormDialogTitle.textContent = "Edit Experience";
+  els.deleteExperienceBtn.style.display = "inline-flex";
+
+  els.experienceId.value = row.id ?? "";
+  els.expSlug.value = row.slug ?? "";
+  els.expTitle.value = row.title ?? "";
+  els.expLocation.value = row.location ?? "";
+  els.expPriceLabel.value = row.price_label ?? "";
+  els.expPriceAmount.value = row.price_amount ?? "";
+  els.expCurrency.value = row.currency ?? "USD";
+  els.expDuration.value = row.duration ?? "";
+  els.expDurationLabel.value = row.duration_label ?? "";
+  els.expGroupSize.value = row.group_size || "Small (2-6)";
+  els.expDifficulty.value = row.difficulty || "moderate";
+  els.expHeroImage.value = row.hero_image ?? "";
+  els.expCardImage.value = row.card_image ?? "";
+  els.expDescription.value = row.description ?? "";
+  els.expShortDescription.value = row.short_description ?? "";
+  els.expCategories.value = Array.isArray(row.categories) ? row.categories.join(", ") : "";
+  els.expTags.value = Array.isArray(row.tags) ? row.tags.join(", ") : "";
+  els.expUpcomingDate.value = row.upcoming_date || "";
+  els.expEventDates.value = Array.isArray(row.event_dates) ? row.event_dates.join(", ") : "";
+  els.expSpotsRemaining.value = row.spots_remaining ?? 0;
+  els.expFeatured.value = row.featured ? "true" : "false";
+  els.expSortOrder.value = row.sort_order ?? 0;
+  els.expIsPublished.checked = !!row.is_published;
+
+  renderExperienceDaysBuilder(row.itinerary_days || []);
+  renderIncludedBuilder(row.included || []);
+  renderExcludedBuilder(row.excluded || []);
+  renderGalleryBuilder(row.gallery_images || []);
+  els.experienceFormMessage.textContent = "";
+}
+
+function openNewExperienceDialog() {
+  resetExperienceForm();
+  els.experienceFormDialog.showModal();
+}
+
+function openExperienceEditDialog(row) {
+  resetExperienceForm();
+  if (row && row.id) {
+    fillExperienceForm(row);
+  }
+  els.experienceFormDialog.showModal();
+}
+
+function openExperienceViewDialog(row) {
+  els.experienceViewDialogBody.innerHTML = `
+    <div class="view-block">
+      <h3>Basic details</h3>
+      <div class="view-grid">
+        <div class="view-item"><strong>Title</strong><span>${escapeHtml(row.title || "")}</span></div>
+        <div class="view-item"><strong>Slug</strong><span>${escapeHtml(row.slug || "")}</span></div>
+        <div class="view-item"><strong>Location</strong><span>${escapeHtml(row.location || "-")}</span></div>
+        <div class="view-item"><strong>Price</strong><span>${escapeHtml(row.price_label || "-")}</span></div>
+        <div class="view-item"><strong>Duration</strong><span>${escapeHtml(row.duration || "-")}</span></div>
+        <div class="view-item"><strong>Difficulty</strong><span>${escapeHtml(row.difficulty || "-")}</span></div>
+        <div class="view-item"><strong>Group Size</strong><span>${escapeHtml(row.group_size || "-")}</span></div>
+        <div class="view-item"><strong>Spots Remaining</strong><span>${escapeHtml(row.spots_remaining ?? 0)}</span></div>
+        <div class="view-item"><strong>Featured</strong><span>${row.featured ? "Yes" : "No"}</span></div>
+        <div class="view-item"><strong>Published</strong><span>${row.is_published ? "Yes" : "No"}</span></div>
+        <div class="view-item"><strong>Sort order</strong><span>${escapeHtml(row.sort_order ?? 0)}</span></div>
+        <div class="view-item"><strong>Upcoming Date</strong><span>${row.upcoming_date || "-"}</span></div>
+      </div>
+    </div>
+
+    <div class="view-block">
+      <h3>Description</h3>
+      <div>${escapeHtml(row.description || "-")}</div>
+    </div>
+
+    <div class="view-block">
+      <h3>Short Description</h3>
+      <div>${escapeHtml(row.short_description || "-")}</div>
+    </div>
+
+    <div class="view-block">
+      <h3>Images</h3>
+      <div class="view-grid">
+        <div class="view-item"><strong>Hero image</strong><span>${escapeHtml(row.hero_image || "-")}</span></div>
+        <div class="view-item"><strong>Card image</strong><span>${escapeHtml(row.card_image || "-")}</span></div>
+      </div>
+    </div>
+
+    <div class="view-block">
+      <h3>Categories & Tags</h3>
+      <div class="view-grid">
+        <div class="view-item"><strong>Categories</strong><span>${escapeHtml(Array.isArray(row.categories) ? row.categories.join(", ") : "-")}</span></div>
+        <div class="view-item"><strong>Tags</strong><span>${escapeHtml(Array.isArray(row.tags) ? row.tags.join(", ") : "-")}</span></div>
+      </div>
+    </div>
+
+    <div class="view-block">
+      <h3>Event Dates</h3>
+      <div>${escapeHtml(Array.isArray(row.event_dates) ? row.event_dates.join(", ") : "-")}</div>
+    </div>
+
+    <div class="view-block">
+      <h3>Itinerary Days</h3>
+      <div class="json-preview">${escapeHtml(JSON.stringify(row.itinerary_days || [], null, 2))}</div>
+    </div>
+
+    <div class="view-block">
+      <h3>Included / Excluded</h3>
+      <div class="view-grid">
+        <div class="view-item"><strong>Included</strong><span>${escapeHtml(Array.isArray(row.included) ? row.included.join(", ") : "-")}</span></div>
+        <div class="view-item"><strong>Excluded</strong><span>${escapeHtml(Array.isArray(row.excluded) ? row.excluded.join(", ") : "-")}</span></div>
+      </div>
+    </div>
+
+    <div class="view-block">
+      <h3>Gallery Images</h3>
+      <div>${escapeHtml(Array.isArray(row.gallery_images) ? row.gallery_images.join(", ") : "-")}</div>
+    </div>
+  `;
+
+  els.experienceViewDialog.showModal();
+}
+
+async function loadExperiences() {
+  if (!els.experienceTableBody) return;
+
+  els.experienceTableBody.innerHTML = `
+    <tr>
+      <td colspan="8" class="loading-cell">Loading experiences...</td>
+    </tr>
+  `;
+
+  const { data, error } = await supabaseClient
+    .from("experiences")
+    .select("*")
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    els.experienceTableBody.innerHTML = `
+      <tr>
+        <td colspan="8" class="loading-cell">Could not load experiences.</td>
+      </tr>
+    `;
+    els.pageMessage.textContent = error.message;
+    return;
+  }
+
+  state.experiences.rows = data || [];
+  renderExperiencesTable();
+}
+
+function getFilteredExperiences() {
+  const q = String(els.experienceSearchInput?.value || "").trim().toLowerCase();
+  const status = String(els.experienceStatusFilter?.value || "").trim();
+
+  return state.experiences.rows.filter(row => {
+    const matchesSearch =
+      !q ||
+      String(row.title || "").toLowerCase().includes(q) ||
+      String(row.slug || "").toLowerCase().includes(q) ||
+      String(row.location || "").toLowerCase().includes(q);
+
+    const matchesStatus = !status || 
+      (status === "published" && row.is_published) ||
+      (status === "draft" && !row.is_published);
+
+    return matchesSearch && matchesStatus;
+  });
+}
+
+function renderExperiencesTable() {
+  if (!els.experienceTableBody) return;
+
+  const rows = getFilteredExperiences();
+
+  if (els.experienceTableCount) {
+    els.experienceTableCount.textContent = `${rows.length} experience${rows.length === 1 ? "" : "s"}`;
+  }
+
+  if (!rows.length) {
+    els.experienceTableBody.innerHTML = `
+      <tr>
+        <td colspan="8" class="loading-cell">No experiences found.</td>
+      </tr>
+    `;
+    return;
+  }
+
+  els.experienceTableBody.innerHTML = rows.map(row => `
+    <tr>
+      <td><span class="cell-title">${escapeHtml(row.title || "")}</span></td>
+      <td>${escapeHtml(row.slug || "")}</td>
+      <td>${escapeHtml(row.location || "-")}</td>
+      <td>${escapeHtml(row.price_label || "-")}</td>
+      <td>${escapeHtml(row.duration || "-")}</td>
+      <td>
+        <span class="status-pill ${row.difficulty === "challenging" ? "published" : "draft"}">
+          ${escapeHtml(row.difficulty || "moderate")}
+        </span>
+      </td>
+      <td>
+        <span class="status-pill ${row.is_published ? "published" : "draft"}">
+          ${row.is_published ? "Published" : "Draft"}
+        </span>
+      </td>
+      <td>
+        <div class="action-group">
+          <button class="btn-table" type="button" data-experience-action="view" data-id="${row.id}">View</button>
+          <button class="btn-table" type="button" data-experience-action="edit" data-id="${row.id}">Edit</button>
+        </div>
+      </td>
+    </tr>
+  `).join("");
+
+  els.experienceTableBody.querySelectorAll("[data-experience-action]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const row = state.experiences.rows.find(item => String(item.id) === String(btn.dataset.id));
+      if (!row) return;
+
+      if (btn.dataset.experienceAction === "view") openExperienceViewDialog(row);
+      if (btn.dataset.experienceAction === "edit") openExperienceEditDialog(row);
+    });
+  });
+}
+
+async function saveExperience(e) {
+  e.preventDefault();
+  els.experienceFormMessage.textContent = "";
+
+  const payload = buildExperiencePayload();
+
+  if (!payload.slug || !payload.title) {
+    els.experienceFormMessage.textContent = "Slug and title are required.";
+    return;
+  }
+
+  let result;
+
+  if (state.experiences.currentEditingId) {
+    result = await supabaseClient
+      .from("experiences")
+      .update(payload)
+      .eq("id", state.experiences.currentEditingId)
+      .select()
+      .single();
+  } else {
+    result = await supabaseClient
+      .from("experiences")
+      .insert(payload)
+      .select()
+      .single();
+  }
+
+  if (result.error) {
+    els.experienceFormMessage.textContent = result.error.message;
+    return;
+  }
+
+  const wasEditing = !!state.experiences.currentEditingId;
+
+  els.experienceFormDialog.close();
+  resetExperienceForm();
+  els.pageMessage.textContent = wasEditing ? "Experience updated." : "Experience created.";
+  await loadExperiences();
+}
+
+async function deleteExperience() {
+  if (!state.experiences.currentEditingId) return;
+  if (!window.confirm("Delete this experience?")) return;
+
+  const { error } = await supabaseClient
+    .from("experiences")
+    .delete()
+    .eq("id", state.experiences.currentEditingId);
+
+  if (error) {
+    els.experienceFormMessage.textContent = error.message;
+    return;
+  }
+
+  els.experienceFormDialog.close();
+  resetExperienceForm();
+  els.pageMessage.textContent = "Experience deleted.";
+  await loadExperiences();
+}
+
+// =========================
 // SHARED DIALOG HELPERS
 // =========================
 function closeOnBackdrop(dialog) {
@@ -1131,6 +1743,8 @@ function bindEvents() {
   els.newItemBtn?.addEventListener("click", () => {
     if (state.activeTab === "itineraries") {
       openNewItineraryDialog();
+    } else if (state.activeTab === "experiences") {
+      openNewExperienceDialog();
     } else {
       openNewBlogDialog();
     }
@@ -1171,10 +1785,46 @@ function bindEvents() {
     renderBlogSectionsBuilder(items);
   });
 
+  // Experience events
+  els.closeExperienceFormDialog?.addEventListener("click", () => els.experienceFormDialog.close());
+  els.closeExperienceViewDialog?.addEventListener("click", () => els.experienceViewDialog.close());
+  els.experienceSearchInput?.addEventListener("input", renderExperiencesTable);
+  els.experienceStatusFilter?.addEventListener("change", renderExperiencesTable);
+  els.resetExperienceBtn?.addEventListener("click", resetExperienceForm);
+  els.experienceForm?.addEventListener("submit", saveExperience);
+  els.deleteExperienceBtn?.addEventListener("click", deleteExperience);
+
+  // Experience builders
+  els.addExperienceDayBtn?.addEventListener("click", () => {
+    const items = getExperienceDaysFromUI();
+    items.push(createExperienceDayItem({ day_number: items.length + 1 }));
+    renderExperienceDaysBuilder(items);
+  });
+
+  els.addIncludedBtn?.addEventListener("click", () => {
+    const items = getIncludedFromUI();
+    items.push("");
+    renderIncludedBuilder(items);
+  });
+
+  els.addExcludedBtn?.addEventListener("click", () => {
+    const items = getExcludedFromUI();
+    items.push("");
+    renderExcludedBuilder(items);
+  });
+
+  els.addGalleryImageBtn?.addEventListener("click", () => {
+    const items = getGalleryImagesFromUI();
+    items.push("");
+    renderGalleryBuilder(items);
+  });
+
   closeOnBackdrop(els.itineraryFormDialog);
   closeOnBackdrop(els.itineraryViewDialog);
   closeOnBackdrop(els.blogFormDialog);
   closeOnBackdrop(els.blogViewDialog);
+  closeOnBackdrop(els.experienceFormDialog);
+  closeOnBackdrop(els.experienceViewDialog);
 }
 
 // =========================
@@ -1187,10 +1837,12 @@ function bindEvents() {
   bindEvents();
   resetItineraryForm();
   resetBlogForm();
+  resetExperienceForm();
 
   await Promise.all([
     loadItineraries(),
-    loadBlogPosts()
+    loadBlogPosts(),
+    loadExperiences()
   ]);
 
   switchTab("itineraries");
