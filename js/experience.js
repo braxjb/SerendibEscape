@@ -2,14 +2,7 @@
 // EXPERIENCE DETAIL PAGE SCRIPT - SUPABASE VERSION
 // ============================================
 
-const SUPABASE_URL = "https://fqpofzlxixbitybltajx.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxcG9memx4aXhiaXR5Ymx0YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxNjc5MDksImV4cCI6MjA5MTc0MzkwOX0.woDW07ULao_dYlqBaafJmc1Mjt3FAthShm0CBoMmWFY";
-
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-// ============================================
-// DUMMY DATA (Fallback)
-// ============================================
+// ── DUMMY DATA (Fallback only) ──
 const DUMMY_EXPERIENCE = {
     id: "exp-001",
     slug: "adams-peak-sunrise-hike",
@@ -23,36 +16,11 @@ const DUMMY_EXPERIENCE = {
     categories: ["hiking"],
     tags: ["hiking", "nature", "sunrise"],
     upcoming_date: "2026-07-15",
+    event_dates: ["2026-07-15", "2026-07-22", "2026-07-29", "2026-08-05", "2026-08-12"],
     spots_remaining: 6,
     featured: true,
     description: "Experience the spiritual sunrise hike to Adams Peak, one of Sri Lanka's most sacred mountains. This challenging but rewarding trek takes you through lush forests to witness a breathtaking sunrise from the summit.",
     short_description: "A spiritual sunrise trek to Sri Lanka's sacred mountain",
-    itinerary_days: [
-        {
-            day_number: 1,
-            title: "Arrival & Preparation",
-            location: "Dalhousie",
-            description: "Arrive at the base of Adams Peak in Dalhousie. Settle into your accommodation and prepare for the early morning hike. Enjoy a local dinner and get a good night's rest.",
-            image: "https://images.pexels.com/photos/545976/pexels-photo-545976.jpeg?auto=compress&cs=tinysrgb&w=400",
-            overnight_stay: "Adams Peak Guest House"
-        },
-        {
-            day_number: 2,
-            title: "Summit Sunrise",
-            location: "Adams Peak",
-            description: "Start the hike at 2 AM to reach the summit by sunrise. The climb takes approximately 5 hours with resting stops along the way. Witness the spectacular sunrise and the mountain's shadow phenomenon.",
-            image: "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=400",
-            overnight_stay: "Adams Peak Guest House"
-        },
-        {
-            day_number: 3,
-            title: "Descent & Departure",
-            location: "Dalhousie",
-            description: "After breakfast, begin your descent. Take your time to enjoy the views and rest your legs. Depart from Dalhousie with unforgettable memories.",
-            image: "https://images.pexels.com/photos/260608/pexels-photo-260608.jpeg?auto=compress&cs=tinysrgb&w=400",
-            overnight_stay: null
-        }
-    ],
     included: [
         "Experienced local guide",
         "Permits and entrance fees",
@@ -72,14 +40,11 @@ const DUMMY_EXPERIENCE = {
     gallery_images: [
         "https://images.pexels.com/photos/545976/pexels-photo-545976.jpeg?auto=compress&cs=tinysrgb&w=600",
         "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=600",
-        "https://images.pexels.com/photos/260608/pexels-photo-260608.jpeg?auto=compress&cs=tinysrgb&w=600",
-        "https://images.pexels.com/photos/247502/pexels-photo-247502.jpeg?auto=compress&cs=tinysrgb&w=600"
+        "https://images.pexels.com/photos/260608/pexels-photo-260608.jpeg?auto=compress&cs=tinysrgb&w=600"
     ]
 };
 
-// ============================================
-// HELPERS
-// ============================================
+// ── HELPERS ──
 function escapeHtml(value) {
     if (value === null || value === undefined) return "";
     return String(value)
@@ -109,9 +74,7 @@ function getExperienceSlug() {
     return urlParams.get("slug");
 }
 
-// ============================================
-// DATA FETCH
-// ============================================
+// ── DATA FETCH ──
 async function fetchExperienceBySlug(slug) {
     try {
         const { data, error } = await supabaseClient
@@ -122,7 +85,8 @@ async function fetchExperienceBySlug(slug) {
                 title,
                 location,
                 price_label,
-                price,
+                price_amount,
+                currency,
                 duration,
                 duration_label,
                 group_size,
@@ -151,126 +115,139 @@ async function fetchExperienceBySlug(slug) {
             .single();
 
         if (error) {
-            console.log("Error fetching from Supabase, using dummy data:", error);
-            return DUMMY_EXPERIENCE;
+            console.log("Error fetching from Supabase:", error);
+            // Return dummy data as fallback only if we have a slug
+            if (slug) {
+                console.log("Using dummy data as fallback");
+                return { ...DUMMY_EXPERIENCE, slug: slug };
+            }
+            return null;
         }
 
         if (!data) {
-            console.log("No data found, using dummy data");
-            return DUMMY_EXPERIENCE;
+            console.log("No data found for slug:", slug);
+            return null;
         }
 
         return data;
     } catch (error) {
-        console.log("Error, using dummy data:", error);
-        return DUMMY_EXPERIENCE;
+        console.error("Error in fetchExperienceBySlug:", error);
+        return null;
     }
 }
 
-// ============================================
-// PAGE POPULATION
-// ============================================
-function populatePage(experience) {
-    const heroSection = document.querySelector(".hero-experience");
-    const heroBadge = document.getElementById("heroBadge");
-    const heroPrice = document.getElementById("heroPrice");
-    const heroTitle = document.getElementById("heroTitle");
-    const heroDuration = document.getElementById("heroDuration");
-    const heroDifficulty = document.getElementById("heroDifficulty");
-    const heroGroupSize = document.getElementById("heroGroupSize");
-    const heroSpots = document.getElementById("heroSpots");
-    const breadcrumbTitle = document.getElementById("breadcrumbTitle");
-    const introDescription = document.getElementById("introDescription");
-    const glanceDuration = document.getElementById("glanceDuration");
-    const glanceGroupSize = document.getElementById("glanceGroupSize");
-    const glanceDifficulty = document.getElementById("glanceDifficulty");
-    const glanceLocation = document.getElementById("glanceLocation");
-    const glanceDate = document.getElementById("glanceDate");
-    const daysList = document.getElementById("daysList");
-    const includedList = document.getElementById("includedList");
-    const excludedList = document.getElementById("excludedList");
-    const bookPrice = document.getElementById("bookPrice");
-    const galleryWrapper = document.getElementById("galleryWrapper");
-
-    // Hero Image
-    const heroImage = getField(experience, "hero_image", "heroImage", experience.image || "");
-    if (heroSection && heroImage) {
-        heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url('${heroImage}')`;
+// ── TESTIMONIALS ──
+const testimonialsData = [
+    {
+        text: "This experience was absolutely incredible! The guides were knowledgeable, the scenery was breathtaking, and I made friends for life.",
+        name: "Sarah M (January 2026) Australia",
+        link: "#",
+        image: "https://images.pexels.com/photos/2245436/pexels-photo-2245436.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+        text: "I've done many adventure tours, but this one was truly special. The organization was flawless, and every moment felt magical.",
+        name: "James K (December 2025) UK",
+        link: "#",
+        image: "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+        text: "The sunrise hike to Adams Peak was life-changing. Our guide was incredible and the group became like family.",
+        name: "Emma W (November 2025) Canada",
+        link: "#",
+        image: "https://images.pexels.com/photos/2867380/pexels-photo-2867380.jpeg?auto=compress&cs=tinysrgb&w=800"
     }
+];
 
-    // Hero Badge
-    if (heroBadge) {
-        if (experience.featured) {
-            heroBadge.textContent = "★ Featured";
-            heroBadge.style.display = "inline-block";
-        } else {
-            heroBadge.style.display = "none";
-        }
+let currentTestimonial = 0;
+let gallerySwiper = null;
+
+// ── TESTIMONIAL UI ──
+function updateTestimonial() {
+    const t = testimonialsData[currentTestimonial];
+
+    const textEl = document.getElementById("testimonialText");
+    const nameEl = document.getElementById("testimonialName");
+    const linkEl = document.getElementById("testimonialLink");
+    const imageEl = document.getElementById("testimonialImage");
+
+    if (textEl) textEl.innerText = `"${t.text}"`;
+    if (nameEl) nameEl.innerText = t.name;
+    if (linkEl) {
+        linkEl.textContent = `Read the whole review here →`;
+        linkEl.href = t.link || "#";
     }
-
-    // Hero Price
-    if (heroPrice) heroPrice.textContent = experience.price_label || experience.price || "";
-
-    // Hero Title
-    if (heroTitle) heroTitle.textContent = experience.title || "Experience";
-
-    // Hero Duration
-    if (heroDuration) {
-        heroDuration.textContent = `${experience.duration || experience.duration_label || ""}`;
-    }
-
-    // Hero Meta
-    if (heroDifficulty) heroDifficulty.textContent = `Difficulty: ${experience.difficulty || "Moderate"}`;
-    if (heroGroupSize) heroGroupSize.textContent = `Group: ${experience.group_size || "Small"}`;
-    if (heroSpots) {
-        const spots = experience.spots_remaining || 0;
-        heroSpots.textContent = `Spots: ${spots > 0 ? `${spots} left` : "Sold Out"}`;
-        if (spots === 0) {
-            heroSpots.style.color = "#dc2626";
-        }
-    }
-
-    // Breadcrumb
-    if (breadcrumbTitle) breadcrumbTitle.textContent = experience.title || "";
-
-    // Intro Description
-    if (introDescription) {
-        const desc = experience.description || experience.short_description || "Experience details loading...";
-        introDescription.innerHTML = `<p>${escapeHtml(desc)}</p>`;
-    }
-
-    // At a Glance
-    if (glanceDuration) glanceDuration.textContent = experience.duration || experience.duration_label || "N/A";
-    if (glanceGroupSize) glanceGroupSize.textContent = experience.group_size || "N/A";
-    if (glanceDifficulty) glanceDifficulty.textContent = experience.difficulty || "Moderate";
-    if (glanceLocation) glanceLocation.textContent = experience.location || "Sri Lanka";
-    if (glanceDate) {
-        const date = experience.upcoming_date || (experience.event_dates && experience.event_dates[0]);
-        glanceDate.textContent = date ? new Date(date).toLocaleDateString('en-US', { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-        }) : "TBC";
-    }
-
-    // Itinerary Days
-    renderDays(experience.itinerary_days || []);
-
-    // Included / Excluded
-    renderInclusions(experience.included || [], includedList);
-    renderInclusions(experience.excluded || [], excludedList, true);
-
-    // Book Price
-    if (bookPrice) bookPrice.textContent = experience.price_label || experience.price || "$0";
-
-    // Gallery
-    renderGallery(experience.gallery_images || []);
+    if (imageEl) imageEl.src = t.image;
 }
 
-// ============================================
-// RENDER FUNCTIONS
-// ============================================
+function initTestimonials() {
+    const prevBtn = document.getElementById("prevTestimonial");
+    const nextBtn = document.getElementById("nextTestimonial");
+
+    updateTestimonial();
+
+    if (prevBtn) {
+        prevBtn.addEventListener("click", () => {
+            currentTestimonial = (currentTestimonial - 1 + testimonialsData.length) % testimonialsData.length;
+            updateTestimonial();
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener("click", () => {
+            currentTestimonial = (currentTestimonial + 1) % testimonialsData.length;
+            updateTestimonial();
+        });
+    }
+}
+
+// ── GALLERY ──
+function renderGallery(images) {
+    const wrapper = document.getElementById("galleryWrapper");
+    if (!wrapper) return;
+
+    const safeImages = toArray(images);
+
+    if (safeImages.length === 0) {
+        wrapper.innerHTML = `
+            <div class="swiper-slide">
+                <div style="display:flex;align-items:center;justify-content:center;height:400px;background:#f5f5f5;border-radius:16px;">
+                    <p style="color:#6b7a8f;">Gallery images coming soon</p>
+                </div>
+            </div>
+        `;
+        return;
+    }
+
+    wrapper.innerHTML = safeImages.map(img => `
+        <div class="swiper-slide">
+            <img src="${escapeHtml(img)}" alt="Experience gallery image">
+        </div>
+    `).join("");
+
+    if (gallerySwiper) {
+        gallerySwiper.update();
+    } else {
+        gallerySwiper = new Swiper(".gallery-swiper", {
+            slidesPerView: 1,
+            spaceBetween: 24,
+            loop: true,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev"
+            },
+            breakpoints: {
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 }
+            }
+        });
+    }
+}
+
+// ── RENDER DAYS ──
 function renderDays(days) {
     const container = document.getElementById("daysList");
     if (!container) return;
@@ -352,6 +329,7 @@ function renderDays(days) {
     });
 }
 
+// ── RENDER INCLUSIONS ──
 function renderInclusions(items, container, isExcluded = false) {
     if (!container) return;
 
@@ -367,63 +345,112 @@ function renderInclusions(items, container, isExcluded = false) {
     `).join("");
 }
 
-let gallerySwiper = null;
+// ── PAGE POPULATION ──
+function populatePage(experience) {
+    const heroSection = document.querySelector(".hero-experience");
+    const heroBadge = document.getElementById("heroBadge");
+    const heroPrice = document.getElementById("heroPrice");
+    const heroTitle = document.getElementById("heroTitle");
+    const heroDuration = document.getElementById("heroDuration");
+    const heroDifficulty = document.getElementById("heroDifficulty");
+    const heroGroupSize = document.getElementById("heroGroupSize");
+    const heroSpots = document.getElementById("heroSpots");
+    const breadcrumbTitle = document.getElementById("breadcrumbTitle");
+    const introDescription = document.getElementById("introDescription");
+    const glanceDuration = document.getElementById("glanceDuration");
+    const glanceGroupSize = document.getElementById("glanceGroupSize");
+    const glanceDifficulty = document.getElementById("glanceDifficulty");
+    const glanceLocation = document.getElementById("glanceLocation");
+    const glanceDate = document.getElementById("glanceDate");
+    const daysList = document.getElementById("daysList");
+    const includedList = document.getElementById("includedList");
+    const excludedList = document.getElementById("excludedList");
+    const bookPrice = document.getElementById("bookPrice");
 
-function renderGallery(images) {
-    const wrapper = document.getElementById("galleryWrapper");
-    if (!wrapper) return;
-
-    const safeImages = toArray(images);
-
-    if (safeImages.length === 0) {
-        wrapper.innerHTML = `
-            <div class="swiper-slide">
-                <div style="display:flex;align-items:center;justify-content:center;height:400px;background:#f5f5f5;border-radius:16px;">
-                    <p style="color:#6b7a8f;">Gallery images coming soon</p>
-                </div>
-            </div>
-        `;
-        return;
+    // Hero Image
+    const heroImage = getField(experience, "hero_image", "heroImage", experience.image || "");
+    if (heroSection && heroImage) {
+        heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url('${heroImage}')`;
     }
 
-    wrapper.innerHTML = safeImages.map(img => `
-        <div class="swiper-slide">
-            <img src="${escapeHtml(img)}" alt="Experience gallery image">
-        </div>
-    `).join("");
-
-    if (gallerySwiper) {
-        gallerySwiper.update();
-    } else {
-        gallerySwiper = new Swiper(".gallery-swiper", {
-            slidesPerView: 1,
-            spaceBetween: 24,
-            loop: true,
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true
-            },
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev"
-            },
-            breakpoints: {
-                768: { slidesPerView: 2 },
-                1024: { slidesPerView: 3 }
-            }
-        });
+    // Hero Badge
+    if (heroBadge) {
+        if (experience.featured) {
+            heroBadge.textContent = "★ Featured";
+            heroBadge.style.display = "inline-block";
+        } else {
+            heroBadge.style.display = "none";
+        }
     }
+
+    // Hero Price
+    if (heroPrice) heroPrice.textContent = experience.price_label || experience.price || "";
+
+    // Hero Title
+    if (heroTitle) heroTitle.textContent = experience.title || "Experience";
+
+    // Hero Duration
+    if (heroDuration) {
+        heroDuration.textContent = `${experience.duration || experience.duration_label || ""}`;
+    }
+
+    // Hero Meta
+    if (heroDifficulty) heroDifficulty.textContent = `Difficulty: ${experience.difficulty || "Moderate"}`;
+    if (heroGroupSize) heroGroupSize.textContent = `Group: ${experience.group_size || "Small"}`;
+    if (heroSpots) {
+        const spots = experience.spots_remaining || 0;
+        heroSpots.textContent = `Spots: ${spots > 0 ? `${spots} left` : "Sold Out"}`;
+        if (spots === 0) {
+            heroSpots.style.color = "#dc2626";
+        }
+    }
+
+    // Breadcrumb
+    if (breadcrumbTitle) breadcrumbTitle.textContent = experience.title || "";
+
+    // Intro Description
+    if (introDescription) {
+        const desc = experience.description || experience.short_description || "Experience details loading...";
+        introDescription.innerHTML = `<p>${escapeHtml(desc)}</p>`;
+    }
+
+    // At a Glance
+    if (glanceDuration) glanceDuration.textContent = experience.duration || experience.duration_label || "N/A";
+    if (glanceGroupSize) glanceGroupSize.textContent = experience.group_size || "N/A";
+    if (glanceDifficulty) glanceDifficulty.textContent = experience.difficulty || "Moderate";
+    if (glanceLocation) glanceLocation.textContent = experience.location || "Sri Lanka";
+    if (glanceDate) {
+        const date = experience.upcoming_date || (experience.event_dates && experience.event_dates[0]);
+        glanceDate.textContent = date ? new Date(date).toLocaleDateString('en-US', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        }) : "TBC";
+    }
+
+    // Itinerary Days
+    renderDays(experience.itinerary_days || []);
+
+    // Included / Excluded
+    renderInclusions(experience.included || [], includedList);
+    renderInclusions(experience.excluded || [], excludedList, true);
+
+    // Book Price
+    if (bookPrice) bookPrice.textContent = experience.price_label || experience.price || "$0";
+
+    // Gallery
+    renderGallery(experience.gallery_images || []);
 }
 
-// ============================================
-// NOT FOUND STATE
-// ============================================
+// ── NOT FOUND STATE ──
 function setNotFoundState() {
     const heroTitle = document.getElementById("heroTitle");
     const heroPrice = document.getElementById("heroPrice");
     const heroDuration = document.getElementById("heroDuration");
     const introDescription = document.getElementById("introDescription");
     const daysList = document.getElementById("daysList");
+    const galleryWrapper = document.getElementById("galleryWrapper");
 
     if (heroTitle) heroTitle.textContent = "Experience Not Found";
     if (heroPrice) heroPrice.textContent = "";
@@ -440,75 +467,43 @@ function setNotFoundState() {
             </div>
         `;
     }
-}
 
-// ============================================
-// TESTIMONIALS
-// ============================================
-const testimonialsData = [
-    {
-        text: "This experience was absolutely incredible! The guides were knowledgeable, the scenery was breathtaking, and I made friends for life.",
-        name: "Sarah M (January 2026) Australia",
-        link: "#",
-        image: "https://images.pexels.com/photos/2245436/pexels-photo-2245436.jpeg?auto=compress&cs=tinysrgb&w=800"
-    },
-    {
-        text: "I've done many adventure tours, but this one was truly special. The organization was flawless, and every moment felt magical.",
-        name: "James K (December 2025) UK",
-        link: "#",
-        image: "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=800"
-    },
-    {
-        text: "The sunrise hike to Adams Peak was life-changing. Our guide was incredible and the group became like family.",
-        name: "Emma W (November 2025) Canada",
-        link: "#",
-        image: "https://images.pexels.com/photos/2867380/pexels-photo-2867380.jpeg?auto=compress&cs=tinysrgb&w=800"
-    }
-];
-
-let currentTestimonial = 0;
-
-function updateTestimonial() {
-    const t = testimonialsData[currentTestimonial];
-
-    const textEl = document.getElementById("testimonialText");
-    const nameEl = document.getElementById("testimonialName");
-    const linkEl = document.getElementById("testimonialLink");
-    const imageEl = document.getElementById("testimonialImage");
-
-    if (textEl) textEl.innerText = `"${t.text}"`;
-    if (nameEl) nameEl.innerText = t.name;
-    if (linkEl) {
-        linkEl.textContent = `Read the whole review here →`;
-        linkEl.href = t.link || "#";
-    }
-    if (imageEl) imageEl.src = t.image;
-}
-
-function initTestimonials() {
-    const prevBtn = document.getElementById("prevTestimonial");
-    const nextBtn = document.getElementById("nextTestimonial");
-
-    updateTestimonial();
-
-    if (prevBtn) {
-        prevBtn.addEventListener("click", () => {
-            currentTestimonial = (currentTestimonial - 1 + testimonialsData.length) % testimonialsData.length;
-            updateTestimonial();
-        });
-    }
-
-    if (nextBtn) {
-        nextBtn.addEventListener("click", () => {
-            currentTestimonial = (currentTestimonial + 1) % testimonialsData.length;
-            updateTestimonial();
-        });
+    if (galleryWrapper) {
+        galleryWrapper.innerHTML = `
+            <div class="swiper-slide">
+                <div style="display:flex;align-items:center;justify-content:center;height:400px;background:#f5f5f5;border-radius:16px;">
+                    <p style="color:#6b7a8f;">No gallery images</p>
+                </div>
+            </div>
+        `;
     }
 }
 
-// ============================================
-// PAGE INTERACTIONS
-// ============================================
+// ── LOAD EXPERIENCE ──
+async function loadExperience() {
+    const slug = getExperienceSlug();
+
+    if (!slug) {
+        setNotFoundState();
+        return;
+    }
+
+    try {
+        const experience = await fetchExperienceBySlug(slug);
+
+        if (!experience) {
+            setNotFoundState();
+            return;
+        }
+
+        populatePage(experience);
+    } catch (error) {
+        console.error("Error loading experience:", error);
+        setNotFoundState();
+    }
+}
+
+// ── PAGE INTERACTIONS ──
 function initPageInteractions() {
     const lenis = new Lenis({
         duration: 1.2,
@@ -555,7 +550,9 @@ function initPageInteractions() {
     if (bookNowBtn) {
         bookNowBtn.addEventListener("click", (e) => {
             e.preventDefault();
-            window.location.href = "booking.html";
+            // Get the experience ID from the page
+            const experienceId = new URLSearchParams(window.location.search).get("slug");
+            window.location.href = `booking.html?slug=${experienceId}&type=experience`;
         });
     }
 
@@ -606,35 +603,7 @@ function initPageInteractions() {
     revealItems.forEach((item) => revealObserver.observe(item));
 }
 
-// ============================================
-// LOAD EXPERIENCE
-// ============================================
-async function loadExperience() {
-    const slug = getExperienceSlug();
-
-    if (!slug) {
-        setNotFoundState();
-        return;
-    }
-
-    try {
-        const experience = await fetchExperienceBySlug(slug);
-
-        if (!experience) {
-            setNotFoundState();
-            return;
-        }
-
-        populatePage(experience);
-    } catch (error) {
-        console.error("Error loading experience:", error);
-        setNotFoundState();
-    }
-}
-
-// ============================================
-// INIT
-// ============================================
+// ── INIT ──
 document.addEventListener("DOMContentLoaded", async () => {
     initTestimonials();
     initPageInteractions();
