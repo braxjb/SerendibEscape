@@ -41,7 +41,9 @@ const DUMMY_EXPERIENCES = [
         upcoming_date: "2026-07-15",
         event_dates: ["2026-07-15", "2026-07-22", "2026-07-29", "2026-08-05", "2026-08-12"],
         spots_remaining: 6,
-        featured: true
+        featured: true,
+        description: "Experience the spiritual sunrise hike to Adams Peak, one of Sri Lanka's most sacred mountains.",
+        short_description: "A spiritual sunrise trek to Sri Lanka's sacred mountain"
     },
     {
         id: "exp-002",
@@ -58,7 +60,9 @@ const DUMMY_EXPERIENCES = [
         upcoming_date: "2026-07-18",
         event_dates: ["2026-07-18", "2026-07-25", "2026-08-01", "2026-08-08", "2026-08-15"],
         spots_remaining: 4,
-        featured: true
+        featured: true,
+        description: "Explore the wilds of Yala National Park, home to leopards, elephants, and exotic birdlife.",
+        short_description: "Spot leopards and elephants in their natural habitat"
     },
     {
         id: "exp-003",
@@ -75,7 +79,9 @@ const DUMMY_EXPERIENCES = [
         upcoming_date: "2026-07-20",
         event_dates: ["2026-07-20", "2026-08-03", "2026-08-17"],
         spots_remaining: 8,
-        featured: true
+        featured: true,
+        description: "Rejuvenate your mind, body, and soul with our wellness retreat on the beautiful shores of Mirissa.",
+        short_description: "Rejuvenate with yoga and meditation by the sea"
     },
     {
         id: "exp-004",
@@ -92,7 +98,9 @@ const DUMMY_EXPERIENCES = [
         upcoming_date: "2026-07-23",
         event_dates: ["2026-07-23", "2026-07-30", "2026-08-06", "2026-08-13"],
         spots_remaining: 12,
-        featured: false
+        featured: false,
+        description: "Immerse yourself in the rich culture of Kandy, home to the sacred Temple of the Tooth.",
+        short_description: "Discover the cultural heart of Sri Lanka"
     },
     {
         id: "exp-005",
@@ -109,7 +117,9 @@ const DUMMY_EXPERIENCES = [
         upcoming_date: "2026-08-01",
         event_dates: ["2026-08-01", "2026-08-08", "2026-08-15", "2026-08-22"],
         spots_remaining: 3,
-        featured: false
+        featured: false,
+        description: "Camp under the stars in the stunning Knuckles Mountain Range.",
+        short_description: "Sleep under starlit skies in pristine wilderness"
     },
     {
         id: "exp-006",
@@ -126,7 +136,9 @@ const DUMMY_EXPERIENCES = [
         upcoming_date: "2026-08-05",
         event_dates: ["2026-08-05", "2026-08-12", "2026-08-19", "2026-08-26"],
         spots_remaining: 10,
-        featured: false
+        featured: false,
+        description: "Savor the authentic flavors of Sri Lanka on this culinary journey through Galle.",
+        short_description: "Savour authentic Sri Lankan flavours"
     },
     {
         id: "exp-007",
@@ -143,7 +155,9 @@ const DUMMY_EXPERIENCES = [
         upcoming_date: "2026-08-10",
         event_dates: ["2026-08-10", "2026-08-17", "2026-08-24"],
         spots_remaining: 5,
-        featured: false
+        featured: false,
+        description: "Hike through Ella's stunning landscapes and visit local villages.",
+        short_description: "Conquer Sri Lanka's finest trails with expert guides"
     },
     {
         id: "exp-008",
@@ -160,7 +174,9 @@ const DUMMY_EXPERIENCES = [
         upcoming_date: "2026-08-14",
         event_dates: ["2026-08-14", "2026-08-21", "2026-08-28"],
         spots_remaining: 15,
-        featured: false
+        featured: false,
+        description: "Explore the ancient city of Anuradhapura, a UNESCO World Heritage site.",
+        short_description: "Step back in time in Sri Lanka's ancient capital"
     },
     {
         id: "exp-009",
@@ -177,7 +193,9 @@ const DUMMY_EXPERIENCES = [
         upcoming_date: "2026-08-20",
         event_dates: ["2026-08-20", "2026-08-27", "2026-09-03"],
         spots_remaining: 2,
-        featured: false
+        featured: false,
+        description: "Experience the thrill of a night safari in Wilpattu National Park.",
+        short_description: "Track elephants, leopards & exotic birdlife at night"
     }
 ];
 
@@ -229,7 +247,9 @@ function mapExperienceRow(row) {
         upcoming_date: row.upcoming_date || null,
         event_dates: row.event_dates || (row.upcoming_date ? [row.upcoming_date] : []),
         spots_remaining: row.spots_remaining || 0,
-        featured: row.featured || false
+        featured: row.featured || false,
+        description: row.description || row.short_description || "",
+        short_description: row.short_description || ""
     };
 }
 
@@ -257,6 +277,8 @@ async function fetchExperiences() {
                 event_dates,
                 spots_remaining,
                 featured,
+                description,
+                short_description,
                 is_published,
                 sort_order,
                 created_at
@@ -306,7 +328,10 @@ function buildEventMap(experiences) {
             const date = new Date(dateStr);
             const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
             if (!map[key]) map[key] = [];
-            map[key].push(exp);
+            // Avoid duplicates
+            if (!map[key].find(e => e.id === exp.id)) {
+                map[key].push(exp);
+            }
         });
     });
     return map;
@@ -364,25 +389,21 @@ function renderCalendar(month, year) {
             const hasEvent = this.dataset.hasEvent === 'true';
             
             if (!hasEvent) {
-                // If no event, just select/deselect
                 if (selectedDate === dateKey) {
                     selectedDate = null;
                     renderCalendar(currentMonth, currentYear);
                     renderSelectedDateEvents(null);
-                    // Reset to show all experiences
                     filterByDate(null);
                 } else {
                     selectedDate = dateKey;
                     renderCalendar(currentMonth, currentYear);
                     renderSelectedDateEvents(null);
-                    // Reset to show all experiences
                     filterByDate(null);
                 }
                 return;
             }
             
             if (selectedDate === dateKey) {
-                // If already selected, deselect
                 selectedDate = null;
                 renderCalendar(currentMonth, currentYear);
                 renderSelectedDateEvents(null);
@@ -431,7 +452,7 @@ function renderSelectedDateEvents(dateKey) {
     container.innerHTML = events.map(exp => {
         const icon = categoryIcons[exp.categories?.[0]?.toLowerCase()] || '🌟';
         return `
-            <div class="date-event-item" onclick="window.location.href='/experience.html?slug=${exp.slug}'">
+            <div class="date-event-item" onclick="window.location.href='/experience.html?slug=${encodeURIComponent(exp.slug)}'">
                 <div class="event-icon">${icon}</div>
                 <div class="event-info">
                     <div class="event-title">${escapeHtml(exp.title)}</div>
@@ -462,12 +483,10 @@ function goToMonth(delta) {
 
 function filterByDate(dateKey) {
     if (!dateKey || !eventsByDate[dateKey]) {
-        // Show all experiences
         filteredExperiences = [...allExperiences];
         document.getElementById('resultsTitle').textContent = 'All Experiences';
         document.getElementById('resultsCount').textContent = `${filteredExperiences.length} experiences`;
     } else {
-        // Show only experiences on this date
         const eventIds = eventsByDate[dateKey].map(e => e.id);
         filteredExperiences = allExperiences.filter(e => eventIds.includes(e.id));
         const dateObj = new Date(dateKey + 'T00:00:00');
@@ -528,10 +547,11 @@ function renderExperiences() {
         culinary: '🍜'
     };
 
+    // Link to experience detail page using slug
     grid.innerHTML = paginatedItems.map((item, index) => {
         const icon = categoryIcons[item.categories?.[0]?.toLowerCase()] || '🌟';
         return `
-        <a href="experience.html?slug=${encodeURIComponent(item.slug)}" class="experience-card" style="animation-delay: ${index * 0.05}s">
+        <a href="/experience.html?slug=${encodeURIComponent(item.slug)}" class="experience-card" style="animation-delay: ${index * 0.05}s">
             <div class="card-image">
                 <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}">
                 ${item.featured ? '<span class="featured-badge">★ Featured</span>' : ''}
