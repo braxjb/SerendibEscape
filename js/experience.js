@@ -1,5 +1,5 @@
 // ============================================
-// EXPERIENCE DETAIL PAGE - SIMPLIFIED WORKING VERSION
+// EXPERIENCE DETAIL PAGE - SUPABASE VERSION
 // ============================================
 
 // ── HELPERS ──
@@ -17,26 +17,22 @@ function toArray(value) {
     return Array.isArray(value) ? value : [];
 }
 
+function getField(row, snakeCaseKey, camelCaseKey, fallback = null) {
+    if (row && row[snakeCaseKey] !== undefined && row[snakeCaseKey] !== null) {
+        return row[snakeCaseKey];
+    }
+    if (row && camelCaseKey && row[camelCaseKey] !== undefined && row[camelCaseKey] !== null) {
+        return row[camelCaseKey];
+    }
+    return fallback;
+}
+
 function getExperienceSlug() {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get("slug");
 }
 
-function formatDate(dateStr) {
-    if (!dateStr) return "TBC";
-    try {
-        return new Date(dateStr).toLocaleDateString('en-US', { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-        });
-    } catch {
-        return dateStr;
-    }
-}
-
-// ── DUMMY EXPERIENCE DATA ──
+// ── DUMMY DATA (Fallback) ──
 const DUMMY_EXPERIENCE = {
     id: "exp-001",
     slug: "adams-peak-sunrise-hike",
@@ -50,40 +46,33 @@ const DUMMY_EXPERIENCE = {
     location: "Central Highlands",
     hero_image: "https://images.pexels.com/photos/545976/pexels-photo-545976.jpeg?auto=compress&cs=tinysrgb&w=800",
     card_image: "https://images.pexels.com/photos/545976/pexels-photo-545976.jpeg?auto=compress&cs=tinysrgb&w=600",
-    image: "https://images.pexels.com/photos/545976/pexels-photo-545976.jpeg?auto=compress&cs=tinysrgb&w=600",
+    description: "Experience the spiritual sunrise hike to Adams Peak, one of Sri Lanka's most sacred mountains.",
+    short_description: "A spiritual sunrise trek to Sri Lanka's sacred mountain",
     categories: ["hiking"],
     tags: ["hiking", "nature", "sunrise"],
     upcoming_date: "2026-07-15",
     event_dates: ["2026-07-15", "2026-07-22", "2026-07-29"],
     spots_remaining: 6,
     featured: true,
-    description: "Experience the spiritual sunrise hike to Adams Peak, one of Sri Lanka's most sacred mountains. This challenging but rewarding trek takes you through lush forests to witness a breathtaking sunrise from the summit.",
-    short_description: "A spiritual sunrise trek to Sri Lanka's sacred mountain",
     included: [
         "Experienced local guide",
         "Permits and entrance fees",
-        "Accommodation for 2 nights",
-        "Breakfast on day 2 and 3",
-        "Flashlight and trekking poles",
-        "First aid kit"
+        "Accommodation for 2 nights"
     ],
     excluded: [
         "International flights",
-        "Travel insurance",
-        "Personal expenses",
-        "Tips for guides"
+        "Travel insurance"
     ],
     gallery_images: [
         "https://images.pexels.com/photos/545976/pexels-photo-545976.jpeg?auto=compress&cs=tinysrgb&w=800",
-        "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=800",
-        "https://images.pexels.com/photos/260608/pexels-photo-260608.jpeg?auto=compress&cs=tinysrgb&w=800"
+        "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=800"
     ],
     itinerary_days: [
         {
             day_number: 1,
             title: "Arrival & Preparation",
             location: "Dalhousie",
-            description: "Arrive at the base of Adams Peak in Dalhousie. Settle into your accommodation and prepare for the early morning hike.",
+            description: "Arrive at the base of Adams Peak in Dalhousie.",
             image: "https://images.pexels.com/photos/545976/pexels-photo-545976.jpeg?auto=compress&cs=tinysrgb&w=400",
             overnight_stay: "Adams Peak Guest House"
         },
@@ -91,17 +80,9 @@ const DUMMY_EXPERIENCE = {
             day_number: 2,
             title: "Summit Sunrise",
             location: "Adams Peak",
-            description: "Start the hike at 2 AM to reach the summit by sunrise. Witness the spectacular sunrise and the mountain's shadow phenomenon.",
+            description: "Start the hike at 2 AM to reach the summit by sunrise.",
             image: "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=400",
             overnight_stay: "Adams Peak Guest House"
-        },
-        {
-            day_number: 3,
-            title: "Descent & Departure",
-            location: "Dalhousie",
-            description: "After breakfast, begin your descent. Take your time to enjoy the views and rest your legs.",
-            image: "https://images.pexels.com/photos/260608/pexels-photo-260608.jpeg?auto=compress&cs=tinysrgb&w=400",
-            overnight_stay: null
         }
     ]
 };
@@ -114,55 +95,47 @@ const testimonialsData = [
         image: "https://images.pexels.com/photos/2245436/pexels-photo-2245436.jpeg?auto=compress&cs=tinysrgb&w=800"
     },
     {
-        text: "I've done many adventure tours, but this one was truly special. The organization was flawless, and every moment felt magical.",
+        text: "I've done many adventure tours, but this one was truly special.",
         name: "James K (December 2025) UK",
         image: "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=800"
-    },
-    {
-        text: "The sunrise hike was life-changing. Our guide was incredible and the group became like family.",
-        name: "Emma W (November 2025) Canada",
-        image: "https://images.pexels.com/photos/2867380/pexels-photo-2867380.jpeg?auto=compress&cs=tinysrgb&w=800"
     }
 ];
 
 let currentTestimonial = 0;
-let gallerySwiper = null;
+let staysSwiper = null;
 
-// ── RENDER FUNCTIONS ──
+// ── TESTIMONIAL UI ──
+function updateTestimonial() {
+    const t = testimonialsData[currentTestimonial];
+    const textEl = document.getElementById("testimonialText");
+    const nameEl = document.getElementById("testimonialName");
+    const imageEl = document.getElementById("testimonialImage");
 
-function renderTestimonials() {
-    const wrapper = document.getElementById("testimonialWrapper");
-    if (!wrapper) return;
-
-    wrapper.innerHTML = testimonialsData.map(t => `
-        <div class="swiper-slide">
-            <div class="testimonial-slide">
-                <div class="review-source">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/TripAdvisor_logo.svg/2560px-TripAdvisor_logo.svg.png" alt="TripAdvisor" style="height:32px;">
-                    <span>TripAdvisor</span>
-                </div>
-                <div class="stars">★★★★★</div>
-                <div class="review-quote">"${escapeHtml(t.text)}"</div>
-                <div class="review-author">${escapeHtml(t.name)}</div>
-            </div>
-        </div>
-    `).join("");
-
-    // Initialize Swiper for testimonials
-    new Swiper(".testimonialSwiper", {
-        slidesPerView: 1,
-        loop: true,
-        autoplay: {
-            delay: 5000,
-            disableOnInteraction: false
-        },
-        navigation: {
-            prevEl: ".testimonial-prev",
-            nextEl: ".testimonial-next"
-        }
-    });
+    if (textEl) textEl.innerText = `"${t.text}"`;
+    if (nameEl) nameEl.innerText = t.name;
+    if (imageEl) imageEl.src = t.image;
 }
 
+function initTestimonials() {
+    const prevBtn = document.getElementById("prevTestimonial");
+    const nextBtn = document.getElementById("nextTestimonial");
+    updateTestimonial();
+
+    if (prevBtn) {
+        prevBtn.addEventListener("click", () => {
+            currentTestimonial = (currentTestimonial - 1 + testimonialsData.length) % testimonialsData.length;
+            updateTestimonial();
+        });
+    }
+    if (nextBtn) {
+        nextBtn.addEventListener("click", () => {
+            currentTestimonial = (currentTestimonial + 1) % testimonialsData.length;
+            updateTestimonial();
+        });
+    }
+}
+
+// ── GALLERY RENDERER ──
 function renderGallery(images) {
     const wrapper = document.getElementById("galleryWrapper");
     if (!wrapper) return;
@@ -186,13 +159,12 @@ function renderGallery(images) {
         </div>
     `).join("");
 
-    if (gallerySwiper) {
-        gallerySwiper.update();
+    if (staysSwiper) {
+        staysSwiper.update();
     } else {
-        gallerySwiper = new Swiper(".gallery-swiper", {
+        staysSwiper = new Swiper(".gallery-swiper", {
             slidesPerView: 1,
             spaceBetween: 24,
-            loop: true,
             pagination: {
                 el: ".swiper-pagination",
                 clickable: true
@@ -209,7 +181,8 @@ function renderGallery(images) {
     }
 }
 
-function renderDays(days) {
+// ── DAYS RENDERER ──
+function renderDays(days, fallbackImage = "") {
     const container = document.getElementById("daysList");
     if (!container) return;
 
@@ -259,7 +232,7 @@ function renderDays(days) {
                             <div class="stay-section">
                                 <h4>🏨 Stay at</h4>
                                 <div class="stay-card-small">
-                                    <img src="${escapeHtml(day.image || "")}" alt="${escapeHtml(day.overnight_stay)}" style="width:80px;height:80px;object-fit:cover;border-radius:12px;">
+                                    <img src="${escapeHtml(day.image || fallbackImage)}" alt="${escapeHtml(day.overnight_stay)}" style="width:80px;height:80px;object-fit:cover;border-radius:12px;">
                                     <div class="stay-info">
                                         <h5>${escapeHtml(day.overnight_stay)}</h5>
                                         <p>${escapeHtml(day.location || "")}</p>
@@ -269,7 +242,7 @@ function renderDays(days) {
                         ` : ""}
                     </div>
                     <div class="expanded-right">
-                        <img src="${escapeHtml(day.image || "")}" alt="${escapeHtml(day.title || "Experience day")}" style="width:100%;height:280px;object-fit:cover;border-radius:20px;">
+                        <img src="${escapeHtml(day.image || fallbackImage)}" alt="${escapeHtml(day.title || "Experience day")}" style="width:100%;height:280px;object-fit:cover;border-radius:20px;">
                     </div>
                 </div>
             </div>
@@ -286,6 +259,7 @@ function renderDays(days) {
     });
 }
 
+// ── RENDER INCLUSIONS ──
 function renderInclusions(items, container, isExcluded = false) {
     if (!container) return;
     const safeItems = toArray(items);
@@ -298,17 +272,11 @@ function renderInclusions(items, container, isExcluded = false) {
 
 // ── POPULATE PAGE ──
 function populatePage(experience) {
-    console.log("Populating page with experience:", experience);
-
     // Hero Background
     const heroSection = document.querySelector(".hero-experience");
-    if (heroSection) {
-        const bgImage = experience.hero_image || experience.card_image || experience.image || "";
-        if (bgImage) {
-            heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url('${bgImage}')`;
-            heroSection.style.backgroundSize = "cover";
-            heroSection.style.backgroundPosition = "center 50%";
-        }
+    const heroImage = getField(experience, "hero_image", "heroImage", "");
+    if (heroSection && heroImage) {
+        heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url('${heroImage}')`;
     }
 
     // Hero Badge
@@ -325,83 +293,78 @@ function populatePage(experience) {
     // Hero Price
     const priceEl = document.getElementById("heroPrice");
     if (priceEl) {
-        priceEl.textContent = experience.price_label || experience.price || "";
+        priceEl.textContent = getField(experience, "price_label", "priceLabel", "");
     }
 
     // Hero Title
     const titleEl = document.getElementById("heroTitle");
-    if (titleEl) {
-        titleEl.textContent = experience.title || "Experience";
-    }
+    if (titleEl) titleEl.textContent = experience.title || "Experience";
 
     // Hero Duration
     const durationEl = document.getElementById("heroDuration");
     if (durationEl) {
-        durationEl.textContent = experience.duration || experience.duration_label || "";
+        durationEl.textContent = getField(experience, "duration", "duration", 
+            getField(experience, "duration_label", "durationLabel", ""));
     }
 
     // Hero Meta
     const diffEl = document.getElementById("heroDifficulty");
-    if (diffEl) {
-        diffEl.textContent = `Difficulty: ${experience.difficulty || "Moderate"}`;
-    }
+    if (diffEl) diffEl.textContent = `Difficulty: ${experience.difficulty || "Moderate"}`;
 
     const groupEl = document.getElementById("heroGroupSize");
-    if (groupEl) {
-        groupEl.textContent = `Group: ${experience.group_size || "Small"}`;
-    }
+    if (groupEl) groupEl.textContent = `Group: ${experience.group_size || "Small"}`;
 
     const spotsEl = document.getElementById("heroSpots");
     if (spotsEl) {
         const spots = experience.spots_remaining || 0;
         spotsEl.textContent = `Spots: ${spots > 0 ? `${spots} left` : "Sold Out"}`;
-        if (spots === 0) {
-            spotsEl.style.color = "#dc2626";
-        }
+        if (spots === 0) spotsEl.style.color = "#dc2626";
     }
 
     // Breadcrumb
     const breadcrumbEl = document.getElementById("breadcrumbTitle");
-    if (breadcrumbEl) {
-        breadcrumbEl.textContent = experience.title || "";
-    }
+    if (breadcrumbEl) breadcrumbEl.textContent = experience.title || "";
 
     // Intro Description
     const introEl = document.getElementById("introDescription");
     if (introEl) {
-        const desc = experience.description || experience.short_description || "Experience details loading...";
+        const desc = getField(experience, "description", "description", 
+            getField(experience, "short_description", "shortDescription", ""));
         introEl.innerHTML = `<p>${escapeHtml(desc)}</p>`;
     }
 
     // At a Glance
     const gDuration = document.getElementById("glanceDuration");
     if (gDuration) {
-        gDuration.textContent = experience.duration || experience.duration_label || "N/A";
+        gDuration.textContent = getField(experience, "duration", "duration",
+            getField(experience, "duration_label", "durationLabel", "N/A"));
     }
 
     const gGroup = document.getElementById("glanceGroupSize");
-    if (gGroup) {
-        gGroup.textContent = experience.group_size || "N/A";
-    }
+    if (gGroup) gGroup.textContent = experience.group_size || "N/A";
 
     const gDiff = document.getElementById("glanceDifficulty");
-    if (gDiff) {
-        gDiff.textContent = experience.difficulty || "Moderate";
-    }
+    if (gDiff) gDiff.textContent = experience.difficulty || "Moderate";
 
     const gLoc = document.getElementById("glanceLocation");
-    if (gLoc) {
-        gLoc.textContent = experience.location || "Sri Lanka";
-    }
+    if (gLoc) gLoc.textContent = experience.location || "Sri Lanka";
 
     const gDate = document.getElementById("glanceDate");
     if (gDate) {
-        const date = experience.upcoming_date || (experience.event_dates && experience.event_dates[0]);
-        gDate.textContent = date ? formatDate(date) : "TBC";
+        const date = experience.upcoming_date || 
+            (experience.event_dates && experience.event_dates[0]);
+        gDate.textContent = date ? new Date(date).toLocaleDateString('en-US', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        }) : "TBC";
     }
 
     // Itinerary Days
-    renderDays(experience.itinerary_days || []);
+    const fallbackImage = getField(experience, "card_image", "cardImage", 
+        getField(experience, "hero_image", "heroImage", ""));
+    renderDays(experience.itinerary_days || [], fallbackImage);
 
     // Included / Excluded
     const includedEl = document.getElementById("includedList");
@@ -412,23 +375,54 @@ function populatePage(experience) {
     // Book Price
     const bookPriceEl = document.getElementById("bookPrice");
     if (bookPriceEl) {
-        bookPriceEl.textContent = experience.price_label || experience.price || "$0";
+        bookPriceEl.textContent = getField(experience, "price_label", "priceLabel", "$0");
     }
 
     // Gallery
     renderGallery(experience.gallery_images || []);
 }
 
-// ── FETCH EXPERIENCE ──
-async function fetchExperience(slug) {
+// ── FETCH EXPERIENCE BY SLUG ──
+async function fetchExperienceBySlug(slug) {
     console.log(`🔍 Looking for experience with slug: "${slug}"`);
 
     try {
         const { data, error } = await supabaseClient
             .from("experiences")
-            .select("*")
+            .select(`
+                id,
+                slug,
+                title,
+                location,
+                price_label,
+                price_amount,
+                currency,
+                duration,
+                duration_label,
+                group_size,
+                difficulty,
+                hero_image,
+                card_image,
+                image,
+                tags,
+                categories,
+                upcoming_date,
+                event_dates,
+                spots_remaining,
+                featured,
+                description,
+                short_description,
+                itinerary_days,
+                included,
+                excluded,
+                gallery_images,
+                is_published,
+                sort_order,
+                created_at
+            `)
             .eq("slug", slug)
-            .maybeSingle();
+            .eq("is_published", true)
+            .single();
 
         if (error) {
             console.error("❌ Supabase error:", error);
@@ -445,9 +439,45 @@ async function fetchExperience(slug) {
         console.log(`✅ Found experience: "${data.title}"`);
         return data;
     } catch (error) {
-        console.error("❌ Unexpected error:", error);
+        console.error("❌ Error fetching experience:", error);
         console.log("Using dummy data as fallback");
         return { ...DUMMY_EXPERIENCE, slug: slug };
+    }
+}
+
+// ── LOAD EXPERIENCE ──
+async function loadExperience() {
+    const slug = getExperienceSlug();
+    console.log("📌 Experience slug:", slug);
+
+    if (!slug) {
+        console.log("❌ No slug found in URL");
+        // Show not found state
+        const container = document.getElementById("invoiceViewContent");
+        if (container) {
+            container.innerHTML = `
+                <div style="padding:60px;text-align:center;">
+                    <h2>Experience Not Found</h2>
+                    <p>No experience specified.</p>
+                    <a href="experiences.html" style="color:#BC2026;">← Back to experiences</a>
+                </div>
+            `;
+        }
+        return;
+    }
+
+    try {
+        const experience = await fetchExperienceBySlug(slug);
+        console.log("📦 Experience data:", experience);
+
+        if (!experience) {
+            console.log("❌ Experience not found");
+            return;
+        }
+
+        populatePage(experience);
+    } catch (error) {
+        console.error("❌ Error loading experience:", error);
     }
 }
 
@@ -466,12 +496,10 @@ function initPageInteractions() {
     }
     requestAnimationFrame(raf);
 
-    // Header scroll
+    // Header scroll effect
     const header = document.getElementById("siteHeader");
     window.addEventListener("scroll", () => {
-        if (header) {
-            header.classList.toggle("scrolled", window.scrollY > 50);
-        }
+        if (header) header.classList.toggle("scrolled", window.scrollY > 50);
     });
 
     // Back to top
@@ -483,7 +511,7 @@ function initPageInteractions() {
         });
     }
 
-    // Back button
+    // Back to experiences
     const backBtn = document.getElementById("backToExperiences");
     if (backBtn) {
         backBtn.addEventListener("click", (e) => {
@@ -497,13 +525,11 @@ function initPageInteractions() {
     if (scrollIndicator) {
         scrollIndicator.addEventListener("click", () => {
             const intro = document.querySelector(".intro-section");
-            if (intro) {
-                lenis.scrollTo(intro, { offset: -70 });
-            }
+            if (intro) lenis.scrollTo(intro, { offset: -70 });
         });
     }
 
-    // Book button
+    // Book now button
     const bookBtn = document.getElementById("bookNowBtn");
     if (bookBtn) {
         bookBtn.addEventListener("click", (e) => {
@@ -534,58 +560,38 @@ function initPageInteractions() {
             }
         });
     }
+
+    // Reveal animations
+    const revealItems = document.querySelectorAll(
+        ".intro-section, .schedule-section, .gallery-section, .included-section, .book-section, .testimonials-section, .trust-bar, .why-section, .day-item, .why-item"
+    );
+
+    revealItems.forEach((item) => {
+        item.classList.add("reveal-premium");
+    });
+
+    const revealObserver = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        },
+        { threshold: 0.15 }
+    );
+
+    revealItems.forEach((item) => revealObserver.observe(item));
 }
 
 // ── INIT ──
-async function init() {
-    console.log("🚀 Experience page initializing...");
-
-    // Get slug from URL
-    const slug = getExperienceSlug();
-    console.log("📌 Slug from URL:", slug);
-
-    // If no slug, show error
-    if (!slug) {
-        console.log("❌ No slug found in URL");
-        const container = document.getElementById("invoiceViewContent");
-        if (container) {
-            container.innerHTML = `
-                <div style="padding:60px;text-align:center;">
-                    <h2>Experience Not Found</h2>
-                    <p>No experience specified. Please go back to the <a href="experiences.html">experiences page</a>.</p>
-                </div>
-            `;
-        }
-        return;
-    }
-
-    // Fetch the experience
-    const experience = await fetchExperience(slug);
+document.addEventListener("DOMContentLoaded", async function() {
+    console.log("🚀 Experience page loaded");
     
-    if (!experience) {
-        console.log("❌ No experience data available");
-        const container = document.getElementById("invoiceViewContent");
-        if (container) {
-            container.innerHTML = `
-                <div style="padding:60px;text-align:center;">
-                    <h2>Experience Not Found</h2>
-                    <p>We couldn't find the experience you're looking for.</p>
-                    <a href="experiences.html" style="color:#BC2026;">← Back to experiences</a>
-                </div>
-            `;
-        }
-        return;
-    }
-
-    // Populate the page
-    populatePage(experience);
-
-    // Initialize components
-    renderTestimonials();
+    initTestimonials();
     initPageInteractions();
-
-    console.log("✅ Experience page loaded successfully");
-}
-
-// ── START ──
-document.addEventListener("DOMContentLoaded", init);
+    await loadExperience();
+    
+    console.log("✅ Experience page initialization complete");
+});
