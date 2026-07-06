@@ -1,5 +1,5 @@
 // ============================================
-// HOMEPAGE SCRIPT - RED DOT TOURS
+// DESTINATIONS PAGE SCRIPT - SERENDIB ESCAPE
 // ============================================
 
 // Initialize Lenis Smooth Scroll
@@ -50,7 +50,7 @@ cards.forEach(card => {
     cardObserver.observe(card);
 });
 
-// Dynamic More Itineraries Button with hover animation and click handler
+// ── DYNAMIC MORE ITINERARIES BUTTON ──
 const moreItinerariesBtn = document.getElementById('moreItinerariesBtn');
 if (moreItinerariesBtn) {
     moreItinerariesBtn.addEventListener('click', () => {
@@ -65,10 +65,171 @@ if (moreItinerariesBtn) {
             btn.innerHTML = originalText;
             btn.style.opacity = '1';
             btn.style.cursor = 'pointer';
-            alert('More itineraries would load here. This is a dynamic button that could fetch additional content via AJAX.');
+            // Scroll to itineraries section
+            const itinerariesSection = document.getElementById('itineraries');
+            if (itinerariesSection) {
+                itinerariesSection.scrollIntoView({ behavior: 'smooth' });
+            }
         }, 1000);
     });
 }
+
+// ── DESTINATION ITINERARIES - SUPABASE INTEGRATION ──
+// This section fetches and displays itineraries from your database
+
+function escapeHtml(value) {
+    if (value === null || value === undefined) return "";
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function getItineraryDuration(row) {
+    if (row.duration_label) return row.duration_label;
+    if (row.duration_nights) {
+        const nights = Number(row.duration_nights);
+        return nights === 1 ? "1 Night" : `${nights} Nights`;
+    }
+    return "Tailor-made journey";
+}
+
+function getItineraryImage(row) {
+    return row.card_image || row.hero_image || "https://images.pexels.com/photos/161140/sri-lanka-asia-travel-beach-161140.jpeg?auto=compress&cs=tinysrgb&w=600";
+}
+
+function getItineraryExcerpt(row) {
+    return row.excerpt || row.summary || row.short_description || "A private Sri Lanka journey designed around culture, wildlife, scenery and authentic local experiences.";
+}
+
+function mapDestinationItinerary(row) {
+    return {
+        id: row.id,
+        slug: row.slug || "",
+        title: row.title || "Untitled Itinerary",
+        region: row.region || "Sri Lanka",
+        duration: getItineraryDuration(row),
+        image: getItineraryImage(row),
+        excerpt: getItineraryExcerpt(row)
+    };
+}
+
+async function fetchDestinationItineraries() {
+    try {
+        const { data, error } = await supabaseClient
+            .from("itineraries")
+            .select(`
+                id,
+                slug,
+                title,
+                region,
+                duration_nights,
+                duration_label,
+                hero_image,
+                card_image,
+                excerpt,
+                summary,
+                short_description,
+                is_published,
+                sort_order,
+                created_at
+            `)
+            .eq("is_published", true)
+            .order("sort_order", { ascending: true })
+            .order("created_at", { ascending: false });
+
+        if (error) {
+            console.error("Supabase error:", error);
+            throw error;
+        }
+
+        return (data || []).map(mapDestinationItinerary);
+    } catch (error) {
+        console.error("Error fetching itineraries:", error);
+        return [];
+    }
+}
+
+function renderDestinationItineraries(itineraries) {
+    const grid = document.getElementById("destinationItineraryGrid");
+    if (!grid) return;
+
+    if (!itineraries || itineraries.length === 0) {
+        grid.innerHTML = `
+            <div class="itinerary-empty-state">
+                <h3>No itineraries available yet.</h3>
+                <p>
+                    We are currently preparing our Sri Lanka itinerary ideas. Please check back soon,
+                    or contact us to design a tailor-made journey.
+                </p>
+                <a href="./contact.html" class="btn-primary">
+                    Enquire Now
+                    <span class="btn-arrow">→</span>
+                </a>
+            </div>
+        `;
+        return;
+    }
+
+    grid.innerHTML = itineraries.map((item, index) => {
+        const url = item.slug
+            ? `itinerary.html?slug=${encodeURIComponent(item.slug)}`
+            : "#";
+
+        return `
+            <a href="${url}" class="itinerary-card reveal" style="--i: ${index}; text-decoration: none;">
+                <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" loading="lazy" />
+                <div class="itinerary-content">
+                    <span>${escapeHtml(item.region)} • ${escapeHtml(item.duration)}</span>
+                    <h3>${escapeHtml(item.title)}</h3>
+                    <p>${escapeHtml(item.excerpt)}</p>
+                    <span class="itinerary-link">View itinerary →</span>
+                </div>
+            </a>
+        `;
+    }).join("");
+
+    // Re-observe reveal elements for animations
+    document.querySelectorAll(".itinerary-card.reveal").forEach((el, index) => {
+        el.style.setProperty('--i', index);
+        // Trigger reveal animation
+        setTimeout(() => {
+            el.classList.add('is-visible');
+        }, 100 + index * 50);
+    });
+}
+
+async function initDestinationItineraries() {
+    const grid = document.getElementById("destinationItineraryGrid");
+    if (!grid) return;
+
+    try {
+        const itineraries = await fetchDestinationItineraries();
+        renderDestinationItineraries(itineraries);
+    } catch (error) {
+        console.error("Error loading destination itineraries:", error);
+        grid.innerHTML = `
+            <div class="itinerary-empty-state">
+                <h3>Unable to load itineraries</h3>
+                <p>
+                    We're having trouble loading our itinerary ideas. Please try again later
+                    or contact us to design a tailor-made journey.
+                </p>
+                <a href="./contact.html" class="btn-primary">
+                    Enquire Now
+                    <span class="btn-arrow">→</span>
+                </a>
+            </div>
+        `;
+    }
+}
+
+// ── INIT ──
+document.addEventListener("DOMContentLoaded", function() {
+    initDestinationItineraries();
+});
 
 // Update ScrollTrigger if using GSAP (ensures Lenis compatibility)
 if (typeof gsap !== 'undefined') {
@@ -77,165 +238,3 @@ if (typeof gsap !== 'undefined') {
     });
     gsap.ticker.lagSmoothing(0);
 }
-
-// ============================================
-// DESTINATIONS PAGE - DYNAMIC ITINERARIES
-// ============================================
-
-function escapeHtml(value) {
-  if (value === null || value === undefined) return "";
-
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-function getItineraryDuration(row) {
-  if (row.duration_label) return row.duration_label;
-
-  if (row.duration_nights) {
-    const nights = Number(row.duration_nights);
-    return nights === 1 ? "1 Night" : `${nights} Nights`;
-  }
-
-  return "Tailor-made journey";
-}
-
-function getItineraryImage(row) {
-  return (
-    row.card_image ||
-    row.hero_image ||
-    "./images/itinerary-classic.jpg"
-  );
-}
-
-function getItineraryExcerpt(row) {
-  return (
-    row.excerpt ||
-    row.summary ||
-    row.short_description ||
-    "A private Sri Lanka journey designed around culture, wildlife, scenery and authentic local experiences."
-  );
-}
-
-function mapDestinationItinerary(row) {
-  return {
-    id: row.id,
-    slug: row.slug || "",
-    title: row.title || "Untitled Itinerary",
-    region: row.region || "Sri Lanka",
-    duration: getItineraryDuration(row),
-    image: getItineraryImage(row),
-    excerpt: getItineraryExcerpt(row)
-  };
-}
-
-async function fetchDestinationItineraries() {
-  const { data, error } = await supabaseClient
-    .from("itineraries")
-    .select(`
-      id,
-      slug,
-      title,
-      region,
-      duration_nights,
-      duration_label,
-      hero_image,
-      card_image,
-      excerpt,
-      summary,
-      short_description,
-      is_published,
-      sort_order,
-      created_at
-    `)
-    .eq("is_published", true)
-    .order("sort_order", { ascending: true })
-    .order("created_at", { ascending: false })
-
-  if (error) {
-    throw error;
-  }
-
-  return (data || []).map(mapDestinationItinerary);
-}
-
-function renderDestinationItineraries(itineraries) {
-  const grid = document.getElementById("destinationItineraryGrid");
-  if (!grid) return;
-
-  if (!itineraries.length) {
-  grid.innerHTML = `
-    <div class="itinerary-empty-state">
-      <h3>No itineraries available yet.</h3>
-      <p>
-        We are currently preparing our Sri Lanka itinerary ideas. Please check back soon,
-        or contact us to design a tailor-made journey.
-      </p>
-      <a href="./contact.html" class="btn-primary">
-        Enquire Now
-        <span class="btn-arrow">→</span>
-      </a>
-    </div>
-  `;
-  return;
-}
-
-  grid.innerHTML = itineraries.map((item, index) => {
-    const url = item.slug
-      ? `itinerary.html?slug=${encodeURIComponent(item.slug)}`
-      : "#";
-
-    return `
-      <article class="itinerary-card reveal" style="--i: ${index};">
-        <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" />
-
-        <div class="itinerary-content">
-          <span>${escapeHtml(item.region)} • ${escapeHtml(item.duration)}</span>
-          <h3>${escapeHtml(item.title)}</h3>
-          <p>${escapeHtml(item.excerpt)}</p>
-          <a href="${url}">View itinerary →</a>
-        </div>
-      </article>
-    `;
-  }).join("");
-
-  // Re-observe newly inserted reveal elements
-  if (typeof observeRevealElements === "function") {
-    observeRevealElements();
-  } else {
-    document.querySelectorAll(".reveal, .reveal-left, .reveal-right, .reveal-scale")
-      .forEach((el) => el.classList.add("is-visible"));
-  }
-}
-
-async function initDestinationItineraries() {
-  const grid = document.getElementById("destinationItineraryGrid");
-  if (!grid) return;
-
-  try {
-    const itineraries = await fetchDestinationItineraries();
-    renderDestinationItineraries(itineraries);
-  } catch (error) {
-    console.error("Error loading destination itineraries:", error);
-
-    grid.innerHTML = `
-      <div class="itinerary-empty-state">
-      <h3>No itineraries available yet.</h3>
-      <p>
-        We are currently preparing our Sri Lanka itinerary ideas. Please check back soon,
-        or contact us to design a tailor-made journey.
-      </p>
-      <a href="./contact.html" class="btn-primary">
-        Enquire Now
-        <span class="btn-arrow">→</span>
-      </a>
-    </div>
-    `;
-  }
-}
-
-document.addEventListener("DOMContentLoaded", initDestinationItineraries);
