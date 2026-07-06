@@ -2,6 +2,27 @@
 // DESTINATIONS PAGE SCRIPT - SERENDIB ESCAPE
 // ============================================
 
+// ── SUPABASE CLIENT ──
+// Make sure supabaseClient is available
+// If it's not loaded from the HTML, we need to create it
+if (typeof supabaseClient === 'undefined' && typeof window !== 'undefined') {
+    // Check if window.supabase exists (loaded from CDN)
+    if (window.supabase) {
+        const SUPABASE_URL = "https://fqpofzlxixbitybltajx.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxcG9memx4aXhiaXR5Ymx0YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxNjc5MDksImV4cCI6MjA5MTc0MzkwOX0.woDW07ULao_dYlqBaafJmc1Mjt3FAthShm0CBoMmWFY";
+        var supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: {
+                autoRefreshToken: true,
+                persistSession: true,
+                detectSessionInUrl: true
+            }
+        });
+        console.log("✅ Supabase client initialized in destinations.js");
+    } else {
+        console.error("❌ Supabase not available. Make sure the CDN script is loaded.");
+    }
+}
+
 // Initialize Lenis Smooth Scroll
 const lenis = new Lenis({
     duration: 1.2,
@@ -60,12 +81,10 @@ if (moreItinerariesBtn) {
         btn.style.opacity = '0.7';
         btn.style.cursor = 'wait';
         
-        // Simulate loading delay
         setTimeout(() => {
             btn.innerHTML = originalText;
             btn.style.opacity = '1';
             btn.style.cursor = 'pointer';
-            // Scroll to itineraries section
             const itinerariesSection = document.getElementById('itineraries');
             if (itinerariesSection) {
                 itinerariesSection.scrollIntoView({ behavior: 'smooth' });
@@ -75,7 +94,6 @@ if (moreItinerariesBtn) {
 }
 
 // ── DESTINATION ITINERARIES - SUPABASE INTEGRATION ──
-// This section fetches and displays itineraries from your database
 
 function escapeHtml(value) {
     if (value === null || value === undefined) return "";
@@ -118,6 +136,14 @@ function mapDestinationItinerary(row) {
 
 async function fetchDestinationItineraries() {
     try {
+        // Check if supabaseClient exists
+        if (typeof supabaseClient === 'undefined') {
+            console.error("❌ supabaseClient is not defined!");
+            return [];
+        }
+
+        console.log("🔍 Fetching itineraries from Supabase...");
+        
         const { data, error } = await supabaseClient
             .from("itineraries")
             .select(`
@@ -141,20 +167,26 @@ async function fetchDestinationItineraries() {
             .order("created_at", { ascending: false });
 
         if (error) {
-            console.error("Supabase error:", error);
+            console.error("❌ Supabase error:", error);
             throw error;
         }
 
+        console.log(`✅ Found ${data?.length || 0} itineraries`);
         return (data || []).map(mapDestinationItinerary);
     } catch (error) {
-        console.error("Error fetching itineraries:", error);
+        console.error("❌ Error fetching itineraries:", error);
         return [];
     }
 }
 
 function renderDestinationItineraries(itineraries) {
     const grid = document.getElementById("destinationItineraryGrid");
-    if (!grid) return;
+    if (!grid) {
+        console.error("❌ destinationItineraryGrid not found in DOM");
+        return;
+    }
+
+    console.log(`📊 Rendering ${itineraries?.length || 0} itineraries`);
 
     if (!itineraries || itineraries.length === 0) {
         grid.innerHTML = `
@@ -194,7 +226,6 @@ function renderDestinationItineraries(itineraries) {
     // Re-observe reveal elements for animations
     document.querySelectorAll(".itinerary-card.reveal").forEach((el, index) => {
         el.style.setProperty('--i', index);
-        // Trigger reveal animation
         setTimeout(() => {
             el.classList.add('is-visible');
         }, 100 + index * 50);
@@ -202,14 +233,20 @@ function renderDestinationItineraries(itineraries) {
 }
 
 async function initDestinationItineraries() {
+    console.log("🚀 Initializing destination itineraries...");
+    
     const grid = document.getElementById("destinationItineraryGrid");
-    if (!grid) return;
+    if (!grid) {
+        console.error("❌ destinationItineraryGrid not found!");
+        return;
+    }
 
     try {
         const itineraries = await fetchDestinationItineraries();
+        console.log(`📦 Received ${itineraries.length} itineraries`);
         renderDestinationItineraries(itineraries);
     } catch (error) {
-        console.error("Error loading destination itineraries:", error);
+        console.error("❌ Error loading destination itineraries:", error);
         grid.innerHTML = `
             <div class="itinerary-empty-state">
                 <h3>Unable to load itineraries</h3>
@@ -228,7 +265,12 @@ async function initDestinationItineraries() {
 
 // ── INIT ──
 document.addEventListener("DOMContentLoaded", function() {
-    initDestinationItineraries();
+    console.log("📄 Destinations page loaded");
+    
+    // Small delay to ensure Supabase client is ready
+    setTimeout(() => {
+        initDestinationItineraries();
+    }, 500);
 });
 
 // Update ScrollTrigger if using GSAP (ensures Lenis compatibility)
