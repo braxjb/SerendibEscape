@@ -698,6 +698,9 @@ body {
 }
 
 .itinerary-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
     overflow: hidden;
     border-radius: var(--radius-md);
     background: #fff;
@@ -738,7 +741,7 @@ body {
     background: var(--color-gold);
 }
 
-.itinerary-content span {
+.itinerary-content span:first-of-type {
     display: block;
     margin-bottom: 10px;
     font-family: var(--font-mono);
@@ -765,8 +768,9 @@ body {
     color: var(--text-muted);
 }
 
-.itinerary-content a {
+.itinerary-link {
     display: inline-flex;
+    align-items: center;
     gap: 6px;
     font-family: var(--font-mono);
     font-size: 11px;
@@ -778,8 +782,17 @@ body {
     transition: gap 0.35s ease;
 }
 
-.itinerary-content a:hover {
+.itinerary-card:hover .itinerary-link {
     gap: 12px;
+}
+
+.itinerary-link::after {
+    content: "→";
+    transition: transform 0.35s ease;
+}
+
+.itinerary-card:hover .itinerary-link::after {
+    transform: translateX(4px);
 }
 
 .itinerary-empty-state {
@@ -815,6 +828,18 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 12px;
+}
+
+/* Itinerary Card Reveal Animation */
+.itinerary-card.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.itinerary-card.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 @media (max-width: 1024px) {
