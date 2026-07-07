@@ -3,14 +3,12 @@
 // ============================================
 
 // ── SUPABASE CLIENT ──
-// Use the existing supabaseClient from supabase-client.js
 if (typeof supabaseClient === 'undefined' && typeof window !== 'undefined') {
     const SUPABASE_URL = "https://fqpofzlxixbitybltajx.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxcG9memx4aXhiaXR5Ymx0YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxNjc5MDksImV4cCI6MjA5MTc0MzkwOX0.woDW07ULao_dYlqBaafJmc1Mjt3FAthShm0CBoMmWFY";
     window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 }
 
-// Get the client
 const client = typeof supabaseClient !== 'undefined' ? supabaseClient : window.supabaseClient;
 
 // ── LENIS SMOOTH SCROLL ──
@@ -78,11 +76,12 @@ if (moreBtn) {
     });
 }
 
-// ── SUPABASE ITINERARIES SLIDER ──
+// ── SUPABASE ITINERARIES PHYSICAL SCROLL SLIDER ──
 
 let sliderInterval = null;
 let currentSlide = 0;
 let slideItems = [];
+let isTransitioning = false;
 
 function escapeHtml(str) {
     if (!str) return '';
@@ -139,6 +138,7 @@ async function fetchItineraries() {
 function renderSlider(items) {
     const slider = document.getElementById('itinerariesSlider');
     const dotsContainer = document.getElementById('sliderDots');
+    const track = document.getElementById('itinerariesSliderTrack');
     
     if (!slider) {
         console.error('❌ Slider not found!');
@@ -159,11 +159,15 @@ function renderSlider(items) {
 
     slideItems = items;
 
+    // Duplicate items for seamless scrolling (add 3 extra at end and beginning)
+    const duplicatedItems = [...items, ...items.slice(0, 3)];
+
     // Create slider items
-    slider.innerHTML = items.map((item, i) => {
+    slider.innerHTML = duplicatedItems.map((item, i) => {
         const url = item.slug ? `itinerary.html?slug=${encodeURIComponent(item.slug)}` : '#';
+        const isActive = i === 1; // Second item is the center
         return `
-            <div class="slider-slide ${i === 0 ? 'active' : ''}" data-index="${i}">
+            <div class="slider-slide ${isActive ? 'active' : ''}" data-index="${i}" data-real-index="${i % items.length}">
                 <a href="${url}" class="slider-card">
                     <div class="slider-card-image">
                         <img src="${escapeHtml(getImage(item))}" alt="${escapeHtml(item.title)}" loading="lazy" />
@@ -179,80 +183,114 @@ function renderSlider(items) {
         `;
     }).join('');
 
-    // Create dots
+    // Update track width based on number of items
+    const slideCount = duplicatedItems.length;
+    const slideWidth = 280 + 30; // card width + gap
+    const totalWidth = slideCount * slideWidth;
+    
+    if (track) {
+        track.style.width = `${totalWidth}px`;
+        // Start at the first real item (index 1)
+        const startPosition = -slideWidth;
+        track.style.transform = `translateX(${startPosition}px)`;
+    }
+
+    // Create dots (only for real items)
     if (dotsContainer) {
         dotsContainer.innerHTML = items.map((_, i) => `
             <span class="slider-dot ${i === 0 ? 'active' : ''}" data-index="${i}"></span>
         `).join('');
     }
 
+    // Add click handlers to dots
+    document.querySelectorAll('.slider-dot').forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            goToSlide(index);
+        });
+    });
+
     // Start auto-slide
-    startSlider();
+    setTimeout(() => startSlider(), 500);
+}
+
+function goToSlide(index) {
+    if (isTransitioning || index === currentSlide) return;
+    
+    isTransitioning = true;
+    currentSlide = index;
+    
+    const track = document.getElementById('itinerariesSliderTrack');
+    const slides = document.querySelectorAll('.slider-slide');
+    const dots = document.querySelectorAll('.slider-dot');
+    const slideWidth = 280 + 30;
+    
+    // Calculate position - we want the selected slide to be in the center
+    // The center position is at 1 (since we have 3 visible items)
+    const position = -(index + 1) * slideWidth + slideWidth;
+    
+    track.style.transition = 'transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+    track.style.transform = `translateX(${position}px)`;
+    
+    // Update active states
+    slides.forEach((slide, i) => {
+        slide.classList.remove('active');
+        if (i === index + 1) {
+            slide.classList.add('active');
+        }
+    });
+    
+    dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+    });
+    
+    setTimeout(() => {
+        isTransitioning = false;
+        
+        // Check if we've reached the end of the duplicated items
+        const totalRealItems = slideItems.length;
+        if (index >= totalRealItems - 1) {
+            // Reset to beginning seamlessly
+            setTimeout(() => {
+                track.style.transition = 'none';
+                const resetPosition = -slideWidth;
+                track.style.transform = `translateX(${resetPosition}px)`;
+                currentSlide = 0;
+                
+                // Update active states
+                slides.forEach((slide, i) => {
+                    slide.classList.remove('active');
+                    if (i === 1) {
+                        slide.classList.add('active');
+                    }
+                });
+                
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === 0);
+                });
+                
+                setTimeout(() => {
+                    track.style.transition = 'transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                }, 50);
+            }, 50);
+        }
+    }, 750);
+}
+
+function goToNextSlide() {
+    const totalItems = slideItems.length;
+    const nextIndex = (currentSlide + 1) % totalItems;
+    goToSlide(nextIndex);
 }
 
 function startSlider() {
-    // Clear any existing interval
     if (sliderInterval) {
         clearInterval(sliderInterval);
     }
-
-    const slides = document.querySelectorAll('.slider-slide');
-    const dots = document.querySelectorAll('.slider-dot');
     
-    if (slides.length === 0) return;
-
-    // Set initial state
-    currentSlide = 0;
-    updateSlider(slides, dots);
-
     // Auto-slide every 3 seconds
     sliderInterval = setInterval(() => {
-        // Move to next slide
-        currentSlide = (currentSlide + 1) % slides.length;
-        updateSlider(slides, dots);
+        goToNextSlide();
     }, 3000);
-}
-
-function updateSlider(slides, dots) {
-    const totalSlides = slides.length;
-    
-    // Update slides
-    slides.forEach((slide, index) => {
-        slide.classList.remove('active', 'previous', 'next');
-        
-        if (index === currentSlide) {
-            slide.classList.add('active');
-        } else if (index === (currentSlide - 1 + totalSlides) % totalSlides) {
-            slide.classList.add('previous');
-        } else if (index === (currentSlide + 1) % totalSlides) {
-            slide.classList.add('next');
-        }
-    });
-
-    // Update dots
-    if (dots) {
-        dots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === currentSlide);
-        });
-    }
-
-    // Add click handlers to dots
-    dots.forEach((dot, index) => {
-        dot.onclick = () => {
-            if (index !== currentSlide) {
-                currentSlide = index;
-                updateSlider(slides, dots);
-                // Reset interval
-                if (sliderInterval) {
-                    clearInterval(sliderInterval);
-                    sliderInterval = setInterval(() => {
-                        currentSlide = (currentSlide + 1) % slides.length;
-                        updateSlider(slides, dots);
-                    }, 3000);
-                }
-            }
-        };
-    });
 }
 
 async function initItineraries() {
@@ -280,7 +318,6 @@ async function initItineraries() {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('📄 Destinations page loaded');
     
-    // Wait a moment for everything to initialize
     setTimeout(() => {
         initItineraries();
     }, 500);
