@@ -3,22 +3,25 @@
 // ============================================
 
 // ── SUPABASE CLIENT ──
-// Check if supabaseClient exists, if not create it
+// Use the existing supabaseClient from supabase-client.js
+// No need to redeclare it!
+
+// Check if supabaseClient exists
 if (typeof supabaseClient === 'undefined') {
+    console.error('❌ supabaseClient is not defined! Make sure supabase-client.js is loaded first.');
+    // Create a fallback
     const SUPABASE_URL = "https://fqpofzlxixbitybltajx.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxcG9memx4aXhiaXR5Ymx0YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxNjc5MDksImV4cCI6MjA5MTc0MzkwOX0.woDW07ULao_dYlqBaafJmc1Mjt3FAthShm0CBoMmWFY";
     
     if (typeof window !== 'undefined' && window.supabase) {
-        var supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
             auth: {
                 autoRefreshToken: true,
                 persistSession: true,
                 detectSessionInUrl: true
             }
         });
-        console.log("✅ Supabase client initialized in destinations.js");
-    } else {
-        console.error("❌ Supabase not available. Make sure the CDN script is loaded.");
+        console.log("✅ Supabase client created as fallback");
     }
 } else {
     console.log("✅ Supabase client already exists");
@@ -115,15 +118,17 @@ function getExcerpt(row) {
 
 async function fetchItineraries() {
     try {
-        // Check if supabaseClient exists
-        if (typeof supabaseClient === 'undefined') {
-            console.error('❌ supabaseClient is not defined!');
+        // Get the supabase client from window if needed
+        const client = typeof supabaseClient !== 'undefined' ? supabaseClient : window.supabaseClient;
+        
+        if (!client) {
+            console.error('❌ supabaseClient is not available!');
             return [];
         }
 
         console.log('🔍 Fetching itineraries from Supabase...');
         
-        const { data, error } = await supabaseClient
+        const { data, error } = await client
             .from('itineraries')
             .select('id, slug, title, region, duration_nights, duration_label, hero_image, card_image, excerpt, summary, short_description, is_published, sort_order, created_at')
             .eq('is_published', true)
