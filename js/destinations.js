@@ -58,6 +58,7 @@ cards.forEach(card => {
     card.style.transform = 'translateY(30px)';
     card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
     cardObserver.observe(card);
+});
 
 // ── MORE DESTINATIONS BUTTON ──
 const moreBtn = document.getElementById('moreDestinationsBtn');
@@ -110,24 +111,20 @@ async function fetchItineraries() {
 
         console.log('🔍 Fetching itineraries from Supabase...');
 
-        // First, let's check if the table exists and what columns are available
-        // Try a simple query first
+        // Try a simpler query first to check if table exists
         const { data, error, status, statusText } = await client
             .from('itineraries')
             .select('*')
-            .limit(5);
+            .eq('is_published', true)
+            .order('sort_order', { ascending: true })
+            .order('created_at', { ascending: false });
 
-        console.log('📊 Query response:', { status, statusText, data, error });
+        console.log('📊 Query response:', { status, statusText, data: data?.length || 0, error });
 
         if (error) {
-            console.error('❌ Supabase error details:', {
-                message: error.message,
-                details: error.details,
-                hint: error.hint,
-                code: error.code
-            });
+            console.error('❌ Supabase error:', error);
             
-            // If the error is that the table doesn't exist, show a helpful message
+            // If the error is that the table doesn't exist
             if (error.code === '42P01') {
                 console.error('❌ The "itineraries" table does not exist in your Supabase database.');
                 return [];
@@ -225,3 +222,5 @@ document.addEventListener('DOMContentLoaded', function() {
         initItineraries();
     }, 500);
 });
+
+console.log('✅ Destinations script loaded successfully');
