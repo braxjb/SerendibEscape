@@ -2,9 +2,8 @@
 // DESTINATIONS PAGE SCRIPT - SERENDIB ESCAPE
 // ============================================
 
-// ── SUPABASE CLIENT ──
+// ── SUPABASE CLIENT CHECK ──
 // Make sure supabaseClient is available
-// If it's not loaded from the HTML, we need to create it
 if (typeof supabaseClient === 'undefined' && typeof window !== 'undefined') {
     // Check if window.supabase exists (loaded from CDN)
     if (window.supabase) {
@@ -23,7 +22,7 @@ if (typeof supabaseClient === 'undefined' && typeof window !== 'undefined') {
     }
 }
 
-// Initialize Lenis Smooth Scroll
+// ── LENIS SMOOTH SCROLL ──
 const lenis = new Lenis({
     duration: 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -37,7 +36,7 @@ function raf(time) {
 }
 requestAnimationFrame(raf);
 
-// INTERSECTION OBSERVER for scroll-triggered text reveals
+// ── INTERSECTION OBSERVER FOR TEXT REVEALS ──
 const revealElements = document.querySelectorAll('.reveal-text');
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -50,7 +49,7 @@ const observer = new IntersectionObserver((entries) => {
 
 revealElements.forEach(el => observer.observe(el));
 
-// Observe destination cards for staggered reveal
+// ── CARD REVEALS ──
 const cards = document.querySelectorAll('.dest-card, .stay-card, .review-card');
 const cardObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry, index) => {
