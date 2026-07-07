@@ -5,9 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Serendib Escape | Tailor-Made Holidays in Sri Lanka, India & Maldives</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Mrs+Saint+Delafield&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <!-- Lenis Smooth Scroll -->
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.16/dist/lenis.min.js"></script>
     
+    <!-- CSS Files -->
     <link rel="stylesheet" href="css/destinations.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
@@ -70,17 +78,37 @@
 
 <main>
 
-    <!-- ==================== HERO ==================== -->
-    <section class="hero-section">
-        <div class="hero-bg"></div>
-        <div class="hero-content">
-            <p class="hero-sub">Trips of a thousand lifetimes</p>
-            <h1 class="hero-title">Time well spent.</h1>
-            <p class="hero-desc">Tailor-made private tours to Sri Lanka, India &amp; the Maldives</p>
+    <!-- ==================== EDITORIAL HERO ==================== -->
+    <section class="editorial-hero">
+        <div class="hero-background">
+            <img src="https://images.pexels.com/photos/2245436/pexels-photo-2245436.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Sri Lanka travel">
         </div>
-        <div class="scroll-indicator">
-            <p>Scroll</p>
-            <span></span>
+        <div class="hero-container">
+            <div class="hero-kicker animate-in">Destinations</div>
+            <h1 class="hero-headline animate-in">
+                Sri Lanka <span class="italic">Tailor-Made</span> Holidays
+            </h1>
+            <p class="hero-description animate-in">
+                From ancient cities and misty tea country to wild safaris, golden beaches,
+                and hidden cultural experiences, Sri Lanka is a compact island filled with
+                unforgettable journeys.
+            </p>
+            <div class="hero-buttons animate-in">
+                <a href="#plan-trip" class="btn-primary">
+                    Start Planning
+                    <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+                <a href="#destinations" class="btn-secondary">
+                    Explore Places
+                    <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+            </div>
         </div>
     </section>
 
@@ -127,7 +155,6 @@
             </div>
 
             <div class="destinations-grid">
-
                 <a href="#" class="dest-card">
                     <div class="dest-card-image">
                         <img src="https://images.unsplash.com/photo-1653151106233-8e928c21bc1a?q=80&w=1152&auto=format&fit=crop" alt="Colombo">
@@ -205,7 +232,6 @@
                         <span class="dest-card-link">Explore →</span>
                     </div>
                 </a>
-
             </div>
 
             <div class="destinations-more">
@@ -214,26 +240,26 @@
         </div>
     </section>
 
-<!-- ==================== ITINERARIES ==================== -->
-<section id="itineraries" class="itineraries-section">
-    <div class="container">
-        <div class="section-header-center">
-            <span class="section-script">Get inspired</span>
-            <h2 class="section-title">Sri Lanka itinerary <span class="highlight">ideas</span></h2>
-            <div class="section-divider"></div>
-            <p class="section-subtitle">Hand-picked Sri Lanka journeys designed for culture, wildlife, beaches and boutique stays.</p>
-        </div>
-
-        <div class="itineraries-slider-wrapper">
-            <div class="itineraries-slider-track" id="itinerariesSliderTrack">
-                <div class="itineraries-slider" id="itinerariesSlider">
-                    <!-- Rendered by JavaScript -->
-                </div>
+    <!-- ==================== ITINERARIES ==================== -->
+    <section id="itineraries" class="itineraries-section">
+        <div class="container">
+            <div class="section-header-center">
+                <span class="section-script">Get inspired</span>
+                <h2 class="section-title">Sri Lanka itinerary <span class="highlight">ideas</span></h2>
+                <div class="section-divider"></div>
+                <p class="section-subtitle">Hand-picked Sri Lanka journeys designed for culture, wildlife, beaches and boutique stays.</p>
             </div>
-            <div class="slider-dots" id="sliderDots"></div>
+
+            <div class="itineraries-slider-wrapper">
+                <div class="itineraries-slider-track" id="itinerariesSliderTrack">
+                    <div class="itineraries-slider" id="itinerariesSlider">
+                        <!-- Rendered by JavaScript -->
+                    </div>
+                </div>
+                <div class="slider-dots" id="sliderDots"></div>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <!-- ==================== STAYS ==================== -->
     <section id="stays" class="stays-section">
@@ -332,7 +358,7 @@
     </section>
 
     <!-- ==================== CTA ==================== -->
-    <section class="cta-section">
+    <section id="plan-trip" class="cta-section">
         <div class="container">
             <h2 class="cta-title">Choose your adventure</h2>
             <p class="cta-desc">Speak to one of our team to get started. After all, your travel journal won't write itself.</p>
