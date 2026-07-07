@@ -4,28 +4,14 @@
 
 // ── SUPABASE CLIENT ──
 // Use the existing supabaseClient from supabase-client.js
-// No need to redeclare it!
-
-// Check if supabaseClient exists
-if (typeof supabaseClient === 'undefined') {
-    console.error('❌ supabaseClient is not defined! Make sure supabase-client.js is loaded first.');
-    // Create a fallback
+if (typeof supabaseClient === 'undefined' && typeof window !== 'undefined') {
     const SUPABASE_URL = "https://fqpofzlxixbitybltajx.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxcG9memx4aXhiaXR5Ymx0YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxNjc5MDksImV4cCI6MjA5MTc0MzkwOX0.woDW07ULao_dYlqBaafJmc1Mjt3FAthShm0CBoMmWFY";
-    
-    if (typeof window !== 'undefined' && window.supabase) {
-        window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-            auth: {
-                autoRefreshToken: true,
-                persistSession: true,
-                detectSessionInUrl: true
-            }
-        });
-        console.log("✅ Supabase client created as fallback");
-    }
-} else {
-    console.log("✅ Supabase client already exists");
+    window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 }
+
+// Get the client
+const client = typeof supabaseClient !== 'undefined' ? supabaseClient : window.supabaseClient;
 
 // ── LENIS SMOOTH SCROLL ──
 const lenis = new Lenis({
@@ -72,7 +58,6 @@ cards.forEach(card => {
     card.style.transform = 'translateY(30px)';
     card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
     cardObserver.observe(card);
-});
 
 // ── MORE DESTINATIONS BUTTON ──
 const moreBtn = document.getElementById('moreDestinationsBtn');
@@ -118,30 +103,46 @@ function getExcerpt(row) {
 
 async function fetchItineraries() {
     try {
-        // Get the supabase client from window if needed
-        const client = typeof supabaseClient !== 'undefined' ? supabaseClient : window.supabaseClient;
-        
         if (!client) {
-            console.error('❌ supabaseClient is not available!');
+            console.error('❌ Supabase client not available!');
             return [];
         }
 
         console.log('🔍 Fetching itineraries from Supabase...');
-        
-        const { data, error } = await client
+
+        // First, let's check if the table exists and what columns are available
+        // Try a simple query first
+        const { data, error, status, statusText } = await client
             .from('itineraries')
-            .select('id, slug, title, region, duration_nights, duration_label, hero_image, card_image, excerpt, summary, short_description, is_published, sort_order, created_at')
-            .eq('is_published', true)
-            .order('sort_order', { ascending: true })
-            .order('created_at', { ascending: false });
+            .select('*')
+            .limit(5);
+
+        console.log('📊 Query response:', { status, statusText, data, error });
 
         if (error) {
-            console.error('❌ Supabase error:', error);
+            console.error('❌ Supabase error details:', {
+                message: error.message,
+                details: error.details,
+                hint: error.hint,
+                code: error.code
+            });
+            
+            // If the error is that the table doesn't exist, show a helpful message
+            if (error.code === '42P01') {
+                console.error('❌ The "itineraries" table does not exist in your Supabase database.');
+                return [];
+            }
+            
             throw error;
         }
 
-        console.log(`✅ Found ${data?.length || 0} itineraries`);
-        return data || [];
+        if (!data || data.length === 0) {
+            console.log('ℹ️ No itineraries found in the database.');
+            return [];
+        }
+
+        console.log(`✅ Found ${data.length} itineraries`);
+        return data;
     } catch (err) {
         console.error('❌ Error fetching itineraries:', err);
         return [];
@@ -219,18 +220,8 @@ async function initItineraries() {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('📄 Destinations page loaded');
     
-    // Wait for Supabase client to be ready
+    // Wait a moment for everything to initialize
     setTimeout(() => {
         initItineraries();
     }, 500);
-});
-
-// Also try to load if window loads (fallback)
-window.addEventListener('load', function() {
-    // If not already initialized, try again
-    const grid = document.getElementById('itinerariesGrid');
-    if (grid && grid.children.length === 0) {
-        console.log('🔄 Retrying itinerary load...');
-        setTimeout(initItineraries, 300);
-    }
 });
