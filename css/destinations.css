@@ -54,12 +54,6 @@ body {
     letter-spacing: -0.02em;
 }
 
-.font-serif-italic {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-weight: 400;
-}
-
 /* Container */
 .container {
     max-width: var(--container-width);
@@ -73,7 +67,7 @@ body {
     }
 }
 
-/* Buttons */
+/* ── BUTTONS ── */
 .btn-primary {
     display: inline-block;
     background: var(--color-red);
@@ -92,26 +86,6 @@ body {
 .btn-primary:hover {
     background: #c01a20;
     transform: translateY(-2px);
-}
-
-.btn-outline {
-    display: inline-block;
-    background: transparent;
-    color: var(--color-dark);
-    padding: 12px 28px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: 1px solid var(--color-dark);
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.btn-outline:hover {
-    background: var(--color-dark);
-    color: white;
 }
 
 .luxury-btn {
@@ -830,7 +804,6 @@ body {
     gap: 12px;
 }
 
-/* Itinerary Card Reveal Animation */
 .itinerary-card.reveal {
     opacity: 0;
     transform: translateY(30px);
@@ -1178,14 +1151,14 @@ body {
 }
 
 /* ── KEYFRAMES ── */
-@keyframes heroReveal {
-    from {
-        opacity: 0;
-        transform: translateY(28px);
-    }
+@keyframes fadeUp {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
     }
 }
 
@@ -1246,6 +1219,14 @@ body {
     .section-title {
         font-size: 1.8rem;
     }
+
+    .overview-image-card {
+        min-height: 350px;
+    }
+
+    .overview-image-card img {
+        min-height: 350px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1258,8 +1239,7 @@ body {
         font-size: 16px;
     }
 
-    .btn-primary,
-    .btn-secondary {
+    .btn-primary {
         width: 100%;
         justify-content: center;
     }
