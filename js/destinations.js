@@ -2,6 +2,26 @@
 // DESTINATIONS PAGE SCRIPT - SERENDIB ESCAPE
 // ============================================
 
+// ── SUPABASE CLIENT ──
+// Create Supabase client if it doesn't exist
+if (typeof supabaseClient === 'undefined') {
+    const SUPABASE_URL = "https://fqpofzlxixbitybltajx.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxcG9memx4aXhiaXR5Ymx0YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxNjc5MDksImV4cCI6MjA5MTc0MzkwOX0.woDW07ULao_dYlqBaafJmc1Mjt3FAthShm0CBoMmWFY";
+    
+    if (typeof window !== 'undefined' && window.supabase) {
+        var supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: {
+                autoRefreshToken: true,
+                persistSession: true,
+                detectSessionInUrl: true
+            }
+        });
+        console.log("✅ Supabase client initialized in destinations.js");
+    } else {
+        console.error("❌ Supabase not available. Make sure the CDN script is loaded.");
+    }
+}
+
 // ── LENIS SMOOTH SCROLL ──
 const lenis = new Lenis({
     duration: 1.2,
@@ -93,11 +113,14 @@ function getExcerpt(row) {
 
 async function fetchItineraries() {
     try {
+        // Check if supabaseClient exists
         if (typeof supabaseClient === 'undefined') {
-            console.warn('⚠️ supabaseClient not available');
+            console.error('❌ supabaseClient is not defined!');
             return [];
         }
 
+        console.log('🔍 Fetching itineraries from Supabase...');
+        
         const { data, error } = await supabaseClient
             .from('itineraries')
             .select('id, slug, title, region, duration_nights, duration_label, hero_image, card_image, excerpt, summary, short_description, is_published, sort_order, created_at')
@@ -105,7 +128,12 @@ async function fetchItineraries() {
             .order('sort_order', { ascending: true })
             .order('created_at', { ascending: false });
 
-        if (error) throw error;
+        if (error) {
+            console.error('❌ Supabase error:', error);
+            throw error;
+        }
+
+        console.log(`✅ Found ${data?.length || 0} itineraries`);
         return data || [];
     } catch (err) {
         console.error('❌ Error fetching itineraries:', err);
@@ -115,7 +143,12 @@ async function fetchItineraries() {
 
 function renderItineraries(items) {
     const grid = document.getElementById('itinerariesGrid');
-    if (!grid) return;
+    if (!grid) {
+        console.error('❌ Itineraries grid not found!');
+        return;
+    }
+
+    console.log(`📊 Rendering ${items?.length || 0} itineraries`);
 
     if (!items || items.length === 0) {
         grid.innerHTML = `
@@ -152,8 +185,13 @@ function renderItineraries(items) {
 }
 
 async function initItineraries() {
+    console.log('🚀 Initializing itineraries...');
+    
     const grid = document.getElementById('itinerariesGrid');
-    if (!grid) return;
+    if (!grid) {
+        console.error('❌ Itineraries grid not found!');
+        return;
+    }
 
     try {
         const data = await fetchItineraries();
@@ -172,5 +210,20 @@ async function initItineraries() {
 
 // ── INIT ──
 document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(initItineraries, 300);
+    console.log('📄 Destinations page loaded');
+    
+    // Wait for Supabase client to be ready
+    setTimeout(() => {
+        initItineraries();
+    }, 500);
+});
+
+// Also try to load if window loads (fallback)
+window.addEventListener('load', function() {
+    // If not already initialized, try again
+    const grid = document.getElementById('itinerariesGrid');
+    if (grid && grid.children.length === 0) {
+        console.log('🔄 Retrying itinerary load...');
+        setTimeout(initItineraries, 300);
+    }
 });
