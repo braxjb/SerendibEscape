@@ -24,164 +24,61 @@ function raf(time) {
 }
 requestAnimationFrame(raf);
 
-// ── GSAP HERO ANIMATIONS ──
-document.addEventListener('DOMContentLoaded', function() {
-    // ── HERO ANIMATION ──
-    // Set initial state - elements start hidden and slightly down
-    gsap.set('.hero-kicker, .hero-headline, .hero-description, .hero-buttons', {
-        opacity: 0,
-        y: 40
-    });
+// ── HERO ANIMATION - EXACT SAME AS INDEX PAGE ──
+function initHero() {
+    setTimeout(() => {
+        document.querySelector('.hero-kicker')?.classList.add('animate-in');
+        document.querySelector('.hero-headline')?.classList.add('animate-in');
+        document.querySelector('.hero-description')?.classList.add('animate-in');
+        document.querySelector('.hero-buttons')?.classList.add('animate-in');
+    }, 100);
+}
 
-    // Animate hero elements with stagger - smooth upward motion only
-    const heroTimeline = gsap.timeline({
-        defaults: {
-            ease: "power3.out",
-            duration: 1
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('📄 Destinations page loaded');
+    
+    // Initialize hero animation (same as index page)
+    initHero();
+    
+    // Initialize itineraries
+    setTimeout(() => {
+        initItineraries();
+    }, 500);
+});
+
+// ── SCROLL REVEALS ──
+const revealElements = document.querySelectorAll('.reveal-text');
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            revealObserver.unobserve(entry.target);
         }
     });
+}, { threshold: 0.2 });
 
-    heroTimeline
-        .to('.hero-kicker', { 
-            opacity: 1, 
-            y: 0, 
-            duration: 0.8 
-        })
-        .to('.hero-headline', { 
-            opacity: 1, 
-            y: 0, 
-            duration: 1 
-        }, "-=0.3")
-        .to('.hero-description', { 
-            opacity: 1, 
-            y: 0, 
-            duration: 0.9 
-        }, "-=0.3")
-        .to('.hero-buttons', { 
-            opacity: 1, 
-            y: 0, 
-            duration: 0.8 
-        }, "-=0.3");
+revealElements.forEach(el => revealObserver.observe(el));
 
-    // ── SCROLL REVEALS ──
-    const revealElements = document.querySelectorAll('.reveal-text');
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('revealed');
-                revealObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.2 });
-
-    revealElements.forEach(el => revealObserver.observe(el));
-
-    // ── CARD REVEALS WITH GSAP ──
-    const cards = document.querySelectorAll('.dest-card, .stay-card, .review-card');
-    
-    if (cards.length > 0) {
-        // Set initial state for cards
-        gsap.set(cards, { 
-            opacity: 0, 
-            y: 40 
-        });
-        
-        // Animate cards on scroll
-        gsap.to(cards, {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            stagger: 0.1,
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: cards[0].closest('.container') || cards[0].closest('.section'),
-                start: "top 85%",
-                toggleActions: "play none none none"
-            }
-        });
-    }
-
-    // ── OVERVIEW SECTION ANIMATION ──
-    const overviewLeft = document.querySelector('.overview-text');
-    const overviewImage = document.querySelector('.overview-image');
-    
-    if (overviewLeft) {
-        gsap.set(overviewLeft, { 
-            opacity: 0, 
-            x: -40 
-        });
-        
-        gsap.to(overviewLeft, {
-            opacity: 1,
-            x: 0,
-            duration: 1,
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: overviewLeft,
-                start: "top 80%",
-                toggleActions: "play none none none"
-            }
-        });
-    }
-    
-    if (overviewImage) {
-        gsap.set(overviewImage, { 
-            opacity: 0, 
-            x: 40, 
-            scale: 0.95 
-        });
-        
-        gsap.to(overviewImage, {
-            opacity: 1,
-            x: 0,
-            scale: 1,
-            duration: 1,
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: overviewImage,
-                start: "top 80%",
-                toggleActions: "play none none none"
-            }
-        });
-    }
-
-    // ── SECTION HEADERS ANIMATION ──
-    const sectionHeaders = document.querySelectorAll('.section-header, .section-header-center');
-    sectionHeaders.forEach(header => {
-        gsap.set(header, { 
-            opacity: 0, 
-            y: 30 
-        });
-        
-        gsap.to(header, {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: header,
-                start: "top 85%",
-                toggleActions: "play none none none"
-            }
-        });
+// ── CARD REVEALS ──
+const cards = document.querySelectorAll('.dest-card, .stay-card, .review-card');
+const cardObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+            setTimeout(() => {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }, index * 80);
+            cardObserver.unobserve(entry.target);
+        }
     });
+}, { threshold: 0.1 });
 
-    // ── SUBNAV ANIMATION ──
-    const subnav = document.querySelector('.subnav');
-    if (subnav) {
-        gsap.set(subnav, { 
-            opacity: 0, 
-            y: -20 
-        });
-        
-        gsap.to(subnav, {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            delay: 0.5,
-            ease: "power2.out"
-        });
-    }
+cards.forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(30px)';
+    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    cardObserver.observe(card);
 });
 
 // ── MORE DESTINATIONS BUTTON ──
@@ -429,14 +326,5 @@ async function initItineraries() {
         }
     }
 }
-
-// ── INIT ──
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('📄 Destinations page loaded');
-    
-    setTimeout(() => {
-        initItineraries();
-    }, 500);
-});
 
 console.log('✅ Destinations script loaded successfully');
