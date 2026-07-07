@@ -49,6 +49,30 @@ function normaliseTags(tags) {
         .filter(Boolean);
 }
 
+// ── HERO ANIMATION - SAME AS INDEX & DESTINATIONS ──
+function initHero() {
+    setTimeout(() => {
+        document.getElementById('heroKicker')?.classList.add('animate-in');
+        document.getElementById('heroHeadline')?.classList.add('animate-in');
+        document.getElementById('heroDescription')?.classList.add('animate-in');
+        document.getElementById('heroButtons')?.classList.add('animate-in');
+    }, 100);
+}
+
+// ── ADD THIS TO YOUR DOMContentLoaded EVENT ──
+document.addEventListener('DOMContentLoaded', async function () {
+    // Initialize hero animation
+    initHero();
+    
+    // Your existing code...
+    initFilters();
+    initPaginationButtons();
+    renderTestimonials();
+    initSwiper();
+    initPageInteractions();
+    await initItinerariesPage();
+});
+
 function mapItineraryRow(row) {
     const tags = normaliseTags(row.tags);
 
