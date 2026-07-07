@@ -24,34 +24,44 @@ function raf(time) {
 }
 requestAnimationFrame(raf);
 
-// ── GSAP HERO ANIMATIONS (Matches index page) ──
+// ── GSAP HERO ANIMATIONS ──
 document.addEventListener('DOMContentLoaded', function() {
-    // Hero animations with GSAP
+    // ── HERO ANIMATION ──
+    // Set initial state - elements start hidden and slightly down
+    gsap.set('.hero-kicker, .hero-headline, .hero-description, .hero-buttons', {
+        opacity: 0,
+        y: 40
+    });
+
+    // Animate hero elements with stagger - smooth upward motion only
     const heroTimeline = gsap.timeline({
         defaults: {
             ease: "power3.out",
-            duration: 1.2
+            duration: 1
         }
     });
 
-    // Animate hero elements with stagger
     heroTimeline
-        .fromTo('.hero-kicker', 
-            { opacity: 0, y: 40 },
-            { opacity: 1, y: 0, duration: 0.8 }
-        )
-        .fromTo('.hero-headline', 
-            { opacity: 0, y: 40 },
-            { opacity: 1, y: 0, duration: 1 }
-        )
-        .fromTo('.hero-description', 
-            { opacity: 0, y: 30 },
-            { opacity: 1, y: 0, duration: 0.9 }
-        )
-        .fromTo('.hero-buttons', 
-            { opacity: 0, y: 30 },
-            { opacity: 1, y: 0, duration: 0.8 }
-        );
+        .to('.hero-kicker', { 
+            opacity: 1, 
+            y: 0, 
+            duration: 0.8 
+        })
+        .to('.hero-headline', { 
+            opacity: 1, 
+            y: 0, 
+            duration: 1 
+        }, "-=0.3")
+        .to('.hero-description', { 
+            opacity: 1, 
+            y: 0, 
+            duration: 0.9 
+        }, "-=0.3")
+        .to('.hero-buttons', { 
+            opacity: 1, 
+            y: 0, 
+            duration: 0.8 
+        }, "-=0.3");
 
     // ── SCROLL REVEALS ──
     const revealElements = document.querySelectorAll('.reveal-text');
@@ -69,23 +79,26 @@ document.addEventListener('DOMContentLoaded', function() {
     // ── CARD REVEALS WITH GSAP ──
     const cards = document.querySelectorAll('.dest-card, .stay-card, .review-card');
     
-    // Animate cards on scroll with GSAP
     if (cards.length > 0) {
-        gsap.fromTo(cards,
-            { opacity: 0, y: 40 },
-            {
-                opacity: 1,
-                y: 0,
-                duration: 0.8,
-                stagger: 0.1,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: cards[0].closest('.container') || cards[0].closest('.section'),
-                    start: "top 80%",
-                    toggleActions: "play none none none"
-                }
+        // Set initial state for cards
+        gsap.set(cards, { 
+            opacity: 0, 
+            y: 40 
+        });
+        
+        // Animate cards on scroll
+        gsap.to(cards, {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: cards[0].closest('.container') || cards[0].closest('.section'),
+                start: "top 85%",
+                toggleActions: "play none none none"
             }
-        );
+        });
     }
 
     // ── OVERVIEW SECTION ANIMATION ──
@@ -93,58 +106,82 @@ document.addEventListener('DOMContentLoaded', function() {
     const overviewImage = document.querySelector('.overview-image');
     
     if (overviewLeft) {
-        gsap.fromTo(overviewLeft,
-            { opacity: 0, x: -40 },
-            {
-                opacity: 1,
-                x: 0,
-                duration: 1,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: overviewLeft,
-                    start: "top 80%",
-                    toggleActions: "play none none none"
-                }
+        gsap.set(overviewLeft, { 
+            opacity: 0, 
+            x: -40 
+        });
+        
+        gsap.to(overviewLeft, {
+            opacity: 1,
+            x: 0,
+            duration: 1,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: overviewLeft,
+                start: "top 80%",
+                toggleActions: "play none none none"
             }
-        );
+        });
     }
     
     if (overviewImage) {
-        gsap.fromTo(overviewImage,
-            { opacity: 0, x: 40, scale: 0.95 },
-            {
-                opacity: 1,
-                x: 0,
-                scale: 1,
-                duration: 1,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: overviewImage,
-                    start: "top 80%",
-                    toggleActions: "play none none none"
-                }
+        gsap.set(overviewImage, { 
+            opacity: 0, 
+            x: 40, 
+            scale: 0.95 
+        });
+        
+        gsap.to(overviewImage, {
+            opacity: 1,
+            x: 0,
+            scale: 1,
+            duration: 1,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: overviewImage,
+                start: "top 80%",
+                toggleActions: "play none none none"
             }
-        );
+        });
     }
 
     // ── SECTION HEADERS ANIMATION ──
     const sectionHeaders = document.querySelectorAll('.section-header, .section-header-center');
     sectionHeaders.forEach(header => {
-        gsap.fromTo(header,
-            { opacity: 0, y: 30 },
-            {
-                opacity: 1,
-                y: 0,
-                duration: 0.8,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: header,
-                    start: "top 85%",
-                    toggleActions: "play none none none"
-                }
+        gsap.set(header, { 
+            opacity: 0, 
+            y: 30 
+        });
+        
+        gsap.to(header, {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: header,
+                start: "top 85%",
+                toggleActions: "play none none none"
             }
-        );
+        });
     });
+
+    // ── SUBNAV ANIMATION ──
+    const subnav = document.querySelector('.subnav');
+    if (subnav) {
+        gsap.set(subnav, { 
+            opacity: 0, 
+            y: -20 
+        });
+        
+        gsap.to(subnav, {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            delay: 0.5,
+            ease: "power2.out"
+        });
+    }
 });
 
 // ── MORE DESTINATIONS BUTTON ──
@@ -247,10 +284,8 @@ function renderSlider(items) {
 
     slideItems = items;
 
-    // Duplicate items for seamless scrolling
     const duplicatedItems = [...items, ...items.slice(0, 3)];
 
-    // Create slider items
     slider.innerHTML = duplicatedItems.map((item, i) => {
         const url = item.slug ? `itinerary.html?slug=${encodeURIComponent(item.slug)}` : '#';
         const isActive = i === 1;
@@ -271,7 +306,6 @@ function renderSlider(items) {
         `;
     }).join('');
 
-    // Update track width
     const slideCount = duplicatedItems.length;
     const slideWidth = 280 + 30;
     const totalWidth = slideCount * slideWidth;
@@ -282,21 +316,18 @@ function renderSlider(items) {
         track.style.transform = `translateX(${startPosition}px)`;
     }
 
-    // Create dots
     if (dotsContainer) {
         dotsContainer.innerHTML = items.map((_, i) => `
             <span class="slider-dot ${i === 0 ? 'active' : ''}" data-index="${i}"></span>
         `).join('');
     }
 
-    // Add click handlers to dots
     document.querySelectorAll('.slider-dot').forEach((dot, index) => {
         dot.addEventListener('click', () => {
             goToSlide(index);
         });
     });
 
-    // Start auto-slide
     setTimeout(() => startSlider(), 500);
 }
 
@@ -403,7 +434,6 @@ async function initItineraries() {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('📄 Destinations page loaded');
     
-    // Wait a moment for everything to initialize
     setTimeout(() => {
         initItineraries();
     }, 500);
