@@ -3,7 +3,7 @@
 // ============================================
 
 // ── SUPABASE CLIENT ──
-// Create Supabase client if it doesn't exist
+// Check if supabaseClient exists, if not create it
 if (typeof supabaseClient === 'undefined') {
     const SUPABASE_URL = "https://fqpofzlxixbitybltajx.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxcG9memx4aXhiaXR5Ymx0YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxNjc5MDksImV4cCI6MjA5MTc0MzkwOX0.woDW07ULao_dYlqBaafJmc1Mjt3FAthShm0CBoMmWFY";
@@ -20,6 +20,8 @@ if (typeof supabaseClient === 'undefined') {
     } else {
         console.error("❌ Supabase not available. Make sure the CDN script is loaded.");
     }
+} else {
+    console.log("✅ Supabase client already exists");
 }
 
 // ── LENIS SMOOTH SCROLL ──
