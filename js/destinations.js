@@ -78,7 +78,11 @@ if (moreBtn) {
     });
 }
 
-// ── SUPABASE ITINERARIES ──
+// ── SUPABASE ITINERARIES SLIDER ──
+
+let sliderInterval = null;
+let currentSlide = 0;
+let slideItems = [];
 
 function escapeHtml(str) {
     if (!str) return '';
@@ -98,10 +102,6 @@ function getImage(row) {
     return row.card_image || row.hero_image || 'https://images.pexels.com/photos/161140/sri-lanka-asia-travel-beach-161140.jpeg?auto=compress&cs=tinysrgb&w=600';
 }
 
-function getExcerpt(row) {
-    return row.excerpt || row.summary || row.short_description || 'A private Sri Lanka journey designed around culture, wildlife, scenery and authentic local experiences.';
-}
-
 async function fetchItineraries() {
     try {
         if (!client) {
@@ -111,30 +111,20 @@ async function fetchItineraries() {
 
         console.log('🔍 Fetching itineraries from Supabase...');
 
-        // Try a simpler query first to check if table exists
-        const { data, error, status, statusText } = await client
+        const { data, error } = await client
             .from('itineraries')
             .select('*')
             .eq('is_published', true)
             .order('sort_order', { ascending: true })
             .order('created_at', { ascending: false });
 
-        console.log('📊 Query response:', { status, statusText, data: data?.length || 0, error });
-
         if (error) {
             console.error('❌ Supabase error:', error);
-            
-            // If the error is that the table doesn't exist
-            if (error.code === '42P01') {
-                console.error('❌ The "itineraries" table does not exist in your Supabase database.');
-                return [];
-            }
-            
-            throw error;
+            return [];
         }
 
         if (!data || data.length === 0) {
-            console.log('ℹ️ No itineraries found in the database.');
+            console.log('ℹ️ No itineraries found.');
             return [];
         }
 
@@ -146,70 +136,143 @@ async function fetchItineraries() {
     }
 }
 
-function renderItineraries(items) {
-    const grid = document.getElementById('itinerariesGrid');
-    if (!grid) {
-        console.error('❌ Itineraries grid not found!');
+function renderSlider(items) {
+    const slider = document.getElementById('itinerariesSlider');
+    const dotsContainer = document.getElementById('sliderDots');
+    
+    if (!slider) {
+        console.error('❌ Slider not found!');
         return;
     }
 
-    console.log(`📊 Rendering ${items?.length || 0} itineraries`);
-
     if (!items || items.length === 0) {
-        grid.innerHTML = `
-            <div class="itinerary-empty">
+        slider.innerHTML = `
+            <div class="slider-empty">
                 <h3>No itineraries available yet.</h3>
-                <p>We are currently preparing our Sri Lanka itinerary ideas. Please check back soon, or contact us to design a tailor-made journey.</p>
+                <p>We are currently preparing our Sri Lanka itinerary ideas.</p>
                 <a href="./contact.html" class="btn-primary">Enquire Now <span class="btn-arrow">→</span></a>
             </div>
         `;
+        if (dotsContainer) dotsContainer.innerHTML = '';
         return;
     }
 
-    grid.innerHTML = items.map((item, i) => {
+    slideItems = items;
+
+    // Create slider items
+    slider.innerHTML = items.map((item, i) => {
         const url = item.slug ? `itinerary.html?slug=${encodeURIComponent(item.slug)}` : '#';
         return `
-            <a href="${url}" class="itinerary-card reveal" style="--i:${i}">
-                <img src="${escapeHtml(getImage(item))}" alt="${escapeHtml(item.title)}" loading="lazy" />
-                <div class="itinerary-content">
-                    <span class="itinerary-meta">${escapeHtml(item.region || 'Sri Lanka')} • ${escapeHtml(getDuration(item))}</span>
-                    <h3>${escapeHtml(item.title)}</h3>
-                    <p>${escapeHtml(getExcerpt(item))}</p>
-                    <span class="itinerary-link">View itinerary →</span>
-                </div>
-            </a>
+            <div class="slider-slide ${i === 0 ? 'active' : ''}" data-index="${i}">
+                <a href="${url}" class="slider-card">
+                    <div class="slider-card-image">
+                        <img src="${escapeHtml(getImage(item))}" alt="${escapeHtml(item.title)}" loading="lazy" />
+                        <div class="slider-card-overlay"></div>
+                    </div>
+                    <div class="slider-card-content">
+                        <span class="slider-card-tag">${escapeHtml(item.region || 'Sri Lanka')} • ${escapeHtml(getDuration(item))}</span>
+                        <h3 class="slider-card-title">${escapeHtml(item.title)}</h3>
+                        <span class="slider-card-link">View Itinerary →</span>
+                    </div>
+                </a>
+            </div>
         `;
     }).join('');
 
-    // Trigger reveal animations
-    setTimeout(() => {
-        document.querySelectorAll('.itinerary-card.reveal').forEach((el, i) => {
-            setTimeout(() => el.classList.add('is-visible'), 100 + i * 60);
+    // Create dots
+    if (dotsContainer) {
+        dotsContainer.innerHTML = items.map((_, i) => `
+            <span class="slider-dot ${i === 0 ? 'active' : ''}" data-index="${i}"></span>
+        `).join('');
+    }
+
+    // Start auto-slide
+    startSlider();
+}
+
+function startSlider() {
+    // Clear any existing interval
+    if (sliderInterval) {
+        clearInterval(sliderInterval);
+    }
+
+    const slides = document.querySelectorAll('.slider-slide');
+    const dots = document.querySelectorAll('.slider-dot');
+    
+    if (slides.length === 0) return;
+
+    // Set initial state
+    currentSlide = 0;
+    updateSlider(slides, dots);
+
+    // Auto-slide every 3 seconds
+    sliderInterval = setInterval(() => {
+        // Move to next slide
+        currentSlide = (currentSlide + 1) % slides.length;
+        updateSlider(slides, dots);
+    }, 3000);
+}
+
+function updateSlider(slides, dots) {
+    const totalSlides = slides.length;
+    
+    // Update slides
+    slides.forEach((slide, index) => {
+        slide.classList.remove('active', 'previous', 'next');
+        
+        if (index === currentSlide) {
+            slide.classList.add('active');
+        } else if (index === (currentSlide - 1 + totalSlides) % totalSlides) {
+            slide.classList.add('previous');
+        } else if (index === (currentSlide + 1) % totalSlides) {
+            slide.classList.add('next');
+        }
+    });
+
+    // Update dots
+    if (dots) {
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentSlide);
         });
-    }, 100);
+    }
+
+    // Add click handlers to dots
+    dots.forEach((dot, index) => {
+        dot.onclick = () => {
+            if (index !== currentSlide) {
+                currentSlide = index;
+                updateSlider(slides, dots);
+                // Reset interval
+                if (sliderInterval) {
+                    clearInterval(sliderInterval);
+                    sliderInterval = setInterval(() => {
+                        currentSlide = (currentSlide + 1) % slides.length;
+                        updateSlider(slides, dots);
+                    }, 3000);
+                }
+            }
+        };
+    });
 }
 
 async function initItineraries() {
     console.log('🚀 Initializing itineraries...');
     
-    const grid = document.getElementById('itinerariesGrid');
-    if (!grid) {
-        console.error('❌ Itineraries grid not found!');
-        return;
-    }
-
     try {
         const data = await fetchItineraries();
-        renderItineraries(data);
+        renderSlider(data);
     } catch (err) {
         console.error('❌ Failed to load itineraries:', err);
-        grid.innerHTML = `
-            <div class="itinerary-empty">
-                <h3>Unable to load itineraries</h3>
-                <p>We're having trouble loading our itinerary ideas. Please try again later or contact us to design a tailor-made journey.</p>
-                <a href="./contact.html" class="btn-primary">Enquire Now <span class="btn-arrow">→</span></a>
-            </div>
-        `;
+        const slider = document.getElementById('itinerariesSlider');
+        if (slider) {
+            slider.innerHTML = `
+                <div class="slider-empty">
+                    <h3>Unable to load itineraries</h3>
+                    <p>We're having trouble loading our itinerary ideas. Please try again later.</p>
+                    <a href="./contact.html" class="btn-primary">Enquire Now <span class="btn-arrow">→</span></a>
+                </div>
+            `;
+        }
     }
 }
 
