@@ -24,6 +24,12 @@ const lenis = new Lenis({
     smoothWheel: true,
 });
 
+function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+}
+requestAnimationFrame(raf);
+
 // ============================================
 // MASONRY SECTION - UPDATED AUTO-SCROLL
 // ============================================
