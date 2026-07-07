@@ -24,38 +24,127 @@ function raf(time) {
 }
 requestAnimationFrame(raf);
 
-// ── SCROLL REVEALS ──
-const revealElements = document.querySelectorAll('.reveal-text');
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-            revealObserver.unobserve(entry.target);
+// ── GSAP HERO ANIMATIONS (Matches index page) ──
+document.addEventListener('DOMContentLoaded', function() {
+    // Hero animations with GSAP
+    const heroTimeline = gsap.timeline({
+        defaults: {
+            ease: "power3.out",
+            duration: 1.2
         }
     });
-}, { threshold: 0.2 });
 
-revealElements.forEach(el => revealObserver.observe(el));
+    // Animate hero elements with stagger
+    heroTimeline
+        .fromTo('.hero-kicker', 
+            { opacity: 0, y: 40 },
+            { opacity: 1, y: 0, duration: 0.8 }
+        )
+        .fromTo('.hero-headline', 
+            { opacity: 0, y: 40 },
+            { opacity: 1, y: 0, duration: 1 }
+        )
+        .fromTo('.hero-description', 
+            { opacity: 0, y: 30 },
+            { opacity: 1, y: 0, duration: 0.9 }
+        )
+        .fromTo('.hero-buttons', 
+            { opacity: 0, y: 30 },
+            { opacity: 1, y: 0, duration: 0.8 }
+        );
 
-// ── CARD REVEALS ──
-const cards = document.querySelectorAll('.dest-card, .stay-card, .review-card');
-const cardObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry, index) => {
-        if (entry.isIntersecting) {
-            setTimeout(() => {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }, index * 80);
-            cardObserver.unobserve(entry.target);
-        }
+    // ── SCROLL REVEALS ──
+    const revealElements = document.querySelectorAll('.reveal-text');
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // ── CARD REVEALS WITH GSAP ──
+    const cards = document.querySelectorAll('.dest-card, .stay-card, .review-card');
+    
+    // Animate cards on scroll with GSAP
+    if (cards.length > 0) {
+        gsap.fromTo(cards,
+            { opacity: 0, y: 40 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: cards[0].closest('.container') || cards[0].closest('.section'),
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                }
+            }
+        );
+    }
+
+    // ── OVERVIEW SECTION ANIMATION ──
+    const overviewLeft = document.querySelector('.overview-text');
+    const overviewImage = document.querySelector('.overview-image');
+    
+    if (overviewLeft) {
+        gsap.fromTo(overviewLeft,
+            { opacity: 0, x: -40 },
+            {
+                opacity: 1,
+                x: 0,
+                duration: 1,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: overviewLeft,
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                }
+            }
+        );
+    }
+    
+    if (overviewImage) {
+        gsap.fromTo(overviewImage,
+            { opacity: 0, x: 40, scale: 0.95 },
+            {
+                opacity: 1,
+                x: 0,
+                scale: 1,
+                duration: 1,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: overviewImage,
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                }
+            }
+        );
+    }
+
+    // ── SECTION HEADERS ANIMATION ──
+    const sectionHeaders = document.querySelectorAll('.section-header, .section-header-center');
+    sectionHeaders.forEach(header => {
+        gsap.fromTo(header,
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: header,
+                    start: "top 85%",
+                    toggleActions: "play none none none"
+                }
+            }
+        );
     });
-}, { threshold: 0.1 });
-
-cards.forEach(card => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(30px)';
-    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    cardObserver.observe(card);
 });
 
 // ── MORE DESTINATIONS BUTTON ──
@@ -76,12 +165,7 @@ if (moreBtn) {
     });
 }
 
-// ── SUPABASE ITINERARIES PHYSICAL SCROLL SLIDER ──
-
-let sliderInterval = null;
-let currentSlide = 0;
-let slideItems = [];
-let isTransitioning = false;
+// ── SUPABASE ITINERARIES ──
 
 function escapeHtml(str) {
     if (!str) return '';
@@ -99,6 +183,10 @@ function getDuration(row) {
 
 function getImage(row) {
     return row.card_image || row.hero_image || 'https://images.pexels.com/photos/161140/sri-lanka-asia-travel-beach-161140.jpeg?auto=compress&cs=tinysrgb&w=600';
+}
+
+function getExcerpt(row) {
+    return row.excerpt || row.summary || row.short_description || 'A private Sri Lanka journey designed around culture, wildlife, scenery and authentic local experiences.';
 }
 
 async function fetchItineraries() {
@@ -159,13 +247,13 @@ function renderSlider(items) {
 
     slideItems = items;
 
-    // Duplicate items for seamless scrolling (add 3 extra at end and beginning)
+    // Duplicate items for seamless scrolling
     const duplicatedItems = [...items, ...items.slice(0, 3)];
 
     // Create slider items
     slider.innerHTML = duplicatedItems.map((item, i) => {
         const url = item.slug ? `itinerary.html?slug=${encodeURIComponent(item.slug)}` : '#';
-        const isActive = i === 1; // Second item is the center
+        const isActive = i === 1;
         return `
             <div class="slider-slide ${isActive ? 'active' : ''}" data-index="${i}" data-real-index="${i % items.length}">
                 <a href="${url}" class="slider-card">
@@ -183,19 +271,18 @@ function renderSlider(items) {
         `;
     }).join('');
 
-    // Update track width based on number of items
+    // Update track width
     const slideCount = duplicatedItems.length;
-    const slideWidth = 280 + 30; // card width + gap
+    const slideWidth = 280 + 30;
     const totalWidth = slideCount * slideWidth;
     
     if (track) {
         track.style.width = `${totalWidth}px`;
-        // Start at the first real item (index 1)
         const startPosition = -slideWidth;
         track.style.transform = `translateX(${startPosition}px)`;
     }
 
-    // Create dots (only for real items)
+    // Create dots
     if (dotsContainer) {
         dotsContainer.innerHTML = items.map((_, i) => `
             <span class="slider-dot ${i === 0 ? 'active' : ''}" data-index="${i}"></span>
@@ -213,6 +300,11 @@ function renderSlider(items) {
     setTimeout(() => startSlider(), 500);
 }
 
+let sliderInterval = null;
+let currentSlide = 0;
+let slideItems = [];
+let isTransitioning = false;
+
 function goToSlide(index) {
     if (isTransitioning || index === currentSlide) return;
     
@@ -224,14 +316,11 @@ function goToSlide(index) {
     const dots = document.querySelectorAll('.slider-dot');
     const slideWidth = 280 + 30;
     
-    // Calculate position - we want the selected slide to be in the center
-    // The center position is at 1 (since we have 3 visible items)
     const position = -(index + 1) * slideWidth + slideWidth;
     
     track.style.transition = 'transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
     track.style.transform = `translateX(${position}px)`;
     
-    // Update active states
     slides.forEach((slide, i) => {
         slide.classList.remove('active');
         if (i === index + 1) {
@@ -246,17 +335,14 @@ function goToSlide(index) {
     setTimeout(() => {
         isTransitioning = false;
         
-        // Check if we've reached the end of the duplicated items
         const totalRealItems = slideItems.length;
         if (index >= totalRealItems - 1) {
-            // Reset to beginning seamlessly
             setTimeout(() => {
                 track.style.transition = 'none';
                 const resetPosition = -slideWidth;
                 track.style.transform = `translateX(${resetPosition}px)`;
                 currentSlide = 0;
                 
-                // Update active states
                 slides.forEach((slide, i) => {
                     slide.classList.remove('active');
                     if (i === 1) {
@@ -287,7 +373,6 @@ function startSlider() {
         clearInterval(sliderInterval);
     }
     
-    // Auto-slide every 3 seconds
     sliderInterval = setInterval(() => {
         goToNextSlide();
     }, 3000);
@@ -318,6 +403,7 @@ async function initItineraries() {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('📄 Destinations page loaded');
     
+    // Wait a moment for everything to initialize
     setTimeout(() => {
         initItineraries();
     }, 500);
